@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -144,40 +145,40 @@ public class AddNewPatient extends AppCompatActivity {
                        return;
                    }
                }
-               genderSTR="";
-               if(male.isChecked()){
-                   genderSTR=male.getText().toString();
-               }
-               else if(female.isChecked()){
-                   genderSTR=female.getText().toString();
-               }
-               else{
-                   genderSTR=others.getText().toString();
-               }
+//               genderSTR="";
+//               if(male.isChecked()){
+//                   genderSTR=male.getText().toString();
+//               }
+//               else if(female.isChecked()){
+//                   genderSTR=female.getText().toString();
+//               }
+//               else{
+//                   genderSTR=others.getText().toString();
+//               }
 
                if(pnameSTR.equals("")){
                    pname.setError("Please Enter Patient Name");
                    pname.requestFocus();
                    return;
                }
-               if(radioButton==null){
-                   Toast toast = Toast.makeText(getApplicationContext(), "Please Select Gender Type", Toast.LENGTH_LONG);
-                   View view = toast.getView();
-
-//Gets the actual oval background of the Toast then sets the colour filter
-                   view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-
-//Gets the TextView from the Toast so it can be editted
-                   TextView text = view.findViewById(android.R.id.message);
-                   text.setTextColor(Color.BLACK);
-
-                   toast.show();
-               }
-               if(fnameSTR.equals("")){
-                   fname.setError("Please Enter Father's Name");
-                   fname.requestFocus();
-                   return;
-               }
+//               if(radioButton==null){
+//                   Toast toast = Toast.makeText(getApplicationContext(), "Please Select Gender Type", Toast.LENGTH_LONG);
+//                   View view = toast.getView();
+//
+////Gets the actual oval background of the Toast then sets the colour filter
+//                   view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+//
+////Gets the TextView from the Toast so it can be editted
+//                   TextView text = view.findViewById(android.R.id.message);
+//                   text.setTextColor(Color.BLACK);
+//
+//                   toast.show();
+//               }
+//               if(fnameSTR.equals("")){
+//                   fname.setError("Please Enter Father's Name");
+//                   fname.requestFocus();
+//                   return;
+//               }
                if(dobSTR.equals("")){
                    dob.setError("Please Select Date Of Birth");
                    dob.requestFocus();
@@ -199,11 +200,11 @@ public class AddNewPatient extends AppCompatActivity {
                    return;
                }
 
-               if(diseaseSTR.equals("")){
-                   disease.setError("Please Enter Disease Name");
-                   disease.requestFocus();
-                   return;
-               }
+//               if(diseaseSTR.equals("")){
+//                   disease.setError("Please Enter Disease Name");
+//                   disease.requestFocus();
+//                   return;
+//               }
 
                if(addressSTR.equals("")){
                    address.setError("Please Enter Address");
@@ -221,7 +222,7 @@ public class AddNewPatient extends AppCompatActivity {
                    return;
                }
 
-               new AsyncLogin().execute();
+               new AsyncLogin().execute(pnameSTR,dobSTR,contactSTR,whatsapSTR,emailSTR,addressSTR,usernameSTR,passwordSTR);
 
            }
        });
@@ -413,7 +414,7 @@ public class AddNewPatient extends AppCompatActivity {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL("http://192.51.17.206/ds.accounts.mdi/api/loginphpfile.php?action=register");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=registerPatient");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -466,7 +467,7 @@ public class AddNewPatient extends AppCompatActivity {
             try {
 
                 int response_code = conn.getResponseCode();
-
+                Log.d("code",response_code+"");
                 // Check if successful connection made
                 if (response_code == HttpURLConnection.HTTP_OK) {
 

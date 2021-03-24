@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddNewPatient">
+
+
+    <ImageView
+        android:id="@+id/patientImage"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:visibility="gone"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp"
+        android:src="@drawable/whhh" />
+
+    <TextView
+        android:id="@+id/tap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/patientImage"
+        android:layout_centerInParent="true"
+        android:layout_margin="5dp"
+        android:text="(Click On Camera icon To Choose Image)***"
+        android:textAlignment="center"
+        android:visibility="gone"
+        android:textColor="#ff0000"
+        android:textSize="12dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tap">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10sp"
+            android:fillViewport="true"
+            android:paddingBottom="40dp">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="10sp"
+                app:cardCornerRadius="10dp">
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20sp">
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+
+                        <TextView
+                            android:id="@+id/textView10"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Patient Name"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/pname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint="Patient Name"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:layout_marginBottom="12sp">
+
+                        <TextView
+                            android:id="@+id/spinnergender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Gender Type:-"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <RadioGroup
+                            android:id="@+id/radioSex"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/male"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Male" />
+
+                            <RadioButton
+                                android:id="@+id/female"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Female" />
+
+                            <RadioButton
+                                android:id="@+id/others"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Others" />
+
+                        </RadioGroup>
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/view9"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#000000" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone"
+                        android:layout_marginBottom="12sp">
+
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Father Name"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/fname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint=" Father Name"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/view99"
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="2dp"
+                        android:background="#000000" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+
+                        <TextView
+                            android:id="@+id/textView88"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Date Of Birth"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/dob"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:focusable="false"
+                            android:hint="02-04-1998"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/view2"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#000000" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+
+                        <TextView
+                            android:id="@+id/textView2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Contact No"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/contact"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint="Contact No"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/view3"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#000000" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+
+                        <TextView
+                            android:id="@+id/textView11"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="WhatsApp Number"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/whatsapp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint="WhatsApp Number(mandatory)"
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Disease Type"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/disease"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint="Disease Type"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/view12"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#000000" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+
+                        <TextView
+                            android:id="@+id/email_id1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Patient Email"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/email"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint="Patient Email(Optional)"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/view5"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#000000" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+                        <TextView
+                            android:id="@+id/textView9"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Your Address"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint="Your Address"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start"
+                        android:layout_margin="10dp"
+                        android:text="Authentication Details"
+                        android:textAlignment="center"
+                        android:textColor="#ff0000"
+                        android:textSize="17dp"
+                        android:textStyle="bold" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+                        <TextView
+                            android:id="@+id/textView111"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Create Username"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/username"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10sp"
+                            android:layout_marginRight="5sp"
+                            android:layout_weight="1"
+                            android:hint="Username"
+                            android:imeOptions="actionNext"
+                            android:singleLine="true"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp" />
+                    </TableRow>
+
+                    <View
+                        android:id="@+id/view132"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="#000000" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="12sp">
+
+                        <TextView
+                            android:id="@+id/textView99"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5sp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:text="Create Password"
+                            android:textAllCaps="false"
+                            android:textColor="#000000"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <EditText
+                                android:id="@+id/password"
+                                android:layout_width="150dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10sp"
+                                android:layout_marginRight="2sp"
+                                android:hint="Password"
+                                android:imeOptions="actionDone|flagNoExtractUi"
+                                android:inputType="textPassword"
+                                android:textAllCaps="false"
+                                android:textColor="#000000"
+                                android:textSize="13sp" />
+
+                            <ImageView
+                                android:id="@+id/image"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2sp"
+                                android:src="@drawable/pass" />
+                        </LinearLayout>
+
+                    </TableRow>
+                </TableLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:background="#00ADC1"
+        android:padding="2dp"
+        android:text="Register"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
+        android:textSize="15dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

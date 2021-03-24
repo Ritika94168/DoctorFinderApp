@@ -1,0 +1,65 @@
+<resources>
+    <string name="app_name">Doctor Finder</string>
+
+    <string-array name="doctor_type">
+        <item>Select Doctor Type</item>
+        <item>Skin Specialist</item>
+        <item>Hair Specialist</item>
+        <item>Medicine Specialist</item>
+        <item>Throat Specialist</item>
+        <item>Cancer Specialist</item>
+        <item>Eyes Specialist</item>
+        <item>BP Specialist</item>
+        <item>Children Specialist</item>
+
+    </string-array>
+    <string name="s1">Select Doctor Type</string>
+    <string name="s2">Skin Specialist</string>
+    <string name="s3">Hair Specialist</string>
+    <string name="s4">Medicine Specialist</string>
+    <string name="s5">Throat Specialis</string>
+    <string name="s6">Cancer Specialist</string>
+    <string name="s7">Eyes Specialist</string>
+    <string name="s8">BP Specialist</string>
+    <string name="s9">Children Specialist</string>
+    <string name="prompt_text">Select Doctor Type</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="dots">...</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Welcome to Doctor Finder App</string>
+    <string name="slide_1_desc">Version 2.4.34</string>
+    <string name="spinner_title">Select Doctor Type</string>
+    <string name="slide_2_title">Doctor Finder App</string>
+    <string name="slide_2_desc">It is a App which is used for listening songs online and offline.You can select songs from Your Music folder or from online mode as per your interest..</string>
+    <string name="title_activity_main">Track Doctors Online</string>
+
+    <string name="welcome_slide3">Welcome To Slide3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="prompt">Gender</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+
+    <string name="country_prompt">Choose a country</string>
+    <string-array name="country_arrays">
+        <item>Malaysia</item>
+        <item>United States</item>
+        <item>Indonesia</item>
+        <item>France</item>
+        <item>Italy</item>
+        <item>Singapore</item>
+        <item>New Zealand</item>
+        <item>India</item>
+    </string-array>
+
+</resources>

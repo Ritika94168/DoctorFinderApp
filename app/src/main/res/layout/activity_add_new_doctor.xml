@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context=".AddNewPatient">
+
+
+
+    <ImageView
+        android:id="@+id/doctorImage"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/whhh"
+        android:layout_centerInParent="true"
+        android:layout_margin="10dp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(Click On Camera icon To Choose Image)"
+        android:textColor="#ff0000"
+        android:id="@+id/tap"
+        android:layout_margin="5dp"
+        android:textSize="12dp"
+        android:layout_below="@+id/doctorImage"
+        android:layout_centerInParent="true"
+        android:textAlignment="center"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tap">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10sp"
+        android:fillViewport="true"
+        android:paddingBottom="40dp"
+        android:layout_height="match_parent"
+        >
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginBottom="10sp"
+            android:id="@+id/cardview"
+            android:layout_marginRight="4dp"
+            app:cardCornerRadius="10dp">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20sp">
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Doctor Name"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/dname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:hint="Doctor Name"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </TableRow>
+            <View
+                android:id="@+id/view53"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/spinnergender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Gender Type:-"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/radioSex"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="wrap_content" >
+
+                    <RadioButton
+                        android:id="@+id/male"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Male"
+                        />
+
+                    <RadioButton
+                        android:id="@+id/female"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Female" />
+
+                    <RadioButton
+                        android:id="@+id/others"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Others" />
+
+                </RadioGroup>
+            </TableRow>
+
+            <View
+                android:id="@+id/view9"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Contact No"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/contact"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:hint="Contact No"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+
+            <View
+                android:id="@+id/view3"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="WhatsApp Number"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/whatsapp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:hint="WhatsApp Number"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+
+            <View
+                android:id="@+id/view4"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Specialization"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/specialization"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:hint="Doctor's Specialization"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
+                android:id="@+id/view12"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+
+                <TextView
+                    android:id="@+id/email_id1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Doctor Email"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:hint="Doctor Email"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
+                android:id="@+id/view5"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Your Address"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:hint="Your Address"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
+                android:id="@+id/view64"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView83"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Qualification"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/qualification"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:hint="Your Qualification"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
+                android:id="@+id/view54"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Doctor Fees"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/doctorfees"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:hint="Enter Your Fees"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
+                android:id="@+id/view68"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView44"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Experience(in years)"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/experience"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:inputType="number"
+                    android:hint="Work Experience"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
+                android:id="@+id/view65"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView89"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Description"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:hint="Enter Your Description"
+                    android:background="@drawable/front4"
+                    android:textAlignment="center"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:layout_gravity="start"
+                android:textSize="17dp"
+                android:textColor="#ff0000"
+                android:text="Authentication Details"
+                android:layout_margin="10dp"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView111"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Create Username"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:hint="Username"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
+                android:id="@+id/view55"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView99"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="10dp"
+                    android:text="Create Password"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content">
+
+                    <EditText
+                        android:id="@+id/password"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginRight="2sp"
+                        android:inputType="textPassword"
+                        android:imeOptions="actionDone|flagNoExtractUi"
+                        android:hint="Password"
+                        android:textAllCaps="false"
+                        android:textColor="#000000"
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/image"
+                        android:src="@drawable/pass"
+                        android:layout_marginLeft="2sp" />
+                </LinearLayout>
+
+            </TableRow>
+        </TableLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="Register"
+        android:textColor="#ffffff"
+        android:textSize="14dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:background="#00ADC1"
+        android:id="@+id/register"
+        android:layout_centerInParent="true"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

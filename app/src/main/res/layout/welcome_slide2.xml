@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_marginBottom="10sp"
+        android:fillViewport="true"
+        android:paddingBottom="40dp"
+        android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:text="(1) Doctor Module:-"
+            android:textStyle="bold"
+            android:layout_gravity="start"
+            android:textColor="#000000"
+            android:textSize="@dimen/slide_desc" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:layout_gravity="start"
+            android:textColor="#00ADC1"
+            android:text="Doctor Module has main features:-"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            android:layout_gravity="start"
+            android:textColor="#ff0000"
+            android:text="(a) Firstly,Doctor can login if registered,otherwise he/she can create new account"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            android:layout_gravity="start"
+            android:textColor="#ff0000"
+            android:text="(b) Doctor can choose subscription as per choice ,according to that,doctor can be added to list and saw to patients who have searched according to his/her requirement.Doctor's can enable/disable online payment feature from patients as per choice  "/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:text="(2) Patient Module:-"
+            android:textStyle="bold"
+            android:layout_gravity="start"
+            android:textColor="#000000"
+            android:textSize="@dimen/slide_desc" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            android:layout_gravity="start"
+            android:textColor="#00ADC1"
+            android:text="Patient Module has main features:-"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            android:layout_gravity="start"
+            android:textColor="#ff0000"
+            android:text="(a) Firstly,Patient can login if registered,otherwise he/she can create new account"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_margin="10dp"
+            android:textAlignment="center"
+            android:layout_gravity="start"
+            android:textColor="#ff0000"
+            android:text="(b) Patient can search doctors nearby his/her location by just enter Location and select doctor type whatever he/she need.And after search suitable doctor as per need,patient can Book Doctor online.For Online Booking,patient can register himself.This App has inbuilt payment integration feature.."/>
+   </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

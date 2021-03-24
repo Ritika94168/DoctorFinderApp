@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/coordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Main Menu"
+        android:textStyle="bold"
+        android:id="@+id/text1"
+        android:textColor="#2278d4"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:textAlignment="center"
+        android:textSize="27dp"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"/>
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text1"
+        android:background="#00ADC1"
+        android:layout_gravity="center"
+        android:layout_margin="10dp"
+        android:clipToPadding="false"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/managedoctors"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_border"
+                    android:drawableTop="@drawable/ic_account_box_black_24dp"
+                    android:padding="10sp"
+                    android:text="Manage Doctors"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/managepatients"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_border"
+                    android:drawableTop="@drawable/ic_account_box_black_24dp"
+                    android:padding="10sp"
+                    android:text="Manage Patients"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/smsmodule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_border"
+                    android:drawableTop="@drawable/ic_sms_black_24dp"
+                    android:padding="10sp"
+                    android:text="SMS Module"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/payment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_border"
+                    android:drawableTop="@drawable/ic_payment_black_24dp"
+                    android:padding="10sp"
+                    android:text="Payments"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <Button
+                    android:id="@+id/editdetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_border"
+                    android:drawableTop="@drawable/ic_edit_black_24dp"
+                    android:padding="10sp"
+                    android:text="Edit Details"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="7sp"
+                    android:layout_weight="1"
+                    android:background="@drawable/white_border"
+                    android:drawableTop="@drawable/ic_power_settings_new_black_24dp"
+                    android:padding="10sp"
+                    android:text="Logout"
+                    android:textColor="#ffffff"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</RelativeLayout>

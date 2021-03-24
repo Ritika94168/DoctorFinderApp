@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView  
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content"
+  	style="@style/spinner_text"
+    android:textSize="14sp"
+	android:text="Select Doctor Type"
+    android:gravity="left"
+
+    android:paddingLeft="5sp"
+	android:textAlignment="center"
+     android:paddingRight="2sp"
+    />

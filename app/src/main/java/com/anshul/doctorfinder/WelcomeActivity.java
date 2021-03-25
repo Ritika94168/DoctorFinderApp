@@ -68,10 +68,13 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int READ_PERMISSION_CODE = 103;
     float width;
     SharedPreferences sharedpreferences;
+    public static final String mypreference1= "mypref";
+    SharedPreferences sharedpreferences1;
     public static final String mypreference = "mypref";
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     String s1,s2,s3;
+    String ps1,ps2,ps3;
     private PrefManager prefManager;
     Boolean resultSTR=false;
     TextView textview1;
@@ -190,8 +193,12 @@ public class WelcomeActivity extends AppCompatActivity {
         new AsyncLogin().execute(s2, s3);
 
 
-
-
+//
+//        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
+//        ps1 = sharedpreferences.getString("LoginSession", "");
+//        ps2 = sharedpreferences.getString("Username", "");
+//        ps3 = sharedpreferences.getString("Password", "");
+//        new AsyncLogin().execute(ps2, ps3);
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -397,7 +404,7 @@ public class WelcomeActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
 
-                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=login");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginDoctor");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block

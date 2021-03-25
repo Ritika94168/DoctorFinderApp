@@ -108,7 +108,8 @@ public class DoctorLoginScreen extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                Intent intent = new Intent(DoctorLoginScreen.this, MainActivity.class);
+                startActivity(intent);
                 overridePendingTransition(R.anim.enter, R.anim.leave);
             }
         });
@@ -287,6 +288,8 @@ public class DoctorLoginScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        Intent intent = new Intent(DoctorLoginScreen.this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.leave);
     }
 }

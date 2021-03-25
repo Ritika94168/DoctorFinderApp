@@ -53,14 +53,14 @@ public class PatientLoginScreen extends AppCompatActivity {
     TextView text3;
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
-    String LoginPreference;
+    String LoginPreferencepatient;
     SharedPreferences sharedpreferences;
-    public static final String mypreference = "mypref";
+    public static final String mypreference1 = "mypref";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_login_screen);
-        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         username = (TextInputEditText) findViewById(R.id.username);
@@ -242,18 +242,13 @@ public class PatientLoginScreen extends AppCompatActivity {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
-//                LoginPreference = "LoggedIn";
-//                SharedPreferences.Editor editor = sharedpreferences.edit();
-//                editor.putString("LoginSession", LoginPreference);
-//                editor.putString("Username", email);
-//                editor.putString("Password", password);
-//                editor.commit();
-//                LoginPreference = "LoggedIn";
-//                SharedPreferences.Editor editor = sharedpreferences.edit();
-//                editor.putString("LoginSession", LoginPreference);
-//                editor.putString("Username", email);
-//                editor.putString("Password", password);
-//                editor.commit();
+                LoginPreferencepatient = "LoggedInPatient";
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("LoginSession", LoginPreferencepatient);
+                editor.putString("Username", email);
+                editor.putString("Password", password);
+                editor.commit();
+
                 Toast toast = Toast.makeText(getApplicationContext(), "Login Successfully Done", Toast.LENGTH_LONG);
                 View view = toast.getView();
 

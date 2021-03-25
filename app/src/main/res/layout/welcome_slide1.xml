@@ -8,14 +8,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:id="@+id/rrr"
         android:layout_marginTop="10dp"
         android:layout_centerInParent="true"
         android:orientation="vertical">
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="400dp"
-            android:layout_height="250dp"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
             android:background="@drawable/drfinder" />
 
@@ -42,9 +43,14 @@
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="@dimen/slide_desc" />
-
+    </LinearLayout>
         <ScrollView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="10sp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/rrr"
+            android:fillViewport="true"
+            android:paddingBottom="40dp"
             android:layout_height="match_parent">
 
             <LinearLayout
@@ -57,9 +63,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:text="Doctor Finder App is useful for every Patient,Doctor or those who run their owns Clinics.This App has special feature that patient can search Dcctors as per his/her need by just entering Location and choose Doctor Type.List of Doctors Appears after click on Search Button is shown according to shortest distance.Patient can easily find Doctor Address in Google Map which is integrate in this App  "
-                    android:textAlignment="center"
-                    android:layout_margin="20dp"
+                    android:layout_gravity="start"
+                    android:layout_margin="10dp"
                     android:textStyle="bold"
+                    android:textAlignment="center"
                     android:textColor="#ff0000"
                     android:textSize="@dimen/slide_desc" />
 
@@ -67,12 +74,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
-                    android:layout_margin="20dp"
-                    android:text="This App has basically 2 Modules:- Patient Module And Doctor Module.The Details of these modules is shown at the next screen "
+                    android:layout_gravity="start"
                     android:textAlignment="center"
+                    android:layout_margin="10dp"
+                    android:text="This App has basically 2 Modules:- Patient Module And Doctor Module.The Details of these modules is shown at the next screen "
                     android:textColor="#00ADC1"
                     android:textSize="@dimen/slide_desc" />
             </LinearLayout>
         </ScrollView>
-    </LinearLayout>
+
 </RelativeLayout>

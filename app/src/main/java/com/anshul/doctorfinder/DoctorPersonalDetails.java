@@ -393,7 +393,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 female.setEnabled(true);
                 others.setEnabled(true);
 
-                doctorImage.setFocusableInTouchMode(true);
+               // doctorImage.setFocusableInTouchMode(true);
                 dname.setFocusableInTouchMode(true);
                 doctorSpinner.setFocusableInTouchMode(true);
                 contact.setFocusableInTouchMode(true);
@@ -412,7 +412,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 others.setFocusableInTouchMode(true);
 
 
-                doctorImage.setFocusable(true);
+             //   doctorImage.setFocusable(true);
                 dname.setFocusable(true);
                 doctorSpinner.setFocusable(true);
                 contact.setFocusable(true);

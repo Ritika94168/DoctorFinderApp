@@ -7,7 +7,7 @@
     android:ellipsize="marquee"
     android:paddingBottom="5dp"
     android:textAlignment="center"
-    android:textColor="#ffffff"
+    android:textColor="#000000"
     android:checkMark="?android:attr/listChoiceIndicatorMultiple"
     android:background="@color/colorPrimary"
     android:text="Select Doctor Type"

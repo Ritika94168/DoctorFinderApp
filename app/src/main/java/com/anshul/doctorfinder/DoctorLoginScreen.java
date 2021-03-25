@@ -161,7 +161,7 @@ public class DoctorLoginScreen extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
 
-                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=login");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginDoctor");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -238,12 +238,12 @@ public class DoctorLoginScreen extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             //this method will be running on UI thread
-
+//Toast.makeText(getApplicationContext(),""+result,Toast.LENGTH_LONG).show();
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-
-            if (result.equalsIgnoreCase("true")) {
+//            if (result.equalsIgnoreCase("true")) {
+            if (!result.equals("")) {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
@@ -258,6 +258,7 @@ public class DoctorLoginScreen extends AppCompatActivity {
                 editor.putString("LoginSession", LoginPreference);
                 editor.putString("Username", email);
                 editor.putString("Password", password);
+                editor.putString("docid", result);
                 editor.commit();
                 Toast toast = Toast.makeText(getApplicationContext(), "Login Done Successfully", Toast.LENGTH_LONG);
                 View view = toast.getView();
@@ -271,17 +272,14 @@ public class DoctorLoginScreen extends AppCompatActivity {
 
                 toast.show();
                 Intent intent = new Intent(DoctorLoginScreen.this, DoctorMainMenu.class);
+                intent.putExtra("doctorid",result);
                 startActivity(intent);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
-            } else if (result.equalsIgnoreCase("false")) {
+            } else  {
 
                 // If username and password does not match display a error message
                 Toast.makeText(DoctorLoginScreen.this, "Invalid email or password", Toast.LENGTH_LONG).show();
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                Toast.makeText(DoctorLoginScreen.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
 
             }
         }

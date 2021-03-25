@@ -33,12 +33,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,17 +60,20 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DoctorPersonalDetails extends AppCompatActivity {
+public class DoctorPersonalDetails extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Button update;
     ImageView doctorImage;
     Button choose;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    EditText dname, contact, whatsap, specialization, email, address, fees, qualification, experience, description, username, password;
+    EditText dname, contact, whatsap, email, address, fees, qualification, experience, description, username, password;
     RadioGroup group;
+    ArrayList<String> doctor_type = new ArrayList<String>();
+    Spinner doctorSpinner;
     RadioButton male, female, others;
     String dnameSTR, specializationSTR, contactSTR, whatsapSTR, feesSTR, emailSTR, addressSTR, qualificationSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR;
     String genderSTR;
@@ -79,17 +85,22 @@ public class DoctorPersonalDetails extends AppCompatActivity {
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     int sizeImage;
     CardView cardview;
-    String HttpURL = "http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=updateIpdList";
+
+    String HttpURL = "http://doc.gsinfotec.in/loginphpfile.php?action=doctorupdatedetails";
     String finalResult;
     HttpParse httpParse = new HttpParse();
     TextView tap;
     long fileSizeInKB;
+    String doctorid;
+    ArrayAdapter<String> langAdapter;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_personal_details);
+        Intent intent = getIntent();
+        doctorid = intent.getStringExtra("doctorid");
 
         if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.CAMERA}, MY_CAMERA_REQUEST_CODE);
@@ -100,7 +111,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
         doctorImage = (ImageView) findViewById(R.id.doctorImage);
         tap = (TextView) findViewById(R.id.tap);
         dname = (EditText) findViewById(R.id.dname);
-        specialization = (EditText) findViewById(R.id.specialization);
+        doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
         contact = (EditText) findViewById(R.id.contact);
         whatsap = (EditText) findViewById(R.id.whatsapp);
         cardview = (CardView) findViewById(R.id.cardview);
@@ -129,8 +140,22 @@ public class DoctorPersonalDetails extends AppCompatActivity {
                 }
             }
         });
+        doctor_type.add("Select Doctor Type");
+        doctor_type.add("Skin Specialist");
+        doctor_type.add("Hair Specialist");
+        doctor_type.add("Medicine Specialist");
+        doctor_type.add("Eyes Specialist");
+        doctor_type.add("Throat Specialist");
+        doctor_type.add("BP Specialist");
+        doctor_type.add("Heart Specialist");
+        doctor_type.add("Children Specialist");
+        doctor_type.add("All");
+        doctorSpinner.setOnItemSelectedListener(this);
+        langAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text, doctor_type);
+        langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+        doctorSpinner.setAdapter(langAdapter);
         dnameSTR = dname.getText().toString();
-        specializationSTR = specialization.getText().toString();
+        specializationSTR = doctorSpinner.getSelectedItem().toString();
         contactSTR = contact.getText().toString();
         whatsapSTR = whatsap.getText().toString();
         qualificationSTR = qualification.getText().toString();
@@ -152,7 +177,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
         tap.setVisibility(View.GONE);
         doctorImage.setEnabled(false);
         dname.setEnabled(false);
-        specialization.setEnabled(false);
+        doctorSpinner.setEnabled(false);
         contact.setEnabled(false);
         whatsap.setEnabled(false);
         email.setEnabled(false);
@@ -184,14 +209,14 @@ public class DoctorPersonalDetails extends AppCompatActivity {
         setTitle("Personal Details");
 
 
-       // new AsyncLogin().execute();
+        new AsyncLogin().execute(doctorid);
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RadioButton radioButton = (RadioButton) findViewById(group.getCheckedRadioButtonId());
                 dnameSTR = dname.getText().toString();
-                specializationSTR = specialization.getText().toString();
+                specializationSTR = doctorSpinner.getSelectedItem().toString();
                 contactSTR = contact.getText().toString();
                 whatsapSTR = whatsap.getText().toString();
                 qualificationSTR = qualification.getText().toString();
@@ -232,9 +257,18 @@ public class DoctorPersonalDetails extends AppCompatActivity {
                     toast.show();
                 }
 
-                if (specializationSTR.equals("")) {
-                    specialization.setError("Please Specify Doctor's Specialization");
-                    specialization.requestFocus();
+                if (doctorSpinner.getSelectedItemPosition() == 0) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please Choose Specialization", Toast.LENGTH_LONG);
+                    View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                    view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.BLACK);
+
+                    toast.show();
                     return;
                 }
 
@@ -324,7 +358,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
                     return;
                 }
 
-                StudentRecordUpdate(doctorImageSTR, dnameSTR, genderSTR, specializationSTR, addressSTR, contactSTR, whatsapSTR, emailSTR, qualificationSTR, experienceSTR, feesSTR, descriptionSTR, usernameSTR, passwordSTR);
+                StudentRecordUpdate( dnameSTR, genderSTR, contactSTR, whatsapSTR,specializationSTR,  emailSTR, addressSTR, qualificationSTR, feesSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR,doctorid);
                 recreate();
             }
         });
@@ -343,7 +377,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
                 tap.setVisibility(View.VISIBLE);
                 doctorImage.setEnabled(true);
                 dname.setEnabled(true);
-                specialization.setEnabled(true);
+                doctorSpinner.setEnabled(true);
                 contact.setEnabled(true);
                 whatsap.setEnabled(true);
                 email.setEnabled(true);
@@ -361,7 +395,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
 
                 doctorImage.setFocusableInTouchMode(true);
                 dname.setFocusableInTouchMode(true);
-                specialization.setFocusableInTouchMode(true);
+                doctorSpinner.setFocusableInTouchMode(true);
                 contact.setFocusableInTouchMode(true);
                 whatsap.setFocusableInTouchMode(true);
                 email.setFocusableInTouchMode(true);
@@ -380,7 +414,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
 
                 doctorImage.setFocusable(true);
                 dname.setFocusable(true);
-                specialization.setFocusable(true);
+                doctorSpinner.setFocusable(true);
                 contact.setFocusable(true);
                 whatsap.setFocusable(true);
                 email.setFocusable(true);
@@ -397,7 +431,6 @@ public class DoctorPersonalDetails extends AppCompatActivity {
                 others.setFocusable(true);
 
                 dname.setTypeface(dname.getTypeface(), Typeface.BOLD);
-                specialization.setTypeface(specialization.getTypeface(), Typeface.BOLD);
                 contact.setTypeface(contact.getTypeface(), Typeface.BOLD);
                 whatsap.setTypeface(whatsap.getTypeface(), Typeface.BOLD);
                 email.setTypeface(email.getTypeface(), Typeface.BOLD);
@@ -534,6 +567,16 @@ public class DoctorPersonalDetails extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
     private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(DoctorPersonalDetails.this);
         HttpURLConnection conn;
@@ -558,7 +601,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
             try {
 
 //                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
-                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAllIpdDetailsList");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchCompletePersonaldetails");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -577,7 +620,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("doctorId", params[0]);
+                        .appendQueryParameter("doctorid", params[0]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -665,15 +708,26 @@ public class DoctorPersonalDetails extends AppCompatActivity {
 
 
                         dname.setText(dnameSTR);
-                        genderSTR = "";
-                        if (male.isChecked()) {
-                            genderSTR = male.getText().toString();
-                        } else if (female.isChecked()) {
-                            genderSTR = female.getText().toString();
-                        } else {
-                            genderSTR = others.getText().toString();
+
+//                        if (male.isChecked()) {
+//                            genderSTR = male.getText().toString();
+//                        } else if (female.isChecked()) {
+//                            genderSTR = female.getText().toString();
+//                        } else {
+//                            genderSTR = others.getText().toString();
+//                        }
+                        if (genderSTR.equals("Male")) {
+                            male.setChecked(true);
                         }
-                        specialization.setText(specializationSTR);
+                        if (genderSTR.equals("Female")) {
+                            female.setChecked(true);
+                        }
+                        if (genderSTR.equals("Others")) {
+                            others.setChecked(true);
+                        }
+                        int spinnerPosition = langAdapter.getPosition(specializationSTR);
+                        doctorSpinner.setSelection(spinnerPosition);
+
                         address.setText(addressSTR);
                         contact.setText(contactSTR);
                         whatsap.setText(whatsapSTR);
@@ -696,7 +750,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
         }
     }
 
-    public void StudentRecordUpdate(final String docimage, final String name, final String gender, final String specialization, final String address, final String contact, final String whatsapp, final String email, final String qualification, final String experience, final String fees, final String description, final String username, final String password) {
+    public void StudentRecordUpdate(final String docname, final String gender, final String contact, final String whatsapp,final String specialization,  final String email,final String address, final String qualification, final String fees,final String experience,  final String description, final String username, final String password,final String doctorid) {
 
         class StudentRecordUpdateClass extends AsyncTask<String, Void, String> {
 
@@ -708,20 +762,22 @@ public class DoctorPersonalDetails extends AppCompatActivity {
             @Override
             protected String doInBackground(String... params) {
 
-                hashMap.put("docimage", params[0]);
-                hashMap.put("docname", params[1]);
-                hashMap.put("gendertype", params[2]);
-                hashMap.put("specialization", params[3]);
-                hashMap.put("address", params[4]);
-                hashMap.put("contactnumber", params[5]);
-                hashMap.put("whatsappnumber", params[6]);
-                hashMap.put("email", params[7]);
-                hashMap.put("qualification", params[8]);
+
+                hashMap.put("docname", params[0]);
+                hashMap.put("gendertype", params[1]);
+                hashMap.put("contactnumber", params[2]);
+                hashMap.put("whatsappnumber", params[3]);
+                hashMap.put("specialization", params[4]);
+                hashMap.put("email", params[5]);
+                hashMap.put("address", params[6]);
+                hashMap.put("qualification", params[7]);
+                hashMap.put("fees", params[8]);
                 hashMap.put("experience", params[9]);
-                hashMap.put("fees", params[10]);
-                hashMap.put("description", params[11]);
-                hashMap.put("username", params[12]);
-                hashMap.put("password", params[13]);
+                hashMap.put("description", params[10]);
+                hashMap.put("username", params[11]);
+                hashMap.put("password", params[12]);
+                hashMap.put("docid", params[13]);
+               // hashMap.put("docimage", params[14]);
 
 
                 Log.d("update111", "" + hashMap);
@@ -732,7 +788,7 @@ public class DoctorPersonalDetails extends AppCompatActivity {
 
             @Override
             protected void onPostExecute(String httpResponseMsg) {
-
+                Log.d("ssddsddddd", "" + httpResponseMsg);
                 super.onPostExecute(httpResponseMsg);
 
 
@@ -743,6 +799,6 @@ public class DoctorPersonalDetails extends AppCompatActivity {
 
         StudentRecordUpdateClass studentRecordUpdateClass = new StudentRecordUpdateClass();
 
-        studentRecordUpdateClass.execute(docimage, name, gender, specialization, address, contact, whatsapp, email, qualification, experience, fees, description, username, password);
+        studentRecordUpdateClass.execute(docname, gender,  contact, whatsapp,specialization, email,address, qualification,fees, experience,  description, username, password,doctorid);
     }
 }

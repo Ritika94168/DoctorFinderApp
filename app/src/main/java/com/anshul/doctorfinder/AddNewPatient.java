@@ -180,9 +180,17 @@ public class AddNewPatient extends AppCompatActivity {
 //                   return;
 //               }
                if(dobSTR.equals("")){
-                   dob.setError("Please Select Date Of Birth");
-                   dob.requestFocus();
-                   return;
+                   Toast toast = Toast.makeText(getApplicationContext(), "Please Enter Date of birth", Toast.LENGTH_LONG);
+                   View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                   view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                   TextView text = view.findViewById(android.R.id.message);
+                   text.setTextColor(Color.BLACK);
+
+                   toast.show();
                }
                if(contactSTR.equals("")){
                    contact.setError("Please Enter Mobile Number");
@@ -467,7 +475,7 @@ public class AddNewPatient extends AppCompatActivity {
             try {
 
                 int response_code = conn.getResponseCode();
-                Log.d("code",response_code+"");
+                Log.d("codedddddddd",response_code+"");
                 // Check if successful connection made
                 if (response_code == HttpURLConnection.HTTP_OK) {
 
@@ -505,35 +513,46 @@ public class AddNewPatient extends AppCompatActivity {
             //this method will be running on UI thread
 
             pdLoading.dismiss();
-            //     Toast.makeText(getApplicationContext(), "" + result, Toast.LENGTH_LONG).show();
-            if (result.equalsIgnoreCase("true")) {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-                Toast toast = Toast.makeText(getApplicationContext(), "Registration Done Successfully", Toast.LENGTH_LONG);
-                View view = toast.getView();
+            Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG);
+            View view = toast.getView();
 
 //Gets the actual oval background of the Toast then sets the colour filter
-                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
 
 //Gets the TextView from the Toast so it can be editted
-                TextView text = view.findViewById(android.R.id.message);
-                text.setTextColor(Color.WHITE);
+            TextView text = view.findViewById(android.R.id.message);
+            text.setTextColor(Color.WHITE);
 
-                toast.show();
-                finish();
-                overridePendingTransition(R.anim.enter, R.anim.leave);
-
-            } else if (result.equalsIgnoreCase("false")) {
-
-                // If username and password does not match display a error message
-                Toast.makeText(AddNewPatient.this, "Oops! Something went wrong.", Toast.LENGTH_LONG).show();
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                Toast.makeText(AddNewPatient.this, "Oops! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
-
-            }
+            toast.show();
+            //     Toast.makeText(getApplicationContext(), "" + result, Toast.LENGTH_LONG).show();
+//            if (result.equalsIgnoreCase("true")) {
+//                /* Here launching another activity when login successful. If you persist login state
+//                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+//                 */
+//                Toast toast = Toast.makeText(getApplicationContext(), "Registration Done Successfully", Toast.LENGTH_LONG);
+//                View view = toast.getView();
+//
+////Gets the actual oval background of the Toast then sets the colour filter
+//                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+//
+////Gets the TextView from the Toast so it can be editted
+//                TextView text = view.findViewById(android.R.id.message);
+//                text.setTextColor(Color.WHITE);
+//
+//                toast.show();
+//                finish();
+//                overridePendingTransition(R.anim.enter, R.anim.leave);
+//
+//            } else if (result.equalsIgnoreCase("false")) {
+//
+//                // If username and password does not match display a error message
+//                Toast.makeText(AddNewPatient.this, "Oops! Something went wrong.", Toast.LENGTH_LONG).show();
+//
+//            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+//
+//                Toast.makeText(AddNewPatient.this, "Oops! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+//
+//            }
         }
 
     }

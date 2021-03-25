@@ -26,12 +26,15 @@ public class DoctorMainMenu extends AppCompatActivity {
     LinearLayout todayavaliability, patients, editdetails, sms, payment, logout;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "mypref";
+    String doctorid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_main_menu);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        final Intent intent=getIntent();
+        doctorid=intent.getStringExtra("doctorid");
         logout = (LinearLayout) findViewById(R.id.logout);
         todayavaliability = (LinearLayout) findViewById(R.id.todayavailability);
         patients = (LinearLayout) findViewById(R.id.managepatients);
@@ -51,6 +54,7 @@ public class DoctorMainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent1=new Intent(DoctorMainMenu.this,DoctorPersonalDetails.class);
+                intent1.putExtra("doctorid",doctorid);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
             }
@@ -113,7 +117,8 @@ public class DoctorMainMenu extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.clear();
                         editor.apply();
-                        finish();
+                        Intent intent1=new Intent(DoctorMainMenu.this,DoctorLoginScreen.class);
+                        startActivity(intent1);
                         overridePendingTransition(R.anim.enter, R.anim.leave);
                     }
                 });
@@ -150,7 +155,8 @@ public class DoctorMainMenu extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.clear();
                 editor.apply();
-                finish();
+                Intent intent1=new Intent(DoctorMainMenu.this,DoctorLoginScreen.class);
+                startActivity(intent1);
                 overridePendingTransition(R.anim.enter, R.anim.leave);
             }
         });

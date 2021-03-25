@@ -55,6 +55,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     Button bookAppointment;
+    String doctorid,finallocationSTR;
     String s1;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "mypref";
@@ -69,8 +70,8 @@ public class CompleteDoctorProfile extends AppCompatActivity {
         doctorimage=(ImageView)findViewById(R.id.doctorImage);
         bookAppointment=(Button)findViewById(R.id.book_now);
         Intent intent=getIntent();
-        final String doctorid=intent.getStringExtra("doctorid");
-        final String finallocationSTR=intent.getStringExtra("finallocationSTR");
+        doctorid=intent.getStringExtra("doctorid");
+         finallocationSTR=intent.getStringExtra("finallocationSTR");
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         s1 = sharedpreferences.getString("LoginSession", "");
         ConnectivityManager connec = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -186,7 +187,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
             try {
 
 //                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
-                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAllIpdDetailsList");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchCompleteDetailsDoctor");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();

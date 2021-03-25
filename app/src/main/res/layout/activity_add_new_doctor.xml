@@ -235,39 +235,74 @@
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#000000" />
-
             <TableRow
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="12sp">
+                android:layout_height="45sp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="12sp"
+                android:layout_marginRight="5dp"
+                android:layout_marginBottom="12dp"
+                android:background="@drawable/front1"
+                >
+
 
                 <TextView
-                    android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"
+                android:layout_marginRight="5sp"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Doctor Type:-"
+                android:textColor="#2278d4"
+                android:textSize="15sp" />
+
+
+                <Spinner
+                    android:id="@+id/doctorSpinner"
+                    style="@style/spinnerDropDownItemStyle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5sp"
-                    android:layout_marginRight="10sp"
-                    android:layout_weight="1"
-                    android:text="Specialization"
-                    android:textAllCaps="false"
+                    android:layout_height="40sp"
+                    android:entries="@array/doctor_type"
+                    android:textAlignment="center"
                     android:textColor="#000000"
-                    android:textSize="13sp"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/specialization"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10sp"
-                    android:layout_marginRight="5sp"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:hint="Doctor's Specialization"
-                    android:textAllCaps="false"
-                    android:textColor="#000000"
-                    android:textSize="13sp" />
+
             </TableRow>
+            <!--<TableRow-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginBottom="12sp">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/textView3"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="5sp"-->
+                    <!--android:layout_marginRight="10sp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="Specialization"-->
+                    <!--android:textAllCaps="false"-->
+                    <!--android:textColor="#000000"-->
+                    <!--android:textSize="13sp"-->
+                    <!--android:textStyle="bold" />-->
+
+                <!--<EditText-->
+                    <!--android:id="@+id/specialization"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10sp"-->
+                    <!--android:layout_marginRight="5sp"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:singleLine="true"-->
+                    <!--android:imeOptions="actionNext"-->
+                    <!--android:hint="Doctor's Specialization"-->
+                    <!--android:textAllCaps="false"-->
+                    <!--android:textColor="#000000"-->
+                    <!--android:textSize="13sp" />-->
+            <!--</TableRow>-->
             <View
                 android:id="@+id/view12"
                 android:layout_width="match_parent"

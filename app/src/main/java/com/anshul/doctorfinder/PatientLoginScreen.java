@@ -127,11 +127,11 @@ public class PatientLoginScreen extends AppCompatActivity {
                     password1.requestFocus();
                     return;
                 }
-                Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+//                Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.right_in,R.anim.left_out);
 
-
+                new AsyncLogin().execute(email,password);
             }
         });
 
@@ -156,7 +156,7 @@ public class PatientLoginScreen extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
 
-                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=login");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginPatient");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -248,13 +248,13 @@ public class PatientLoginScreen extends AppCompatActivity {
 //                editor.putString("Username", email);
 //                editor.putString("Password", password);
 //                editor.commit();
-                LoginPreference = "LoggedIn";
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString("LoginSession", LoginPreference);
-                editor.putString("Username", email);
-                editor.putString("Password", password);
-                editor.commit();
-                Toast toast = Toast.makeText(getApplicationContext(), "Login Done Successfully", Toast.LENGTH_LONG);
+//                LoginPreference = "LoggedIn";
+//                SharedPreferences.Editor editor = sharedpreferences.edit();
+//                editor.putString("LoginSession", LoginPreference);
+//                editor.putString("Username", email);
+//                editor.putString("Password", password);
+//                editor.commit();
+                Toast toast = Toast.makeText(getApplicationContext(), "Login Successfully Done", Toast.LENGTH_LONG);
                 View view = toast.getView();
 
 //Gets the actual oval background of the Toast then sets the colour filter
@@ -265,10 +265,10 @@ public class PatientLoginScreen extends AppCompatActivity {
                 text.setTextColor(Color.WHITE);
 
                 toast.show();
-                Intent intent=new Intent(PatientLoginScreen.this,DoctorMainMenu.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.right_in,R.anim.left_out);
-                PatientLoginScreen.this.finish();
+//                Intent intent=new Intent(PatientLoginScreen.this,DoctorMainMenu.class);
+//                startActivity(intent);
+//                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+              //  PatientLoginScreen.this.finish();
             } else if (result.equalsIgnoreCase("false")) {
 
                 // If username and password does not match display a error message

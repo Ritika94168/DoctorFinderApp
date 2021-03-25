@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Geocoder geocoder;
     List<Address> addresses;
     Button register;
-    Button patientlogin, doctorlogin, myaccountpatient, mybookingspatient;
+    Button patientlogin, doctorlogin, myaccountdoctor, mybookingsdoctor;
     Spinner doctorSpinner;
     ArrayAdapter<String> langAdapter;
     Button search;
@@ -112,6 +112,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+       // recreate();
       //  Toast.makeText(getApplicationContext(),"New",Toast.LENGTH_LONG).show();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -141,7 +142,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             toast.show();
         }
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         final String previousActivityId = intent.getStringExtra("value");
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         s1 = sharedpreferences.getString("LoginSession", "");
@@ -152,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         register = (Button) findViewById(R.id.registerButton);
         patientlogin = (Button) findViewById(R.id.loginPatient);
         doctorlogin = (Button) findViewById(R.id.loginDoctor);
-        myaccountpatient = (Button) findViewById(R.id.myaccount);
-        mybookingspatient = (Button) findViewById(R.id.mybookings);
+        myaccountdoctor = (Button) findViewById(R.id.myaccount);
+        mybookingsdoctor = (Button) findViewById(R.id.mybookings);
         doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
 //        addbutton = (FloatingActionButton) findViewById(R.id.floatingButton);
 //        navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -167,14 +168,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (s1.equals("LoggedIn")) {
             patientlogin.setVisibility(View.GONE);
             doctorlogin.setVisibility(View.GONE);
-            myaccountpatient.setVisibility(View.VISIBLE);
-            mybookingspatient.setVisibility(View.VISIBLE);
+            myaccountdoctor.setVisibility(View.VISIBLE);
+            mybookingsdoctor.setVisibility(View.VISIBLE);
         } else {
+
             patientlogin.setVisibility(View.VISIBLE);
             doctorlogin.setVisibility(View.VISIBLE);
-            myaccountpatient.setVisibility(View.GONE);
-            mybookingspatient.setVisibility(View.GONE);
+            myaccountdoctor.setVisibility(View.GONE);
+            mybookingsdoctor.setVisibility(View.GONE);
         }
+
+        myaccountdoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(MainActivity.this,DoctorMainMenu.class);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+            }
+        });
 
 //        if(previousActivityId.equals("0")){
 //             patientlogin.setText("My Bookings");

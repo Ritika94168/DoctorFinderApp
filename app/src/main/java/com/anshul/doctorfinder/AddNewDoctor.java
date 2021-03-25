@@ -34,12 +34,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,15 +60,17 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AddNewDoctor extends AppCompatActivity {
+public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnItemSelectedListener{
     ImageView doctorImage;
     Button choose;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    EditText dname, contact, whatsap, specialization, email, address,fees, qualification, experience, description, username, password;
+    EditText dname, contact, whatsap, email, address,fees, qualification, experience, description, username, password;
     RadioGroup group;
+    Spinner doctortype;
     RadioButton male, female, others;
     Button register;
     String dnameSTR, specializationSTR, contactSTR, whatsapSTR,feesSTR, emailSTR, addressSTR, qualificationSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR;
@@ -76,9 +81,11 @@ public class AddNewDoctor extends AppCompatActivity {
     ImageView pass;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     int sizeImage;
+    ArrayAdapter<String> langAdapter;
     CardView cardview;
     long fileSizeInKB;
-
+    ArrayList<String> doctor_type = new ArrayList<String>();
+    Spinner doctorSpinner;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +95,7 @@ public class AddNewDoctor extends AppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
         doctorImage = (ImageView) findViewById(R.id.doctorImage);
         dname = (EditText) findViewById(R.id.dname);
-        specialization = (EditText) findViewById(R.id.specialization);
+        doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
         contact = (EditText) findViewById(R.id.contact);
         whatsap = (EditText) findViewById(R.id.whatsapp);
         cardview = (CardView) findViewById(R.id.cardview);
@@ -138,14 +145,26 @@ public class AddNewDoctor extends AppCompatActivity {
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-
+        doctor_type.add("Select Doctor Type");
+        doctor_type.add("Skin Specialist");
+        doctor_type.add("Hair Specialist");
+        doctor_type.add("Medicine Specialist");
+        doctor_type.add("Eyes Specialist");
+        doctor_type.add("Throat Specialist");
+        doctor_type.add("BP Specialist");
+        doctor_type.add("Heart Specialist");
+        doctor_type.add("Children Specialist");
+        doctor_type.add("All");
+        doctorSpinner.setOnItemSelectedListener(this);
+        langAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text, doctor_type);
+        langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+        doctorSpinner.setAdapter(langAdapter);
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RadioButton radioButton = (RadioButton) findViewById(group.getCheckedRadioButtonId());
                 dnameSTR = dname.getText().toString();
-                specializationSTR = specialization.getText().toString();
+                specializationSTR = doctorSpinner.getSelectedItem().toString();
                 contactSTR = contact.getText().toString();
                 whatsapSTR = whatsap.getText().toString();
                 qualificationSTR = qualification.getText().toString();
@@ -186,9 +205,18 @@ public class AddNewDoctor extends AppCompatActivity {
                     toast.show();
                 }
 
-                if (specializationSTR.equals("")) {
-                    specialization.setError("Please Specify Doctor's Specialization");
-                    specialization.requestFocus();
+                if (doctorSpinner.getSelectedItemPosition() == 0) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please Choose Specialization", Toast.LENGTH_LONG);
+                    View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                    view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.BLACK);
+
+                    toast.show();
                     return;
                 }
 
@@ -277,7 +305,8 @@ public class AddNewDoctor extends AppCompatActivity {
                     toast.show();
                     return;
                 }
-                new AsyncLogin().execute();
+
+                new AsyncLogin().execute(dnameSTR,genderSTR,contactSTR,whatsapSTR,specializationSTR,emailSTR,addressSTR,qualificationSTR,feesSTR,experienceSTR,descriptionSTR,usernameSTR,passwordSTR,doctorImageSTR);
 //                AlertDialog.Builder alert = new AlertDialog.Builder(AddNewDoctor.this, R.style.PositiveButtonStyle111);
 //                alert.setCancelable(false);
 //                String titleText = "Alert!!";
@@ -383,7 +412,18 @@ public class AddNewDoctor extends AppCompatActivity {
 
             }
         });
+        doctorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -515,6 +555,17 @@ public class AddNewDoctor extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+
     private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(AddNewDoctor.this);
         HttpURLConnection conn;
@@ -537,7 +588,7 @@ public class AddNewDoctor extends AppCompatActivity {
             try {
 
                 // Enter URL address where your php file resides
-                url = new URL("http://192.51.17.206/ds.accounts.mdi/api/loginphpfile.php?action=register");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=registerDoctor");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -633,35 +684,46 @@ public class AddNewDoctor extends AppCompatActivity {
             //this method will be running on UI thread
 
             pdLoading.dismiss();
-       //     Toast.makeText(getApplicationContext(), "" + result, Toast.LENGTH_LONG).show();
-            if (result.equalsIgnoreCase("true")) {
-                /* Here launching another activity when login successful. If you persist login state
-                use sharedPreferences of Android. and logout button to clear sharedPreferences.
-                 */
-                Toast toast = Toast.makeText(getApplicationContext(), "Registration Done Successfully", Toast.LENGTH_LONG);
-                View view = toast.getView();
+            Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG);
+            View view = toast.getView();
 
 //Gets the actual oval background of the Toast then sets the colour filter
-                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
 
 //Gets the TextView from the Toast so it can be editted
-                TextView text = view.findViewById(android.R.id.message);
-                text.setTextColor(Color.WHITE);
+            TextView text = view.findViewById(android.R.id.message);
+            text.setTextColor(Color.WHITE);
 
-                toast.show();
-                finish();
-                overridePendingTransition(R.anim.enter, R.anim.leave);
-
-            } else if (result.equalsIgnoreCase("false")) {
-
-                // If username and password does not match display a error message
-                Toast.makeText(AddNewDoctor.this, "Oops! Something went wrong.", Toast.LENGTH_LONG).show();
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                Toast.makeText(AddNewDoctor.this, "Oops! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
-
-            }
+            toast.show();
+//       //     Toast.makeText(getApplicationContext(), "" + result, Toast.LENGTH_LONG).show();
+//            if (result.equalsIgnoreCase("true")) {
+//                /* Here launching another activity when login successful. If you persist login state
+//                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+//                 */
+//                Toast toast = Toast.makeText(getApplicationContext(), "Registration Done Successfully", Toast.LENGTH_LONG);
+//                View view = toast.getView();
+//
+////Gets the actual oval background of the Toast then sets the colour filter
+//                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+//
+////Gets the TextView from the Toast so it can be editted
+//                TextView text = view.findViewById(android.R.id.message);
+//                text.setTextColor(Color.WHITE);
+//
+//                toast.show();
+//                finish();
+//                overridePendingTransition(R.anim.enter, R.anim.leave);
+//
+//            } else if (result.equalsIgnoreCase("false")) {
+//
+//                // If username and password does not match display a error message
+//                Toast.makeText(AddNewDoctor.this, "Oops! Something went wrong.", Toast.LENGTH_LONG).show();
+//
+//            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+//
+//                Toast.makeText(AddNewDoctor.this, "Oops! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+//
+//            }
         }
 
     }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -133,12 +134,12 @@ public class SearchDoctorList extends AppCompatActivity {
             listview.setAdapter(adapter);
             new AsyncLogin().execute(docSTR);
             // Add List Manually For Testing,,,because list is loaded from mysql database after Database Creation
-//            displayList.add(new DisplayList("" + R.drawable.hospital, "Anshul Gupta", docSTR, "I have 2 Year Experience", "20/21 Industrial Area,Ambala Cantt", "Rating:-4"));
+            displayList.add(new DisplayList("" + R.drawable.hospital , doctor_name, docSTR, description, address));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Ritika Gaba", docSTR, "I have 4 Year Experience At Rotary Hospital Ambala Cantt", "20/21 Industrial Area,Ambala Cantt", "Rating:-5"));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Bunty Bindra", docSTR, "I have 5 Year Experience", "20/21 Industrial Area,Ambala Cantt", "Rating:-6"));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Munish Gautum", docSTR, "I have 1 Year Experience", "20/21 Industrial Area,Ambala Cantt", "Rating:-8"));
-//            adapter = new MyListAdapter(SearchDoctorList.this, displayList);
-//            listview.setAdapter(adapter);
+            adapter = new MyListAdapter(SearchDoctorList.this, displayList);
+            listview.setAdapter(adapter);
 
             listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -211,7 +212,7 @@ public class SearchDoctorList extends AppCompatActivity {
             try {
 
                 //url = new URL("http://192.51.17.206/ds.accounts.mdi/api/loginphpfile.php?action=showAll");
-                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=showAll");
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -289,6 +290,7 @@ public class SearchDoctorList extends AppCompatActivity {
 
             pdLoading.dismiss();
 
+
             if (result != null) {
 
                 JSONArray jsonArray;
@@ -320,6 +322,7 @@ public class SearchDoctorList extends AppCompatActivity {
                 adapter = new MyListAdapter(SearchDoctorList.this, displayList);
                 listview.setAdapter(adapter);
             }
+
         }
     }
     }

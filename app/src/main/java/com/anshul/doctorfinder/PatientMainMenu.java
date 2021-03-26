@@ -20,6 +20,7 @@ import android.widget.ListView;
 public class PatientMainMenu extends AppCompatActivity {
     LinearLayout searchdoctor, editdetails, smsmodule, shareapp, patientbookings, logout;
     SharedPreferences sharedpreferences1;
+    String pid;
     public static final String mypreference1 = "mypref1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,8 @@ public class PatientMainMenu extends AppCompatActivity {
         setContentView(R.layout.activity_patient_main_menu);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        final Intent intent=getIntent();
+        pid=intent.getStringExtra("pid");
         searchdoctor = (LinearLayout) findViewById(R.id.searchdoctor);
         editdetails = (LinearLayout) findViewById(R.id.editDetails);
         smsmodule = (LinearLayout) findViewById(R.id.smsmodule);
@@ -34,7 +37,15 @@ public class PatientMainMenu extends AppCompatActivity {
         patientbookings = (LinearLayout) findViewById(R.id.mybookings);
         logout = (LinearLayout) findViewById(R.id.logout);
         sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
-
+        editdetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1=new Intent(PatientMainMenu.this,PatientPersonalDetails.class);
+                intent1.putExtra("pid",pid);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+            }
+        });
         searchdoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

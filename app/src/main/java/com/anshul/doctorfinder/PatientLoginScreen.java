@@ -237,8 +237,8 @@ public class PatientLoginScreen extends AppCompatActivity {
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
-
-            if (result.equalsIgnoreCase("true")) {
+            if (!result.equals("")) {
+          //  if (result.equalsIgnoreCase("true")) {
                 /* Here launching another activity when login successful. If you persist login state
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
@@ -247,6 +247,7 @@ public class PatientLoginScreen extends AppCompatActivity {
                 editor.putString("LoginSession1", LoginPreferencepatient);
                 editor.putString("Username1", email);
                 editor.putString("Password1", password);
+                editor.putString("pid", result);
                 editor.commit();
 
                 Toast toast = Toast.makeText(getApplicationContext(), "Login Successfully Done", Toast.LENGTH_LONG);
@@ -261,24 +262,28 @@ public class PatientLoginScreen extends AppCompatActivity {
 
                 toast.show();
                 Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
+                intent.putExtra("pid",result);
                 startActivity(intent);
                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
                 PatientLoginScreen.this.finish();
-            } else if (result.equalsIgnoreCase("false")) {
+            }
+            else  {
 
                 // If username and password does not match display a error message
                 Toast.makeText(PatientLoginScreen.this, "Invalid email or password", Toast.LENGTH_LONG).show();
 
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-                Toast.makeText(PatientLoginScreen.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
-
             }
+//            else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+//
+//                Toast.makeText(PatientLoginScreen.this, "OOPs! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+//
+//            }
         }
     }
 
     @Override
     public void onBackPressed() {
-
+        finish();
+        overridePendingTransition(R.anim.enter, R.anim.leave);
     }
 }

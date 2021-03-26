@@ -443,7 +443,8 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
 
     @Override
     public void onBackPressed() {
-
+        finish();
+        overridePendingTransition(R.anim.enter, R.anim.leave);
     }
 
     private void selectImage() {

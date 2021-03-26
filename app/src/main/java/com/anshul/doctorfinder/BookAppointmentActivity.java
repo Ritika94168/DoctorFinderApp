@@ -47,7 +47,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         final String doccontactSTR=intent.getStringExtra("doccontact");
         final String docwhatsappSTR=intent.getStringExtra("docwhatsapp");
         final String docfeesSTR=intent.getStringExtra("docfees");
-        setTitle("Dr"+""+ doctornameSTR+""+ "Confirmation");
+        setTitle("Dr"+" "+ doctornameSTR+" "+ "Appointment");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

@@ -262,7 +262,8 @@ public class AddNewPatient extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-
+        finish();
+        overridePendingTransition(R.anim.enter, R.anim.leave);
     }
     private void SelectDate() {
 

@@ -455,7 +455,8 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
 
     @Override
     public void onBackPressed() {
-
+      finish();
+      overridePendingTransition(R.anim.enter,R.anim.leave);
     }
 
     private void selectImage() {

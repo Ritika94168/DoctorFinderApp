@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     String s1;
     EditText location;
     SharedPreferences sharedpreferences;
-    Button patientaccount,patientbookings;
+  //  Button patientaccount,patientbookings;
     public static final String mypreference = "mypref";
     public static final int MAINMENU_CODE = 200;
     private static final int NETWORK_PERMISSION_CODE = 100;
@@ -156,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         doctorlogin = (Button) findViewById(R.id.loginDoctor);
         myaccountdoctor = (Button) findViewById(R.id.myaccount);
         mybookingsdoctor = (Button) findViewById(R.id.mybookings);
-        patientaccount=(Button)findViewById(R.id.patientaccount);
-        patientbookings=(Button)findViewById(R.id.patientbookings);
+//        patientaccount=(Button)findViewById(R.id.patientaccount);
+//        patientbookings=(Button)findViewById(R.id.patientbookings);
         doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
 //        addbutton = (FloatingActionButton) findViewById(R.id.floatingButton);
 //        navigation = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
@@ -430,9 +430,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+           finish();
+           overridePendingTransition(R.anim.enter,R.anim.leave);
         }
     }
 

@@ -145,7 +145,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
         bookAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (s1.equals("LoggedIn")) {
+
                     Intent intent1=new Intent(CompleteDoctorProfile.this,BookAppointmentActivity.class);
                     intent1.putExtra("docnamenext",docnameSTR);
                     intent1.putExtra("docaddrress",addressSTR);
@@ -154,11 +154,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                     intent1.putExtra("docfees",feesSTR);
                     startActivity(intent1);
                     overridePendingTransition(R.anim.right_in,R.anim.left_out);
-                } else {
-                    Intent intent1=new Intent(CompleteDoctorProfile.this,PatientLoginScreen.class);
-                    startActivity(intent1);
-                    overridePendingTransition(R.anim.right_in,R.anim.left_out);
-                }
+
 
             }
         });

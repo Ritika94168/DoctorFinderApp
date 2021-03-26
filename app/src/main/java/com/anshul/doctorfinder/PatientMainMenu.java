@@ -3,8 +3,10 @@ package com.anshul.doctorfinder;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,21 +18,31 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 public class PatientMainMenu extends AppCompatActivity {
-    LinearLayout bookdoctor, editdetails, smsmodule, shareapp, transactions, logout;
-
+    LinearLayout searchdoctor, editdetails, smsmodule, shareapp, patientbookings, logout;
+    SharedPreferences sharedpreferences1;
+    public static final String mypreference1 = "mypref1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_main_menu);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-         bookdoctor = (LinearLayout) findViewById(R.id.mybookings);
+        searchdoctor = (LinearLayout) findViewById(R.id.searchdoctor);
         editdetails = (LinearLayout) findViewById(R.id.editDetails);
         smsmodule = (LinearLayout) findViewById(R.id.smsmodule);
-       shareapp = (LinearLayout) findViewById(R.id.recentPayments);
-       transactions = (LinearLayout) findViewById(R.id.managepatients);
+       shareapp = (LinearLayout) findViewById(R.id.shareapp);
+        patientbookings = (LinearLayout) findViewById(R.id.mybookings);
         logout = (LinearLayout) findViewById(R.id.logout);
+        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
 
+        searchdoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(PatientMainMenu.this,MainActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+            }
+        });
         smsmodule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,11 +54,13 @@ public class PatientMainMenu extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int item) {
                         switch (item) {
                             case 0:
-
+                                Intent intent = new Intent(PatientMainMenu.this, SmsModule.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.right_in, R.anim.left_out);
                                 break;
                             case 1:
-                                Intent intent = new Intent(PatientMainMenu.this, SmsReceiver.class);
-                                startActivity(intent);
+                                Intent intent1 = new Intent(PatientMainMenu.this, SmsReceiver.class);
+                                startActivity(intent1);
                                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                                 break;
                             case 2: // cancel
@@ -82,7 +96,11 @@ public class PatientMainMenu extends AppCompatActivity {
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        finish();
+                        SharedPreferences.Editor editor = sharedpreferences1.edit();
+                        editor.clear();
+                        editor.apply();
+                        Intent intent1=new Intent(PatientMainMenu.this,FirstActivity.class);
+                        startActivity(intent1);
                         overridePendingTransition(R.anim.enter, R.anim.leave);
                     }
                 });
@@ -101,5 +119,39 @@ public class PatientMainMenu extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(PatientMainMenu.this, R.style.PositiveButtonStyle11);
+        alert.setCancelable(false);
+
+        alert.setTitle("Alert!!");
+
+        alert.setMessage("Are You Sure You Want To Logout ??");
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                SharedPreferences.Editor editor = sharedpreferences1.edit();
+                editor.clear();
+                editor.apply();
+                Intent intent1=new Intent(PatientMainMenu.this,FirstActivity.class);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.enter, R.anim.leave);
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int whichButton) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alert1 = alert.create();
+        alert1.setCanceledOnTouchOutside(false);
+        alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+        alert1.show();
+
+        return;
     }
 }

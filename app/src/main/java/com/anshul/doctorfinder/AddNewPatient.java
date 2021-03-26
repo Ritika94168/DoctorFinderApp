@@ -262,8 +262,7 @@ public class AddNewPatient extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), "Back Process Not Allowed Through This Key", Toast.LENGTH_LONG).show();
-        return;
+
     }
     private void SelectDate() {
 

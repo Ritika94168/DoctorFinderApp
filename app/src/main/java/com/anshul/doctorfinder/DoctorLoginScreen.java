@@ -73,7 +73,7 @@ public class DoctorLoginScreen extends AppCompatActivity {
 
 
         // Underline some text from a particular TextView and give font color(Blue) to it...
-        String styledText = "<u><font color='blue'>Login Menu</font></u>";
+        String styledText = "<u><font color='blue'>Doctor Login Menu</font></u>";
         text3.setText(Html.fromHtml(styledText), TextView.BufferType.SPANNABLE);
         String styledText1 = "<u><b><font color='red'>No Account Yet? Create One</font></b></u>";
         create.setText(Html.fromHtml(styledText1), TextView.BufferType.SPANNABLE);
@@ -108,8 +108,7 @@ public class DoctorLoginScreen extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DoctorLoginScreen.this, MainActivity.class);
-                startActivity(intent);
+                finish();
                 overridePendingTransition(R.anim.enter, R.anim.leave);
             }
         });
@@ -254,7 +253,7 @@ public class DoctorLoginScreen extends AppCompatActivity {
 //                editor.putString("Username", email);
 //                editor.putString("Password", password);
 //                editor.commit();
-                LoginPreference = "LoggedIn";
+                LoginPreference = "LoggedInDoctor";
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString("LoginSession", LoginPreference);
                 editor.putString("Username", email);
@@ -288,8 +287,7 @@ public class DoctorLoginScreen extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(DoctorLoginScreen.this, MainActivity.class);
-        startActivity(intent);
+       finish();
         overridePendingTransition(R.anim.enter, R.anim.leave);
     }
 }

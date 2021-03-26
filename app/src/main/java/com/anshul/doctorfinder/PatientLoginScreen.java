@@ -54,13 +54,13 @@ public class PatientLoginScreen extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     String LoginPreferencepatient;
-    SharedPreferences sharedpreferences;
-    public static final String mypreference1 = "mypref";
+    SharedPreferences sharedpreferences1;
+    public static final String mypreference1 = "mypref1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_login_screen);
-        sharedpreferences = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
+        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         username = (TextInputEditText) findViewById(R.id.username);
@@ -72,7 +72,7 @@ public class PatientLoginScreen extends AppCompatActivity {
         back = (Button) findViewById(R.id.back);
         l2 = (LinearLayout) findViewById(R.id.l2);
 
-        String styledText = "<u><font color='blue'>Login Menu</font></u>";
+        String styledText = "<u><font color='blue'>Patient Login Menu</font></u>";
         text3.setText(Html.fromHtml(styledText), TextView.BufferType.SPANNABLE);
         String styledText1 = "<u><b><font color='red'>No Account Yet? Create One</font></b></u>";
         create.setText(Html.fromHtml(styledText1), TextView.BufferType.SPANNABLE);
@@ -243,10 +243,10 @@ public class PatientLoginScreen extends AppCompatActivity {
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
                 LoginPreferencepatient = "LoggedInPatient";
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.putString("LoginSession", LoginPreferencepatient);
-                editor.putString("Username", email);
-                editor.putString("Password", password);
+                SharedPreferences.Editor editor = sharedpreferences1.edit();
+                editor.putString("LoginSession1", LoginPreferencepatient);
+                editor.putString("Username1", email);
+                editor.putString("Password1", password);
                 editor.commit();
 
                 Toast toast = Toast.makeText(getApplicationContext(), "Login Successfully Done", Toast.LENGTH_LONG);
@@ -260,10 +260,10 @@ public class PatientLoginScreen extends AppCompatActivity {
                 text.setTextColor(Color.WHITE);
 
                 toast.show();
-//                Intent intent=new Intent(PatientLoginScreen.this,DoctorMainMenu.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.right_in,R.anim.left_out);
-              //  PatientLoginScreen.this.finish();
+                Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+                PatientLoginScreen.this.finish();
             } else if (result.equalsIgnoreCase("false")) {
 
                 // If username and password does not match display a error message

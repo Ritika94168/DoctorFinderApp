@@ -117,7 +117,7 @@ public class DoctorMainMenu extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.clear();
                         editor.apply();
-                        Intent intent1=new Intent(DoctorMainMenu.this,DoctorLoginScreen.class);
+                        Intent intent1=new Intent(DoctorMainMenu.this,FirstActivity.class);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.enter, R.anim.leave);
                     }
@@ -155,7 +155,7 @@ public class DoctorMainMenu extends AppCompatActivity {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.clear();
                 editor.apply();
-                Intent intent1=new Intent(DoctorMainMenu.this,DoctorLoginScreen.class);
+                Intent intent1=new Intent(DoctorMainMenu.this,FirstActivity.class);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.enter, R.anim.leave);
             }

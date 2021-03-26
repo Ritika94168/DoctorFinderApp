@@ -10,7 +10,6 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
@@ -60,7 +59,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".BookAppointmentActivity"></activity>
+        <activity android:name=".FirstActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" ></activity>
+        <activity android:name=".BookAppointmentActivity" />
         <activity
             android:name=".SmsModule"
             android:screenOrientation="portrait" />

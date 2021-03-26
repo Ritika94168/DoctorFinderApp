@@ -68,8 +68,8 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int READ_PERMISSION_CODE = 103;
     float width;
     SharedPreferences sharedpreferences;
-    public static final String mypreference1= "mypref";
     SharedPreferences sharedpreferences1;
+    public static final String mypreference1= "mypref1";
     public static final String mypreference = "mypref";
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
@@ -77,6 +77,7 @@ public class WelcomeActivity extends AppCompatActivity {
     String ps1,ps2,ps3;
     private PrefManager prefManager;
     Boolean resultSTR=false;
+    Boolean resultSTR1=false;
     TextView textview1;
     private int no_of_dots = 2;
     public void onAttachedToWindow() {
@@ -186,12 +187,17 @@ public class WelcomeActivity extends AppCompatActivity {
         myViewPagerAdapter = new MyViewPagerAdapter();
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+
+        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
+        ps1 = sharedpreferences1.getString("LoginSession1", "");
+        ps2 = sharedpreferences1.getString("Username1", "");
+        ps3 = sharedpreferences1.getString("Password1", "");
+        new AsyncLogin1().execute(ps2, ps3);
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         s1 = sharedpreferences.getString("LoginSession", "");
         s2 = sharedpreferences.getString("Username", "");
         s3 = sharedpreferences.getString("Password", "");
         new AsyncLogin().execute(s2, s3);
-
 
 //
 //        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
@@ -204,15 +210,23 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                         try {
-                            if (s1.equals("LoggedIn") && resultSTR) {
-                                Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                            if (s1.equals("LoggedInDoctor")&& resultSTR) {
+                                Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
                                 intent.putExtra("value","0");
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                            } else {
+                            }
+                            if(ps1.equals("LoggedInPatient") && resultSTR1){
+                                Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
+                                intent.putExtra("value","0");
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                            }
+                            else {
                                 launchHomeScreen();
                              //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
                             }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -235,12 +249,19 @@ public class WelcomeActivity extends AppCompatActivity {
                 } else {
 
                             try {
-                                if (s1.equals("LoggedIn") && resultSTR) {
-                                    Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                                if (s1.equals("LoggedInDoctor") && resultSTR) {
+                                    Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
                                     intent.putExtra("value","0");
                                     startActivity(intent);
                                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                                } else {
+                                }
+                               if(ps1.equals("LoggedInPatient") && resultSTR1){
+                                    Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
+                                    intent.putExtra("value","0");
+                                    startActivity(intent);
+                                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                                }
+                                else {
                                     launchHomeScreen();
                                     //overridePendingTransition(R.anim.right_in, R.anim.left_out);
                                 }
@@ -283,7 +304,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        Intent intent=new Intent(WelcomeActivity.this, MainActivity.class);
+        Intent intent=new Intent(WelcomeActivity.this, FirstActivity.class);
         intent.putExtra("value","1");
         startActivity(intent);
         finish();
@@ -387,6 +408,114 @@ public class WelcomeActivity extends AppCompatActivity {
         System.exit(1);
         overridePendingTransition(R.anim.enter, R.anim.leave);
     }
+    public class AsyncLogin1 extends AsyncTask<String, String, String> {
+        private ProgressDialog dialog = new ProgressDialog(WelcomeActivity.this);
+
+        HttpURLConnection conn;
+        URL url = null;
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginPatient");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("username", params[0])
+                        .appendQueryParameter("password", params[1]);
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            if (result.equalsIgnoreCase("true")) {
+
+                resultSTR1=true;
+            } else if (result.equalsIgnoreCase("false")) {
+
+                // If username and password does not match display a error message
+
+
+            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+
+
+
+            }
+        }
+    }
     public class AsyncLogin extends AsyncTask<String, String, String> {
         private ProgressDialog dialog = new ProgressDialog(WelcomeActivity.this);
 
@@ -404,7 +533,7 @@ public class WelcomeActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
 
-                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginDoctor");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginDoctor1");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -493,6 +622,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
 
             }
-        }
+            }
+
     }
 }

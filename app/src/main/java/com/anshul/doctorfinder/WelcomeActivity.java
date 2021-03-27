@@ -68,18 +68,19 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int READ_PERMISSION_CODE = 103;
     float width;
     SharedPreferences sharedpreferences;
-    SharedPreferences sharedpreferences1;
-    public static final String mypreference1= "mypref1";
+    //  SharedPreferences sharedpreferences1;
+    // public static final String mypreference1= "mypref1";
     public static final String mypreference = "mypref";
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
-    String s1,s2,s3;
-    String ps1,ps2,ps3;
+    String s1, s2, s3, s4;
+    String ps1, ps2, ps3, ps4;
     private PrefManager prefManager;
-    Boolean resultSTR=false;
-    Boolean resultSTR1=false;
+    Boolean resultSTR = false;
+    Boolean resultSTR1 = false;
     TextView textview1;
     private int no_of_dots = 2;
+
     public void onAttachedToWindow() {
         super.onAttachedToWindow();
         Window window = getWindow();
@@ -188,17 +189,20 @@ public class WelcomeActivity extends AppCompatActivity {
         viewPager.setAdapter(myViewPagerAdapter);
         viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
-        ps1 = sharedpreferences1.getString("LoginSession1", "");
-        ps2 = sharedpreferences1.getString("Username1", "");
-        ps3 = sharedpreferences1.getString("Password1", "");
-        new AsyncLogin1().execute(ps2, ps3);
+        //  sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
+
+
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         s1 = sharedpreferences.getString("LoginSession", "");
         s2 = sharedpreferences.getString("Username", "");
         s3 = sharedpreferences.getString("Password", "");
+        s4 = sharedpreferences.getString("docid", "");
+        ps1 = sharedpreferences.getString("LoginSession1", "");
+        ps2 = sharedpreferences.getString("Username1", "");
+        ps3 = sharedpreferences.getString("Password1", "");
+        ps4 = sharedpreferences.getString("pid", "");
         new AsyncLogin().execute(s2, s3);
-
+        new AsyncLogin1().execute(ps2, ps3);
 //
 //        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
 //        ps1 = sharedpreferences.getString("LoginSession", "");
@@ -209,27 +213,26 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                        try {
-                            if (s1.equals("LoggedInDoctor")&& resultSTR) {
-                                Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
-                                intent.putExtra("value","0");
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                            }
-                            if(ps1.equals("LoggedInPatient") && resultSTR1){
-                                Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
-                                intent.putExtra("value","0");
-                                startActivity(intent);
-                                overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                            }
-                            else {
-                                launchHomeScreen();
-                             //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                            }
+                try {
+                    if (s1.equals("LoggedInDoctor") && resultSTR) {
+                        Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
+                        intent.putExtra("docid", s4);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    }
+                    if (ps1.equals("LoggedInPatient") && resultSTR1) {
+                        Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
+                        intent.putExtra("pid", ps4);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    } else {
+                        launchHomeScreen();
+                        //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    }
 
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 
             }
@@ -248,26 +251,25 @@ public class WelcomeActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(current);
                 } else {
 
-                            try {
-                                if (s1.equals("LoggedInDoctor") && resultSTR) {
-                                    Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
-                                    intent.putExtra("value","0");
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                                }
-                               if(ps1.equals("LoggedInPatient") && resultSTR1){
-                                    Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
-                                    intent.putExtra("value","0");
-                                    startActivity(intent);
-                                    overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                                }
-                                else {
-                                    launchHomeScreen();
-                                    //overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                                }
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                    try {
+                        if (s1.equals("LoggedInDoctor") && resultSTR) {
+                            Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
+                            intent.putExtra("docid", s4);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                        }
+                        if (ps1.equals("LoggedInPatient") && resultSTR1) {
+                            Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
+                            intent.putExtra("pid", ps4);
+                            startActivity(intent);
+                            overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                        } else {
+                            launchHomeScreen();
+                            //overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
 
                 }
             }
@@ -298,17 +300,18 @@ public class WelcomeActivity extends AppCompatActivity {
             dots[currentPage].setTextColor(colorsActive[currentPage]);
         }
     }
+
     private int getItem(int i) {
         return viewPager.getCurrentItem() + i;
     }
 
     private void launchHomeScreen() {
         prefManager.setFirstTimeLaunch(false);
-        Intent intent=new Intent(WelcomeActivity.this, FirstActivity.class);
-        intent.putExtra("value","1");
+        Intent intent = new Intent(WelcomeActivity.this, FirstActivity.class);
+        intent.putExtra("value", "1");
         startActivity(intent);
         finish();
-        overridePendingTransition(R.anim.right_in,R.anim.left_out);
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
     }
 
     //  viewpager change listener
@@ -387,6 +390,7 @@ public class WelcomeActivity extends AppCompatActivity {
             container.removeView(view);
         }
     }
+
     public void checkPermission(String permission, int requestCode) {
         if (ContextCompat.checkSelfPermission(WelcomeActivity.this, permission)
                 == PackageManager.PERMISSION_DENIED) {
@@ -408,6 +412,7 @@ public class WelcomeActivity extends AppCompatActivity {
         System.exit(1);
         overridePendingTransition(R.anim.enter, R.anim.leave);
     }
+
     public class AsyncLogin1 extends AsyncTask<String, String, String> {
         private ProgressDialog dialog = new ProgressDialog(WelcomeActivity.this);
 
@@ -501,9 +506,9 @@ public class WelcomeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
 
-            if (result.equalsIgnoreCase("true")) {
+            if (!result.equals("")) {
 
-                resultSTR1=true;
+                resultSTR1 = true;
             } else if (result.equalsIgnoreCase("false")) {
 
                 // If username and password does not match display a error message
@@ -512,10 +517,10 @@ public class WelcomeActivity extends AppCompatActivity {
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
 
 
-
             }
         }
     }
+
     public class AsyncLogin extends AsyncTask<String, String, String> {
         private ProgressDialog dialog = new ProgressDialog(WelcomeActivity.this);
 
@@ -533,7 +538,7 @@ public class WelcomeActivity extends AppCompatActivity {
         protected String doInBackground(String... params) {
             try {
 
-                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginDoctor1");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=loginDoctor");
 
             } catch (MalformedURLException e) {
                 // TODO Auto-generated catch block
@@ -608,10 +613,9 @@ public class WelcomeActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
+            if (!result.equals("")) {
 
-            if (result.equalsIgnoreCase("true")) {
-
-                resultSTR=true;
+                resultSTR = true;
             } else if (result.equalsIgnoreCase("false")) {
 
                 // If username and password does not match display a error message
@@ -620,9 +624,8 @@ public class WelcomeActivity extends AppCompatActivity {
             } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
 
 
-
             }
-            }
+        }
 
     }
 }

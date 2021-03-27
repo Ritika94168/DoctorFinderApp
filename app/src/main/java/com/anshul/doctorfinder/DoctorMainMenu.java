@@ -114,8 +114,12 @@ public class DoctorMainMenu extends AppCompatActivity {
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
+
                         SharedPreferences.Editor editor = sharedpreferences.edit();
-                        editor.clear();
+                        editor.remove("LoginSession");
+                        editor.remove("Username");
+                        editor.remove("Password");
+                        editor.remove("docid");
                         editor.apply();
                         Intent intent1=new Intent(DoctorMainMenu.this,FirstActivity.class);
                         startActivity(intent1);
@@ -153,7 +157,10 @@ public class DoctorMainMenu extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
                 SharedPreferences.Editor editor = sharedpreferences.edit();
-                editor.clear();
+                editor.remove("LoginSession");
+                editor.remove("Username");
+                editor.remove("Password");
+                editor.remove("docid");
                 editor.apply();
                 Intent intent1=new Intent(DoctorMainMenu.this,FirstActivity.class);
                 startActivity(intent1);

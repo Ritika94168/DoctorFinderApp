@@ -19,9 +19,9 @@ import android.widget.ListView;
 
 public class PatientMainMenu extends AppCompatActivity {
     LinearLayout searchdoctor, editdetails, smsmodule, shareapp, patientbookings, logout;
-    SharedPreferences sharedpreferences1;
+    SharedPreferences sharedpreferences;
     String pid;
-    public static final String mypreference1 = "mypref1";
+    public static final String mypreference = "mypref";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,7 +36,7 @@ public class PatientMainMenu extends AppCompatActivity {
        shareapp = (LinearLayout) findViewById(R.id.shareapp);
         patientbookings = (LinearLayout) findViewById(R.id.mybookings);
         logout = (LinearLayout) findViewById(R.id.logout);
-        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         editdetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,8 +107,11 @@ public class PatientMainMenu extends AppCompatActivity {
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        SharedPreferences.Editor editor = sharedpreferences1.edit();
-                        editor.clear();
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.remove("LoginSession1");
+                        editor.remove("Username1");
+                        editor.remove("Password1");
+                        editor.remove("pid");
                         editor.apply();
                         Intent intent1=new Intent(PatientMainMenu.this,FirstActivity.class);
                         startActivity(intent1);
@@ -143,8 +146,11 @@ public class PatientMainMenu extends AppCompatActivity {
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int whichButton) {
-                SharedPreferences.Editor editor = sharedpreferences1.edit();
-                editor.clear();
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.remove("LoginSession1");
+                editor.remove("Username1");
+                editor.remove("Password1");
+                editor.remove("pid");
                 editor.apply();
                 Intent intent1=new Intent(PatientMainMenu.this,FirstActivity.class);
                 startActivity(intent1);

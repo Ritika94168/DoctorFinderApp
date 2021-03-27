@@ -259,7 +259,7 @@ public class DoctorLoginScreen extends AppCompatActivity {
                 editor.putString("Username", email);
                 editor.putString("Password", password);
                 editor.putString("docid", result);
-                editor.commit();
+                editor.apply();
                 Toast toast = Toast.makeText(getApplicationContext(), "Login Done Successfully", Toast.LENGTH_LONG);
                 View view = toast.getView();
 

@@ -54,13 +54,13 @@ public class PatientLoginScreen extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     String LoginPreferencepatient;
-    SharedPreferences sharedpreferences1;
-    public static final String mypreference1 = "mypref1";
+    SharedPreferences sharedpreferences;
+    public static final String mypreference = "mypref";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_login_screen);
-        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         username = (TextInputEditText) findViewById(R.id.username);
@@ -243,12 +243,12 @@ public class PatientLoginScreen extends AppCompatActivity {
                 use sharedPreferences of Android. and logout button to clear sharedPreferences.
                  */
                 LoginPreferencepatient = "LoggedInPatient";
-                SharedPreferences.Editor editor = sharedpreferences1.edit();
+                SharedPreferences.Editor editor = sharedpreferences.edit();
                 editor.putString("LoginSession1", LoginPreferencepatient);
                 editor.putString("Username1", email);
                 editor.putString("Password1", password);
                 editor.putString("pid", result);
-                editor.commit();
+                editor.apply();
 
                 Toast toast = Toast.makeText(getApplicationContext(), "Login Successfully Done", Toast.LENGTH_LONG);
                 View view = toast.getView();

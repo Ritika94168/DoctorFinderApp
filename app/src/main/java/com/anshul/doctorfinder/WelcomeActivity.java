@@ -509,13 +509,6 @@ public class WelcomeActivity extends AppCompatActivity {
             if (!result.equals("")) {
 
                 resultSTR1 = true;
-            } else if (result.equalsIgnoreCase("false")) {
-
-                // If username and password does not match display a error message
-
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
 
             }
         }
@@ -616,14 +609,6 @@ public class WelcomeActivity extends AppCompatActivity {
             if (!result.equals("")) {
 
                 resultSTR = true;
-            } else if (result.equalsIgnoreCase("false")) {
-
-                // If username and password does not match display a error message
-
-
-            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
-
-
             }
         }
 

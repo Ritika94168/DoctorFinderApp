@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/lin1"
         android:layout_width="match_parent"
-        android:layout_height="80sp"
+        android:layout_height="55sp"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="5dp"
         android:background="#aaa"
@@ -27,7 +27,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginRight="3dp"
                 android:text="Location:-"
                 android:textAlignment="center"
@@ -40,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginRight="20dp"
                 android:hint="Ambala"
                 android:textAlignment="center"
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:layout_marginRight="3dp"
                 android:text="Doctor Type:-"
                 android:textAlignment="center"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="1dp"
                 android:text="Skin Specialist"
                 android:textAlignment="center"
                 android:textColor="#000000"
@@ -78,7 +78,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="3dp"
             android:orientation="horizontal">
 
             <Button

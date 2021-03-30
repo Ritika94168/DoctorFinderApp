@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -264,6 +265,9 @@ public class PatientLoginScreen extends AppCompatActivity {
 //                Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
 //                intent.putExtra("pid",result);
 //                startActivity(intent);
+                Intent intent=new Intent();
+                //intent.putExtra("MESSAGE",message);
+                setResult(Activity.RESULT_OK,intent);
                 finish();
                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
               //  PatientLoginScreen.this.finish();

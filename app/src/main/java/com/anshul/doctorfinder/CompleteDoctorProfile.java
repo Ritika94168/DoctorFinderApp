@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -75,12 +76,9 @@ public class CompleteDoctorProfile extends AppCompatActivity {
         Intent intent=getIntent();
         doctorid=intent.getStringExtra("doctorid");
          finallocationSTR=intent.getStringExtra("finallocationSTR");
-        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
-        s1 = sharedpreferences.getString("LoginSession", "");
-        ps1 = sharedpreferences.getString("LoginSession1", "");
-        ps2 = sharedpreferences.getString("Username1", "");
-        ps3 = sharedpreferences.getString("Password1", "");
-        ps4 = sharedpreferences.getString("pid", "");
+
+        //Toast.makeText(getApplicationContext(),"username"+ps2+""+"pid:-"+ps4,Toast.LENGTH_LONG).show();
+
         ConnectivityManager connec = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTED ||
                 connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
@@ -137,7 +135,12 @@ public class CompleteDoctorProfile extends AppCompatActivity {
         feesSTR=fees.getText().toString();
         descriptionSTR=description.getText().toString();
 
-
+        sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+        //s1 = sharedpreferences.getString("LoginSession", "");
+        ps1 = sharedpreferences.getString("LoginSession1", "");
+        ps2 = sharedpreferences.getString("Username1", "");
+        ps3 = sharedpreferences.getString("Password1", "");
+        ps4 = sharedpreferences.getString("pid", "");
         setTitle("Doctor Profile");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -170,13 +173,28 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                 else {
                     Intent intent = new Intent(CompleteDoctorProfile.this, PatientLoginScreen.class);
                    // intent.putExtra("pid", ps4);
-                    startActivity(intent);
+                    startActivityForResult(intent, 2);
+                   // startActivity(intent);
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
                 }
             }
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 2) {
+            if(resultCode == Activity.RESULT_OK){
+
+               // String result=data.getStringExtra("result");
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }//onActivityResult
     private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(CompleteDoctorProfile.this);
         HttpURLConnection conn;

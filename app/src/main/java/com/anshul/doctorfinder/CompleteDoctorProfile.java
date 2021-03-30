@@ -102,7 +102,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
             toast.show();
 
         }
-        new AsyncLogin1().execute(ps2, ps3);
+
         locImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -315,6 +315,8 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                         reviews.setText(reviewsSTR);
                         fees.setText(feesSTR);
                         description.setText(descriptionSTR);
+
+                        new AsyncLogin1().execute(ps2, ps3);
 
 
                     }

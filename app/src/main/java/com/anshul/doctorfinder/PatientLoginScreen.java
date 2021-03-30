@@ -266,7 +266,7 @@ public class PatientLoginScreen extends AppCompatActivity {
 //                startActivity(intent);
                 finish();
                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
-                PatientLoginScreen.this.finish();
+              //  PatientLoginScreen.this.finish();
             }
             else  {
 

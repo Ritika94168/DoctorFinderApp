@@ -261,9 +261,10 @@ public class PatientLoginScreen extends AppCompatActivity {
                 text.setTextColor(Color.WHITE);
 
                 toast.show();
-                Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
-                intent.putExtra("pid",result);
-                startActivity(intent);
+//                Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
+//                intent.putExtra("pid",result);
+//                startActivity(intent);
+                finish();
                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
                 PatientLoginScreen.this.finish();
             }

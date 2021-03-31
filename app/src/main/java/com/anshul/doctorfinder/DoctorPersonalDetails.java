@@ -15,6 +15,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Typeface;
@@ -27,6 +28,7 @@ import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -68,7 +70,9 @@ import java.util.regex.Pattern;
 public class DoctorPersonalDetails extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Button update;
     ImageView doctorImage;
+    Bitmap imageBitmap;
     Button choose;
+    String encodedImage;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
     EditText dname, contact, whatsap, email, address, fees, qualification, experience, description, username, password;
     RadioGroup group;
@@ -357,15 +361,26 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                     toast.show();
                     return;
                 }
-
-                StudentRecordUpdate( dnameSTR, genderSTR, contactSTR, whatsapSTR,specializationSTR,  emailSTR, addressSTR, qualificationSTR, feesSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR,doctorid);
-                recreate();
+                Bitmap bitmap =imageBitmap;
+                String uploadImage = getStringImage(bitmap);
+                StudentRecordUpdate( dnameSTR, genderSTR, contactSTR, whatsapSTR,specializationSTR,  emailSTR, addressSTR, qualificationSTR, feesSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR,doctorid,uploadImage);
+                finish();
+                overridePendingTransition(R.anim.enter,R.anim.leave);
             }
         });
 
 
     }
+    public String getStringImage(Bitmap bmp){
+        if(bmp!=null) {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.PNG, 0, baos);
+            byte[] imageBytes = baos.toByteArray();
+            encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
 
+        }
+        return encodedImage;
+    }
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -393,7 +408,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 female.setEnabled(true);
                 others.setEnabled(true);
 
-               // doctorImage.setFocusableInTouchMode(true);
+                // doctorImage.setFocusableInTouchMode(true);
                 dname.setFocusableInTouchMode(true);
                 doctorSpinner.setFocusableInTouchMode(true);
                 contact.setFocusableInTouchMode(true);
@@ -412,7 +427,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 others.setFocusableInTouchMode(true);
 
 
-             //   doctorImage.setFocusable(true);
+                //   doctorImage.setFocusable(true);
                 dname.setFocusable(true);
                 doctorSpinner.setFocusable(true);
                 contact.setFocusable(true);
@@ -455,8 +470,8 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
 
     @Override
     public void onBackPressed() {
-      finish();
-      overridePendingTransition(R.anim.enter,R.anim.leave);
+        finish();
+        overridePendingTransition(R.anim.enter,R.anim.leave);
     }
 
     private void selectImage() {
@@ -495,7 +510,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
 
         if (resultCode == RESULT_OK && requestCode == 1) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = (Bitmap) extras.get("data");
             sizeImage = imageBitmap.getRowBytes() * imageBitmap.getHeight();
             fileSizeInKB = sizeImage / 1024;
             if (fileSizeInKB > 250) {
@@ -682,17 +697,18 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
             pdLoading.dismiss();
 
             if (result != null) {
-                //  Toast.makeText(getApplicationContext(), "Result:-" + result, Toast.LENGTH_LONG).show();
+             //   Toast.makeText(getApplicationContext(), "Result:-" + result, Toast.LENGTH_LONG).show();
                 JSONArray jsonArray;
 
                 try {
                     jsonArray = new JSONArray(result);
-
+                    Bitmap image=null;
 
                     for (int i = 0; i < jsonArray.length(); i++) {
 
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         doctorImageSTR = jsonObject.getString("docimage");
+                        String  docid = jsonObject.getString("docid");
                         dnameSTR = jsonObject.getString("docname");
                         genderSTR = jsonObject.getString("gendertype");
                         specializationSTR = jsonObject.getString("specialization");
@@ -706,10 +722,16 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                         descriptionSTR = jsonObject.getString("description");
                         usernameSTR = jsonObject.getString("username");
                         passwordSTR = jsonObject.getString("password");
-
+                        byte[] decodeString = Base64.decode(jsonObject.getString("password"), Base64.DEFAULT);
+                        Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodeString,
+                                0, decodeString.length);
+//                        img.setImageBitmap(decodebitmap);
+//                        image = BitmapFactory.decodeStream(jsonObject.getString("docimage"));
 
                         dname.setText(dnameSTR);
-
+                        new GetImage().execute(docid);
+//                        GetImage gi = new GetImage();
+//                        gi.execute(docid);
 //                        if (male.isChecked()) {
 //                            genderSTR = male.getText().toString();
 //                        } else if (female.isChecked()) {
@@ -750,8 +772,49 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
             }
         }
     }
+    class GetImage extends AsyncTask<String,Void,Bitmap>{
+        ProgressDialog loading;
 
-    public void StudentRecordUpdate(final String docname, final String gender, final String contact, final String whatsapp,final String specialization,  final String email,final String address, final String qualification, final String fees,final String experience,  final String description, final String username, final String password,final String doctorid) {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loading = ProgressDialog.show(DoctorPersonalDetails.this, "Loading Please Wait...", null,true,true);
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap b) {
+            super.onPostExecute(b);
+            loading.dismiss();
+//            Toast.makeText(getApplicationContext(),"come",Toast.LENGTH_LONG).show();
+            if(b!=null){
+                doctorImage.setImageBitmap(b);
+                imageBitmap=b;
+            }
+
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            String id = params[0];
+            String add = "http://doc.gsinfotec.in/loginphpfile.php?action=get_doctor_image&id="+id;
+            URL url = null;
+            Bitmap image = null;
+            try {
+                url = new URL(add);
+                image = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return image;
+        }
+    }
+
+//    GetImage gi = new GetImage();
+//        gi.execute(id);
+
+    public void StudentRecordUpdate(final String docname, final String gender, final String contact, final String whatsapp,final String specialization,  final String email,final String address, final String qualification, final String fees,final String experience,  final String description, final String username, final String password,final String doctorid,final String uploadImage) {
 
         class StudentRecordUpdateClass extends AsyncTask<String, Void, String> {
 
@@ -778,7 +841,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 hashMap.put("username", params[11]);
                 hashMap.put("password", params[12]);
                 hashMap.put("docid", params[13]);
-               // hashMap.put("docimage", params[14]);
+                hashMap.put("docimage", params[14]);
 
 
                 Log.d("update111", "" + hashMap);
@@ -800,6 +863,6 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
 
         StudentRecordUpdateClass studentRecordUpdateClass = new StudentRecordUpdateClass();
 
-        studentRecordUpdateClass.execute(docname, gender,  contact, whatsapp,specialization, email,address, qualification,fees, experience,  description, username, password,doctorid);
+        studentRecordUpdateClass.execute(docname, gender,  contact, whatsapp,specialization, email,address, qualification,fees, experience,  description, username, password,doctorid,uploadImage);
     }
 }

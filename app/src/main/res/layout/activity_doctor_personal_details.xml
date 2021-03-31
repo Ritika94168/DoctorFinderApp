@@ -21,7 +21,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="(Click On Camera icon To Choose Image)"
+        android:text="(Click For Choosing Image)"
         android:textColor="#ff0000"
         android:id="@+id/tap"
         android:layout_margin="5dp"

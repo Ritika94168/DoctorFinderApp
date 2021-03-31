@@ -30,6 +30,7 @@ import android.text.Spanned;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ForegroundColorSpan;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -86,6 +87,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
     long fileSizeInKB;
     ArrayList<String> doctor_type = new ArrayList<String>();
     Spinner doctorSpinner;
+    Bitmap imageBitmap;
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,9 +307,11 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
                     toast.show();
                     return;
                 }
+                Bitmap bitmap =imageBitmap;
+                String uploadImage = getStringImage(bitmap);
+                new AsyncLogin().execute(dnameSTR,genderSTR,contactSTR,whatsapSTR,specializationSTR,emailSTR,addressSTR,qualificationSTR,feesSTR,experienceSTR,descriptionSTR,usernameSTR,passwordSTR,uploadImage);
 
-                new AsyncLogin().execute(dnameSTR,genderSTR,contactSTR,whatsapSTR,specializationSTR,emailSTR,addressSTR,qualificationSTR,feesSTR,experienceSTR,descriptionSTR,usernameSTR,passwordSTR,doctorImageSTR);
-//                AlertDialog.Builder alert = new AlertDialog.Builder(AddNewDoctor.this, R.style.PositiveButtonStyle111);
+//                new AsyncLoginImage().execute(doctorImage);//                AlertDialog.Builder alert = new AlertDialog.Builder(AddNewDoctor.this, R.style.PositiveButtonStyle111);
 //                alert.setCancelable(false);
 //                String titleText = "Alert!!";
 //                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.GREEN);
@@ -483,7 +487,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
 
         if (resultCode == RESULT_OK && requestCode == 1) {
             Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageBitmap = (Bitmap) extras.get("data");
             sizeImage = imageBitmap.getRowBytes() * imageBitmap.getHeight();
             fileSizeInKB = sizeImage / 1024;
             if (fileSizeInKB > 250) {
@@ -566,12 +570,10 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
 
     }
 
-
     private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(AddNewDoctor.this);
         HttpURLConnection conn;
         URL url = null;
-
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -606,7 +608,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
                 // setDoInput and setDoOutput method depict handling of both send and receive
                 conn.setDoInput(true);
                 conn.setDoOutput(true);
-
+//                Bitmap bitmap = params[0];
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
                         .appendQueryParameter("docname", params[0])
@@ -623,6 +625,164 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
                         .appendQueryParameter("username", params[11])
                         .appendQueryParameter("password", params[12])
                         .appendQueryParameter("docimage", params[13]);
+
+
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //this method will be running on UI thread
+
+            pdLoading.dismiss();
+            Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG);
+            View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+            TextView text = view.findViewById(android.R.id.message);
+            text.setTextColor(Color.WHITE);
+
+            toast.show();
+//       //     Toast.makeText(getApplicationContext(), "" + result, Toast.LENGTH_LONG).show();
+//            if (result.equalsIgnoreCase("true")) {
+//                /* Here launching another activity when login successful. If you persist login state
+//                use sharedPreferences of Android. and logout button to clear sharedPreferences.
+//                 */
+//                Toast toast = Toast.makeText(getApplicationContext(), "Registration Done Successfully", Toast.LENGTH_LONG);
+//                View view = toast.getView();
+//
+////Gets the actual oval background of the Toast then sets the colour filter
+//                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+//
+////Gets the TextView from the Toast so it can be editted
+//                TextView text = view.findViewById(android.R.id.message);
+//                text.setTextColor(Color.WHITE);
+//
+//                toast.show();
+//                finish();
+//                overridePendingTransition(R.anim.enter, R.anim.leave);
+//
+//            } else if (result.equalsIgnoreCase("false")) {
+//
+//                // If username and password does not match display a error message
+//                Toast.makeText(AddNewDoctor.this, "Oops! Something went wrong.", Toast.LENGTH_LONG).show();
+//
+//            } else if (result.equalsIgnoreCase("exception") || result.equalsIgnoreCase("unsuccessful")) {
+//
+//                Toast.makeText(AddNewDoctor.this, "Oops! Something went wrong. Connection Problem.", Toast.LENGTH_LONG).show();
+//
+//            }
+        }
+
+    }
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+    private class AsyncLoginImage extends AsyncTask<Bitmap, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(AddNewDoctor.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            //this method will be running on UI thread
+            pdLoading.setMessage("Loading...Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(Bitmap... params) {
+            try {
+
+                // Enter URL address where your php file resides
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=registerDoctor");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+                Bitmap bitmap = params[0];
+                String uploadImage = getStringImage(bitmap);
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("docname",uploadImage);
+
 
 
 

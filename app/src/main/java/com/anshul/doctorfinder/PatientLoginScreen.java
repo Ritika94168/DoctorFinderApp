@@ -57,6 +57,7 @@ public class PatientLoginScreen extends AppCompatActivity {
     String LoginPreferencepatient;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "mypref";
+    String docnameSTR,addressSTR,mobilenoSTR,whatsappnumberSTR,feesSTR;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,13 @@ public class PatientLoginScreen extends AppCompatActivity {
         attempts = (TextView) findViewById(R.id.attempts);
         back = (Button) findViewById(R.id.back);
         l2 = (LinearLayout) findViewById(R.id.l2);
+
+        Intent intent=getIntent();
+        docnameSTR=intent.getStringExtra("docnamenext");
+        addressSTR=intent.getStringExtra("docaddrress");
+        mobilenoSTR=intent.getStringExtra("doccontact");
+        whatsappnumberSTR=intent.getStringExtra("docwhatsapp");
+        feesSTR=intent.getStringExtra("docfees");
 
         String styledText = "<u><font color='blue'>Patient Login Menu</font></u>";
         text3.setText(Html.fromHtml(styledText), TextView.BufferType.SPANNABLE);
@@ -262,13 +270,18 @@ public class PatientLoginScreen extends AppCompatActivity {
                 text.setTextColor(Color.WHITE);
 
                 toast.show();
-//                Intent intent=new Intent(PatientLoginScreen.this,PatientMainMenu.class);
-//                intent.putExtra("pid",result);
-//                startActivity(intent);
-                Intent intent=new Intent();
-                //intent.putExtra("MESSAGE",message);
-                setResult(Activity.RESULT_OK,intent);
-                finish();
+                Intent intent=new Intent(PatientLoginScreen.this,BookAppointmentActivity.class);
+                intent.putExtra("docnamenext", docnameSTR);
+                intent.putExtra("docaddrress", addressSTR);
+                intent.putExtra("doccontact", mobilenoSTR);
+                intent.putExtra("docwhatsapp", whatsappnumberSTR);
+                intent.putExtra("docfees", feesSTR);
+              //  intent.putExtra("pid",result);
+                startActivity(intent);
+//                Intent intent=new Intent();
+//                //intent.putExtra("MESSAGE",message);
+//                setResult(Activity.RESULT_OK,intent);
+//                finish();
                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
               //  PatientLoginScreen.this.finish();
             }

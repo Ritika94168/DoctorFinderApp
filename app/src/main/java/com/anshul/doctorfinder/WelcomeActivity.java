@@ -201,8 +201,8 @@ public class WelcomeActivity extends AppCompatActivity {
         ps2 = sharedpreferences.getString("Username1", "");
         ps3 = sharedpreferences.getString("Password1", "");
         ps4 = sharedpreferences.getString("pid", "");
-        new AsyncLogin().execute(s2, s3);
-        new AsyncLogin1().execute(ps2, ps3);
+
+
 //
 //        sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
 //        ps1 = sharedpreferences.getString("LoginSession", "");
@@ -214,18 +214,18 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    if (s1.equals("LoggedInDoctor") && resultSTR) {
-                        Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
-                        intent.putExtra("docid", s4);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                    if (s1.equals("LoggedInDoctor")) {
+                       // Toast.makeText(getApplicationContext(),"logged",Toast.LENGTH_LONG).show();
+                        new AsyncLogin().execute(s2, s3);
+
+
                     }
-                    if (ps1.equals("LoggedInPatient") && resultSTR1) {
-                        Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
-                        intent.putExtra("pid", ps4);
-                        startActivity(intent);
-                        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                    } else {
+                    if (ps1.equals("LoggedInPatient")) {
+                        new AsyncLogin1().execute(ps2, ps3);
+
+                    }
+                    if((!s1.equals("LoggedInDoctor")&&(!ps1.equals("LoggedInPatient"))))
+                    {
                         launchHomeScreen();
                         //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
                     }
@@ -252,20 +252,19 @@ public class WelcomeActivity extends AppCompatActivity {
                 } else {
 
                     try {
-                        if (s1.equals("LoggedInDoctor") && resultSTR) {
-                            Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
-                            intent.putExtra("docid", s4);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                        if (s1.equals("LoggedInDoctor"))
+                        {
+                            new AsyncLogin().execute(s2, s3);
                         }
-                        if (ps1.equals("LoggedInPatient") && resultSTR1) {
-                            Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
-                            intent.putExtra("pid", ps4);
-                            startActivity(intent);
-                            overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                        } else {
+                        if (ps1.equals("LoggedInPatient"))
+                        {
+                            new AsyncLogin1().execute(ps2, ps3);
+
+                        }
+                        if((!s1.equals("LoggedInDoctor")&&(!ps1.equals("LoggedInPatient"))))
+                        {
                             launchHomeScreen();
-                            //overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                            //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -511,6 +510,13 @@ public class WelcomeActivity extends AppCompatActivity {
                 resultSTR1 = true;
 
             }
+            if (resultSTR1) {
+
+                Intent intent = new Intent(WelcomeActivity.this, PatientMainMenu.class);
+                intent.putExtra("pid", ps4);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            }
         }
     }
 
@@ -607,8 +613,16 @@ public class WelcomeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (!result.equals("")) {
+         //       Toast.makeText(getApplicationContext(),"true",Toast.LENGTH_LONG).show();
 
                 resultSTR = true;
+            }
+         //   Toast.makeText(getApplicationContext(),"postexecute",Toast.LENGTH_LONG).show();
+            if(resultSTR){
+                Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
+                intent.putExtra("doctorid", s4);
+                startActivity(intent);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         }
 

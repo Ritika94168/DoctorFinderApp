@@ -46,7 +46,43 @@ public class DoctorMainMenu extends AppCompatActivity {
         todayavaliability.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final CharSequence[] items = {"Week Days", "Set Permanent Leaves", "Cancel"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(DoctorMainMenu.this, R.style.PositiveButtonStyle11);
+                builder.setTitle(Html.fromHtml("<b>" + "Select Option:" + "</b>"));
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        switch (item) {
+                            case 0: // Add New Faculty
+                                Intent intent1=new Intent(DoctorMainMenu.this,WeekDaysAvailability.class);
+                                startActivity(intent1);
+                                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+                                break;
+                            case 1: // Edit Faculty Information
+//                                Intent intent = new Intent(DoctorMainMenu.this, SmsReceiver.class);
+//                                startActivity(intent);
+//                                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                                break;
+                            case 2: // cancel
+                                dialog.cancel();
+                                break;
+                        }
 
+                    }
+                });
+                final AlertDialog alert1 = builder.create();
+                ListView listView = alert1.getListView();
+
+                // Set the divider color of alert dialog list view
+                listView.setDivider(new ColorDrawable(Color.BLACK));
+
+                // Set the divider height of alert dialog list view
+                listView.setDividerHeight(8);
+                listView.setFooterDividersEnabled(false);
+                listView.addFooterView(new View(getApplicationContext()));
+                alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+                alert1.setCanceledOnTouchOutside(false);
+                alert1.show();
             }
         });
 

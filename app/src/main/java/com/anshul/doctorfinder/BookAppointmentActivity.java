@@ -95,19 +95,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDialog(TIME_DIALOG_ID);
-//                final Calendar mcurrentTime = Calendar.getInstance();
-//                int hour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
-//                int minute = mcurrentTime.get(Calendar.MINUTE);
-//
-//                TimePickerDialog mTimePicker;
-//                mTimePicker = new TimePickerDialog(BookAppointmentActivity.this, new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-//                        bookappointmenttime.setText( selectedHour + ":" + selectedMinute + "" + am_pm);
-//                    }
-//                }, hour, minute, false);//Yes 24 hour time
-//                mTimePicker.setTitle("Select Time");
-//                mTimePicker.show();
+
             }
         });
         confirmBooking.setOnClickListener(new View.OnClickListener() {
@@ -165,14 +153,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
         }
 
     };
-
-    private static String utilTime(int value) {
-
-        if (value < 10)
-            return "0" + String.valueOf(value);
-        else
-            return String.valueOf(value);
-    }
 
     // Used to convert 24hr format to 12hr format with AM/PM values
     private void updateTime(int hours, int mins) {

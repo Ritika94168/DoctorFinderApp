@@ -173,7 +173,13 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                 else {
                     Intent intent = new Intent(CompleteDoctorProfile.this, PatientLoginScreen.class);
                    // intent.putExtra("pid", ps4);
-                    startActivityForResult(intent, 2);
+                    intent.putExtra("docnamenext", docnameSTR);
+                    intent.putExtra("docaddrress", addressSTR);
+                    intent.putExtra("doccontact", mobilenoSTR);
+                    intent.putExtra("docwhatsapp", whatsappnumberSTR);
+                    intent.putExtra("docfees", feesSTR);
+                  //  startActivityForResult(intent, 2);
+                    startActivity(intent);
                    // startActivity(intent);
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
 
@@ -181,20 +187,20 @@ public class CompleteDoctorProfile extends AppCompatActivity {
             }
         });
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 2) {
-            if(resultCode == Activity.RESULT_OK){
-
-               // String result=data.getStringExtra("result");
-            }
-            if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-            }
-        }
-    }//onActivityResult
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == 2) {
+//            if(resultCode == Activity.RESULT_OK){
+//
+//               // String result=data.getStringExtra("result");
+//            }
+//            if (resultCode == Activity.RESULT_CANCELED) {
+//                //Write your code if there's no result
+//            }
+//        }
+//    }//onActivityResult
     private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(CompleteDoctorProfile.this);
         HttpURLConnection conn;

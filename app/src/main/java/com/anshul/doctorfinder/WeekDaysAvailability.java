@@ -80,6 +80,96 @@ public class WeekDaysAvailability extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               if(su.isChecked()){
+                   if(sus1.getText().toString().equals("")){
+                       sus1.setError("Please Enter Start Time");
+                       sus1.requestFocus();
+                       return;
+                   }
+                   if(sue1.getText().toString().equals("")){
+                       sue1.setError("Please Enter End Time");
+                       sue1.requestFocus();
+                       return;
+                   }
+               }
+                if(mo.isChecked()){
+                    if(mos1.getText().toString().equals("")){
+                        mos1.setError("Please Enter Start Time");
+                        mos1.requestFocus();
+                        return;
+                    }
+                    if(moe1.getText().toString().equals("")){
+                        moe1.setError("Please Enter End Time");
+                        moe1.requestFocus();
+                        return;
+                    }
+                }
+                if(tu.isChecked()){
+                    if(tus1.getText().toString().equals("")){
+                        tus1.setError("Please Enter Start Time");
+                        tus1.requestFocus();
+                        return;
+                    }
+                    if(tue1.getText().toString().equals("")){
+                        tue1.setError("Please Enter End Time");
+                      tue1.requestFocus();
+                        return;
+                    }
+                }
+                if(we.isChecked()){
+                    if(wes1.getText().toString().equals("")){
+                        wes1.setError("Please Enter Start Time");
+                        wes1.requestFocus();
+                        return;
+                    }
+                    if(wee1.getText().toString().equals("")){
+                        wee1.setError("Please Enter End Time");
+                        wee1.requestFocus();
+                        return;
+                    }
+                }
+                if(th.isChecked()){
+                    if(ths1.getText().toString().equals("")){
+                        ths1.setError("Please Enter Start Time");
+                        ths1.requestFocus();
+                        return;
+                    }
+                    if(the1.getText().toString().equals("")){
+                        the1.setError("Please Enter End Time");
+                        the1.requestFocus();
+                        return;
+                    }
+                }
+                if(fr.isChecked()){
+                    if(frs1.getText().toString().equals("")){
+                        frs1.setError("Please Enter Start Time");
+                        frs1.requestFocus();
+                        return;
+                    }
+                    if(fre1.getText().toString().equals("")){
+                        fre1.setError("Please Enter End Time");
+                        fre1.requestFocus();
+                        return;
+                    }
+                }
+                if(sat.isChecked()){
+                    if(sats1.getText().toString().equals("")){
+                        sats1.setError("Please Enter Start Time");
+                        sats1.requestFocus();
+                        return;
+                    }
+                    if(sate1.getText().toString().equals("")){
+                        sate1.setError("Please Enter End Time");
+                        sate1.requestFocus();
+                        return;
+                    }
+                }
+            }
+        });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

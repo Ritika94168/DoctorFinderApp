@@ -226,7 +226,8 @@ public class MyListAdapter extends BaseAdapter implements Filterable {
         DisplayList medicineListModel = reportsData.get(position);
 
 
-        holder.image.setImageResource(R.drawable.hospital);
+       holder.image.setImageResource(R.drawable.hospital);
+        //holder.image.setImageBitmap(b);
         holder.locationBt.setImageResource(R.drawable.aaaa);
         holder.name.setText(medicineListModel.getDoctorName());
 

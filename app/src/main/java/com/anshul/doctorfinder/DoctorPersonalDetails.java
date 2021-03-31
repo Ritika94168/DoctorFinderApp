@@ -528,6 +528,9 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
             Uri selectedImageUri;
             selectedImageUri = data.getData();
             try {
+
+                Bundle extras = data.getExtras();
+                imageBitmap = (Bitmap) extras.get("data");
                 getImageSize(selectedImageUri);
             } catch (IOException e) {
                 e.printStackTrace();

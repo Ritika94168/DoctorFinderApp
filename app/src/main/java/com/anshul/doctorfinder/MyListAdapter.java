@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,7 +28,7 @@ public class MyListAdapter extends BaseAdapter implements Filterable {
     Activity context;
     ArrayList<DisplayList> reportsData;
     ArrayList<DisplayList> reportsDataOriginal;
-
+    HashMap<String, Integer> images = new HashMap<String, Integer>();
     public MyListAdapter(Activity context, ArrayList<DisplayList> reportsData) {
         super();
         this.context = context;
@@ -225,9 +226,8 @@ public class MyListAdapter extends BaseAdapter implements Filterable {
         }
         DisplayList medicineListModel = reportsData.get(position);
 
-
-       holder.image.setImageResource(R.drawable.hospital);
-        //holder.image.setImageBitmap(b);
+        holder.image.setImageResource(R.drawable.hospital);
+       //holder.image.setImageBitmap(b);
         holder.locationBt.setImageResource(R.drawable.aaaa);
         holder.name.setText(medicineListModel.getDoctorName());
 

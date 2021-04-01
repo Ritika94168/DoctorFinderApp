@@ -3,6 +3,7 @@ package com.anshul.doctorfinder;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -20,13 +21,16 @@ public class WeekDaysAvailability extends AppCompatActivity {
     Button save;
     CheckBox su, mo, tu, we, th, fr, sat;
     EditText sus1, sus2, sue1, sue2, mos1, mos2, moe1, moe2, tus1, tus2, tue1, tue2, wes1, wes2, wee1, wee2, ths1, ths2, the1, the2, frs1, frs2, fre1, fre2, sats1, sats2, sate1, sate2;
-
+    String doctorid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_days_availability);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        Intent intent=getIntent();
+        doctorid=intent.getStringExtra("doctorid");
+
 
         Toast toast = Toast.makeText(getApplicationContext(), "S1:-Starttime1 ,E1:-Endtime1 ,S2:-Startime2 ,E2:-Endtime2", Toast.LENGTH_LONG);
         View view = toast.getView();
@@ -75,7 +79,7 @@ public class WeekDaysAvailability extends AppCompatActivity {
         sats2 = (EditText) findViewById(R.id.sats2);
         sate1 = (EditText) findViewById(R.id.sate1);
         sate2 = (EditText) findViewById(R.id.sate2);
-        setTitle("Doctor's Availability");
+        setTitle("Enable Checkbox For Availability");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -84,6 +88,20 @@ public class WeekDaysAvailability extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+               if(!su.isChecked()&& !mo.isChecked()&&!tu.isChecked()&&!we.isChecked()&&!th.isChecked()&&!fr.isChecked()&&!sat.isChecked()){
+                   Toast toast = Toast.makeText(getApplicationContext(), "Please Save Your Availability Days", Toast.LENGTH_LONG);
+                   View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                   view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                   TextView text = view.findViewById(android.R.id.message);
+                   text.setTextColor(Color.WHITE);
+
+                   toast.show();
+               }
                if(su.isChecked()){
                    if(sus1.getText().toString().equals("")){
                        sus1.setError("Please Enter Start Time");

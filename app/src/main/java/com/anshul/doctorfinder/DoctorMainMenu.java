@@ -55,13 +55,15 @@ public class DoctorMainMenu extends AppCompatActivity {
                         switch (item) {
                             case 0: // Add New Faculty
                                 Intent intent1=new Intent(DoctorMainMenu.this,WeekDaysAvailability.class);
+                                intent1.putExtra("doctorid",doctorid);
                                 startActivity(intent1);
                                 overridePendingTransition(R.anim.right_in,R.anim.left_out);
                                 break;
                             case 1: // Edit Faculty Information
-//                                Intent intent = new Intent(DoctorMainMenu.this, SmsReceiver.class);
-//                                startActivity(intent);
-//                                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+                                Intent intent=new Intent(DoctorMainMenu.this,PermanentLeavesDoctor.class);
+                                intent.putExtra("doctorid",doctorid);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.right_in,R.anim.left_out);
                                 break;
                             case 2: // cancel
                                 dialog.cancel();

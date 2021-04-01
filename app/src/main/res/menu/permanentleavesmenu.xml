@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item-->
+    <!--android:id="@+id/action_alarm_on"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="Alarm ON"-->
+    <!--app:showAsAction="always" />-->
+    <!--<item-->
+    <!--android:id="@+id/action_alarm_off"-->
+    <!--android:visible="false"-->
+    <!--android:orderInCategory="100"-->
+    <!--android:title="Alarm OFF"-->
+    <!--app:showAsAction="always" />-->
+
+    <item
+        android:id="@+id/personalleavesmenu"
+        android:orderInCategory="100"
+        android:title="Save"
+        app:showAsAction="always" />
+
+</menu>

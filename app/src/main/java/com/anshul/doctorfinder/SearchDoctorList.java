@@ -54,6 +54,7 @@ public class SearchDoctorList extends AppCompatActivity {
     private long mBackPressed;
     private static final int TIME_INTERVAL = 2000;
     Button reset, modify;
+
     String locationSTR = "";
     String locationManualSTR = "";
     String finalLocationSTR="";

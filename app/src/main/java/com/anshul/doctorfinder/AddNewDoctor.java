@@ -489,32 +489,44 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
         if (resultCode == RESULT_OK && requestCode == 1) {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
-            sizeImage = imageBitmap.getRowBytes() * imageBitmap.getHeight();
-            fileSizeInKB = sizeImage / 1024;
-            if (fileSizeInKB > 250) {
-                Toast toast = Toast.makeText(getApplicationContext(), "Please Choose Image less than 250Kb", Toast.LENGTH_LONG);
-                View view = toast.getView();
-                view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-                TextView text = view.findViewById(android.R.id.message);
-                text.setTextColor(Color.BLACK);
-                toast.show();
-            } else {
+//            sizeImage = imageBitmap.getRowBytes() * imageBitmap.getHeight();
+//            fileSizeInKB = sizeImage / 1024;
+//            if (fileSizeInKB > 250) {
+//                Toast toast = Toast.makeText(getApplicationContext(), "Please Choose Image less than 250Kb", Toast.LENGTH_LONG);
+//                View view = toast.getView();
+//                view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+//                TextView text = view.findViewById(android.R.id.message);
+//                text.setTextColor(Color.BLACK);
+//                toast.show();
+//            } else {
                 doctorImage.setImageBitmap(imageBitmap);
-            }
+          //  }
         }
         if (resultCode == RESULT_OK && requestCode == 2) {
-            Uri selectedImageUri;
-            selectedImageUri = data.getData();
-            try {
-                getImageSize(selectedImageUri);
-            } catch (IOException e) {
-                e.printStackTrace();
+//            Uri selectedImageUri;
+//            selectedImageUri = data.getData();
+//            try {
+//                getImageSize(selectedImageUri);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+
+            if (data != null) {
+                Uri contentURI = data.getData();
+                try {
+                    imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), contentURI);
+                    // String path = saveImage(bitmap);
+                    //Toast.makeText(MainActivity.this, "Image Saved!", Toast.LENGTH_SHORT).show();
+                    doctorImage.setImageBitmap(imageBitmap);
+                   // UploadImageOnServerButton.setVisibility(View.VISIBLE);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    //Toast.makeText(MainActivity.this, "Failed!", Toast.LENGTH_SHORT).show();
+                }
             }
-
-
         }
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

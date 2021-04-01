@@ -2,6 +2,7 @@ package com.anshul.doctorfinder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.view.LayoutInflater;
@@ -26,9 +27,11 @@ import java.util.Locale;
 
 public class MyListAdapter extends BaseAdapter implements Filterable {
     Activity context;
+    // Bitmap[] bitmaps;
     ArrayList<DisplayList> reportsData;
     ArrayList<DisplayList> reportsDataOriginal;
     HashMap<String, Integer> images = new HashMap<String, Integer>();
+
     public MyListAdapter(Activity context, ArrayList<DisplayList> reportsData) {
         super();
         this.context = context;
@@ -227,7 +230,8 @@ public class MyListAdapter extends BaseAdapter implements Filterable {
         DisplayList medicineListModel = reportsData.get(position);
 
         holder.image.setImageResource(R.drawable.hospital);
-       //holder.image.setImageBitmap(b);
+        //holder.image.setImageBitmap(Bitmap.createScaledBitmap(bitmaps[position], 100, 50, false));
+        //holder.image.setImageBitmap(b);
         holder.locationBt.setImageResource(R.drawable.aaaa);
         holder.name.setText(medicineListModel.getDoctorName());
 
@@ -236,7 +240,6 @@ public class MyListAdapter extends BaseAdapter implements Filterable {
         holder.description.setText(medicineListModel.getDoctorDescription());
 
         holder.address.setText(medicineListModel.getDoctorAddress());
-
 
 
         return convertView;

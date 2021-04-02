@@ -15,11 +15,80 @@
         android:orientation="vertical"
         android:paddingBottom="35dp"
         android:id="@+id/llll">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="1dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text="Week Days"
+                android:visibility="invisible"
+                android:textColor="#ff0000"
+                android:textSize="17sp"
+                android:layout_margin="5dp"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:visibility="invisible"
+                android:layout_margin="5dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                android:text="1st Shift"
+                android:textColor="#0000ff"
+                android:textSize="19sp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text=""
+                android:textColor="#ff0000"
+                android:textSize="17sp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:textAlignment="center"
+                android:text="2nd Shift"
+                android:textColor="#0000ff"
+                android:textSize="19sp"
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAlignment="center"
+                android:text=""
+                android:textColor="#ff0000"
+                android:textSize="17sp"
+                android:layout_margin="5dp"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="2dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="100dp"

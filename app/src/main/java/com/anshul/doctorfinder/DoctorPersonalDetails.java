@@ -377,7 +377,6 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
             bmp.compress(Bitmap.CompressFormat.PNG, 0, baos);
             byte[] imageBytes = baos.toByteArray();
             encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-
         }
         return encodedImage;
     }

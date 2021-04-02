@@ -22,7 +22,10 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class BookAppointmentActivity extends AppCompatActivity {
     TextInputEditText bookappintment;
@@ -36,6 +39,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
     private int minute;
     TextView name, doctoraddress, contact, whatsapp, fees;
     String nameSTR, addressSTR, contactSTR, whatsappSTR, feesSTR;
+    String currentdate,currentday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +134,20 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                     toast.show();
                 }
+
+                // get current date in android
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
+                currentdate=formattedDate;
+
+
+                //get currentDay in android
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                Date d = new Date();
+                String dayOfTheWeek = sdf.format(d);
+                currentday=dayOfTheWeek;
+
 
 
             }

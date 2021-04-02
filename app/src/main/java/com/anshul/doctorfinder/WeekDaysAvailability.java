@@ -3,11 +3,17 @@ package com.anshul.doctorfinder;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -79,7 +85,7 @@ public class WeekDaysAvailability extends AppCompatActivity {
         sats2 = (EditText) findViewById(R.id.sats2);
         sate1 = (EditText) findViewById(R.id.sate1);
         sate2 = (EditText) findViewById(R.id.sate2);
-        setTitle("Enable Checkbox For Availability");
+        setTitle("Leaves Menu");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -190,20 +196,49 @@ public class WeekDaysAvailability extends AppCompatActivity {
         });
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.weekdaysmenu, menu);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 overridePendingTransition(R.anim.enter, R.anim.leave);
                 return true;
+            case R.id.weekdays:
+                AlertDialog.Builder alert = new AlertDialog.Builder(WeekDaysAvailability.this, R.style.PositiveButtonStyle11);
+                alert.setCancelable(false);
+                alert.setTitle("Welcome To Help Section !!!");
+                String titleText12 ="This is WeekDays Leaves Section which you can fill once and edit later on so that patients can see your availability when patient can book your appointment. In this You have to enable checkbox for week days for which you are present,otherwise you will be marked as absent on these days.So after enable as per suitable,you have to enter shift timings for which you are present.In this 2 shifts are available,in which if you have to available at only one shift either on morning or everning,you have to fill first shift timings,if you have available on both shifts,you have to enter timings of both shifts......If you have some query after reading this,(Please contact :- 7988327513) or (Email directly to :- anshulgupta2498@gmail.com)";
+                ForegroundColorSpan foregroundColorSpan12 = new ForegroundColorSpan(Color.BLACK);
+                SpannableStringBuilder ssBuilder12 = new SpannableStringBuilder(titleText12);
+                ssBuilder12.setSpan(
+                        foregroundColorSpan12,
+                        0,
+                        titleText12.length(),
+                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                );
+                alert.setMessage(ssBuilder12);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+
+                    }
+                });
+
+                AlertDialog alert1 = alert.create();
+                alert1.setCanceledOnTouchOutside(false);
+                alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+                alert1.show();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -201,6 +201,7 @@ public class WelcomeActivity extends AppCompatActivity {
         ps2 = sharedpreferences.getString("Username1", "");
         ps3 = sharedpreferences.getString("Password1", "");
         ps4 = sharedpreferences.getString("pid", "");
+      //  Toast.makeText(getApplicationContext(),ps4,Toast.LENGTH_LONG).show();
 
 
 //

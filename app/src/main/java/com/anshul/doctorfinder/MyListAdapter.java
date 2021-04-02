@@ -197,13 +197,12 @@ public class MyListAdapter extends BaseAdapter implements Filterable {
         ViewHolder holder;
         LayoutInflater inflater = context.getLayoutInflater();
 
+
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.my_list1, null);
             holder = new ViewHolder();
             holder.image = (ImageView) convertView.findViewById(R.id.doctorImage);
-//            holder.creadteddate = (TextView) convertView.findViewById(R.id.created_date);
             holder.name = (TextView) convertView.findViewById(R.id.doctorName);
-
             holder.Specialization = (TextView) convertView.findViewById(R.id.doctorSpecialization);
             holder.description = (TextView) convertView.findViewById(R.id.doctorDescription);
             holder.address = (TextView) convertView.findViewById(R.id.doctorAddress);

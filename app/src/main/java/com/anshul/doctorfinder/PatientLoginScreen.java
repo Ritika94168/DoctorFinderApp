@@ -242,7 +242,7 @@ public class PatientLoginScreen extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             //this method will be running on UI thread
-
+//Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }

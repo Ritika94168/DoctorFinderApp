@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -40,6 +41,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
     TextView name, doctoraddress, contact, whatsapp, fees;
     String nameSTR, addressSTR, contactSTR, whatsappSTR, feesSTR;
     String currentdate,currentday;
+    TableRow tablerow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         bookappintment = (TextInputEditText) findViewById(R.id.appointmentDate);
         bookappointmenttime = (TextInputEditText) findViewById(R.id.appointmentTime);
         name = (TextView) findViewById(R.id.docname);
+        tablerow=(TableRow)findViewById(R.id.availabletimetablerow);
         doctoraddress = (TextView) findViewById(R.id.address);
         contact = (TextView) findViewById(R.id.contact);
         whatsapp = (TextView) findViewById(R.id.whatsapp);
@@ -121,19 +124,19 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                     toast.show();
                 }
-                if (timeSTR.equals("")) {
-                    Toast toast = Toast.makeText(getApplicationContext(), "Please Select Appointment Time", Toast.LENGTH_LONG);
-                    View view = toast.getView();
-
-//Gets the actual oval background of the Toast then sets the colour filter
-                    view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-
-//Gets the TextView from the Toast so it can be editted
-                    TextView text = view.findViewById(android.R.id.message);
-                    text.setTextColor(Color.BLACK);
-
-                    toast.show();
-                }
+//                if (timeSTR.equals("")) {
+//                    Toast toast = Toast.makeText(getApplicationContext(), "Please Select Appointment Time", Toast.LENGTH_LONG);
+//                    View view = toast.getView();
+//
+////Gets the actual oval background of the Toast then sets the colour filter
+//                    view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+//
+////Gets the TextView from the Toast so it can be editted
+//                    TextView text = view.findViewById(android.R.id.message);
+//                    text.setTextColor(Color.BLACK);
+//
+//                    toast.show();
+//                }
 
                 // get current date in android
                 Date c = Calendar.getInstance().getTime();
@@ -270,7 +273,9 @@ public class BookAppointmentActivity extends AppCompatActivity {
             bookappintment.setText(new StringBuilder().append(day)
                     .append("-").append(month + 1).append("-").append(year)
                     .append(" "));
-            bookappointmenttime.setVisibility(View.VISIBLE);
+          //  bookappointmenttime.setVisibility(View.VISIBLE);
+            tablerow.setVisibility(View.VISIBLE);
+
 
         }
     };

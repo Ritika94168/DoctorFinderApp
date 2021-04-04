@@ -8,6 +8,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +18,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -135,7 +138,7 @@ public class SearchDoctorList extends AppCompatActivity {
             listview.setAdapter(adapter);
             new AsyncLogin().execute(docSTR);
             // Add List Manually For Testing,,,because list is loaded from mysql database after Database Creation
-            displayList.add(new DisplayList(docImage , doctor_name, docSTR, description, address));
+//            displayList.add(new DisplayList(docImage , doctor_name, docSTR, description, address));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Ritika Gaba", docSTR, "I have 4 Year Experience At Rotary Hospital Ambala Cantt", "20/21 Industrial Area,Ambala Cantt", "Rating:-5"));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Bunty Bindra", docSTR, "I have 5 Year Experience", "20/21 Industrial Area,Ambala Cantt", "Rating:-6"));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Munish Gautum", docSTR, "I have 1 Year Experience", "20/21 Industrial Area,Ambala Cantt", "Rating:-8"));
@@ -311,7 +314,19 @@ public class SearchDoctorList extends AppCompatActivity {
                         description = jsonObject.getString("description");
                         address = jsonObject.getString("address");
 
-                        displayList.add(new DisplayList(docImage, doctor_name, specialization, description, address));
+//                        String Qrimage = jsonObject.getString("imagefieldname");
+                        System.out.println(docImage);
+
+                        byte[] qrimage = Base64.decode(docImage.getBytes(), i);
+
+                        System.out.println(qrimage);
+                       Bitmap bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
+//                        ImageView imageview = (ImageView) findViewById(R.id.flag);
+
+//                        imageview.setImageBitmap(bmp);
+
+//jsonObject.get
+                        displayList.add(new DisplayList(bmp, doctor_name, specialization, description, address));
                         doctorList.add(doctorid);
 
                     }

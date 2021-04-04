@@ -1,14 +1,24 @@
 package com.anshul.doctorfinder;
 
+import android.graphics.Bitmap;
+
 public class DisplayList {
 
-    private  String DoctorImage;
+    private  Bitmap DoctorImage;
     private  String DoctorName;
     private  String DoctorSpecification;
     private  String DoctorDescription;
     private  String DoctorAddress;
 
-    public DisplayList(String DoctorImage,String DoctorName,String DoctorSpecification,String DoctorDescription,String DoctorAddress){
+    public Bitmap getDoctorImage() {
+        return DoctorImage;
+    }
+
+    public void setDoctorImage(Bitmap doctorImage) {
+        DoctorImage = doctorImage;
+    }
+
+    public DisplayList(Bitmap DoctorImage, String DoctorName, String DoctorSpecification, String DoctorDescription, String DoctorAddress){
         this.DoctorImage=DoctorImage;
         this.DoctorName=DoctorName;
         this.DoctorSpecification=DoctorSpecification;
@@ -17,13 +27,6 @@ public class DisplayList {
 
     }
 
-    public String getDoctorImage() {
-        return DoctorImage;
-    }
-
-    public void setDoctorImage(String doctorImage) {
-        DoctorImage = doctorImage;
-    }
 
 
 

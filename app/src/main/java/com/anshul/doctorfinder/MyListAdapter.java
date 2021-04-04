@@ -3,6 +3,7 @@ package com.anshul.doctorfinder;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.view.LayoutInflater;
@@ -228,7 +229,7 @@ public class MyListAdapter extends BaseAdapter implements Filterable {
         }
         DisplayList medicineListModel = reportsData.get(position);
 
-        holder.image.setImageResource(R.drawable.hospital);
+        holder.image.setImageBitmap(medicineListModel.getDoctorImage());
         //holder.image.setImageBitmap(Bitmap.createScaledBitmap(bitmaps[position], 100, 50, false));
         //holder.image.setImageBitmap(b);
         holder.locationBt.setImageResource(R.drawable.aaaa);

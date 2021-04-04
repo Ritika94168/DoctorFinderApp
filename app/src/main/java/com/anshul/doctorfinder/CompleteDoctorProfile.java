@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -21,6 +23,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -328,7 +331,10 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                         descriptionSTR = jsonObject.getString("description");
 
 
+                        byte[] qrimage = Base64.decode(docimageSTR.getBytes(), i);
 
+                        System.out.println(qrimage);
+                       Bitmap bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
                         docname.setText(docnameSTR);
                         specification.setText(specificationSTR);
                         address.setText(addressSTR);
@@ -342,6 +348,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
 
                         new AsyncLogin1().execute(ps2, ps3);
 
+                        doctorimage.setImageBitmap(bmp);
 
                     }
 

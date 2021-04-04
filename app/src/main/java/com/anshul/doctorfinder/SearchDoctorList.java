@@ -49,6 +49,7 @@ import java.util.ArrayList;
 
 public class SearchDoctorList extends AppCompatActivity {
     TextView locationTV;
+    Bitmap bmp;
     TextView doctortypeTV;
     MyListAdapter adapter;
     ArrayList<DisplayList> displayList = new ArrayList<DisplayList>();
@@ -138,7 +139,7 @@ public class SearchDoctorList extends AppCompatActivity {
             listview.setAdapter(adapter);
             new AsyncLogin().execute(docSTR);
             // Add List Manually For Testing,,,because list is loaded from mysql database after Database Creation
-//            displayList.add(new DisplayList(docImage , doctor_name, docSTR, description, address));
+            displayList.add(new DisplayList(bmp , doctor_name, docSTR, description, address));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Ritika Gaba", docSTR, "I have 4 Year Experience At Rotary Hospital Ambala Cantt", "20/21 Industrial Area,Ambala Cantt", "Rating:-5"));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Bunty Bindra", docSTR, "I have 5 Year Experience", "20/21 Industrial Area,Ambala Cantt", "Rating:-6"));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Munish Gautum", docSTR, "I have 1 Year Experience", "20/21 Industrial Area,Ambala Cantt", "Rating:-8"));
@@ -320,7 +321,7 @@ public class SearchDoctorList extends AppCompatActivity {
                         byte[] qrimage = Base64.decode(docImage.getBytes(), i);
 
                         System.out.println(qrimage);
-                       Bitmap bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
+                        bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);
 //                        ImageView imageview = (ImageView) findViewById(R.id.flag);
 
 //                        imageview.setImageBitmap(bmp);

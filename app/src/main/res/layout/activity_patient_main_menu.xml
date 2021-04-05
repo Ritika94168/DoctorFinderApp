@@ -37,10 +37,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="20dp"
                         android:layout_gravity="center"
-                        android:text="Main Menu"
+                        android:text="Patient Dashboard"
                         android:id="@+id/adminmenu"
                         android:textColor="@color/colorPrimaryDark"
-                        android:textSize="30sp"
+                        android:textSize="22sp"
                         android:textStyle="bold" />
                     <ScrollView
                         android:layout_width="match_parent"

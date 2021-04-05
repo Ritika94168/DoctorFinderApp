@@ -23,11 +23,11 @@
             android:layout_marginBottom="1dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:text="Week Days"
+                android:text="Days"
                 android:visibility="invisible"
                 android:textColor="#ff0000"
                 android:textSize="17sp"
@@ -48,11 +48,11 @@
                 android:textAlignment="center"
                 android:text="1st Shift"
                 android:textColor="#0000ff"
-                android:textSize="19sp"
+                android:textSize="17sp"
                 android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="53dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -68,11 +68,11 @@
                 android:textAlignment="center"
                 android:text="2nd Shift"
                 android:textColor="#0000ff"
-                android:textSize="19sp"
+                android:textSize="17sp"
                 android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="53dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -91,11 +91,11 @@
             android:layout_marginBottom="2dp"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="100dp"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
-                android:text="Week Days"
+                android:text="Days"
                 android:textColor="#ff0000"
                 android:textSize="17sp"
                 android:layout_margin="5dp"/>
@@ -109,7 +109,7 @@
                 />
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="53dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -119,7 +119,7 @@
                 android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="53dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -129,7 +129,7 @@
                 android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="53dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -139,7 +139,7 @@
                 android:layout_margin="5dp"/>
 
             <TextView
-                android:layout_width="50dp"
+                android:layout_width="53dp"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textAlignment="center"
@@ -156,11 +156,11 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="Sunday"
+            android:text="Sun"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -174,42 +174,46 @@
             />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:id="@+id/sus1"
             android:textColor="#000000"
             android:textSize="17sp"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:id="@+id/sue1"
             android:textColor="#000000"
             android:inputType="numberDecimal"
+            android:focusable="false"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
+            android:focusable="false"
             android:id="@+id/sus2"
             android:textSize="17sp"
             android:inputType="numberDecimal"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:textAlignment="center"
             android:id="@+id/sue2"
@@ -231,11 +235,11 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="Monday"
+            android:text="Mon"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -249,10 +253,11 @@
             />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:textColor="#000000"
             android:id="@+id/mos1"
@@ -260,10 +265,11 @@
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:textColor="#000000"
             android:id="@+id/moe1"
             android:textSize="17sp"
@@ -271,21 +277,23 @@
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:id="@+id/mos2"
             android:textAlignment="center"
+            android:focusable="false"
             android:textColor="#000000"
             android:inputType="numberDecimal"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:id="@+id/moe2"
             android:textColor="#000000"
@@ -306,11 +314,11 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="Tuesday"
+            android:text="Tue"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -325,10 +333,11 @@
             />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:id="@+id/tus1"
             android:textColor="#000000"
             android:inputType="numberDecimal"
@@ -336,9 +345,10 @@
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:focusable="false"
             android:textAlignment="center"
             android:textColor="#000000"
             android:id="@+id/tue1"
@@ -347,21 +357,23 @@
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
             android:id="@+id/tus2"
+            android:focusable="false"
             android:textSize="17sp"
             android:inputType="numberDecimal"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:textColor="#000000"
             android:id="@+id/tue2"
             android:inputType="numberDecimal"
@@ -380,11 +392,11 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="Wednesday"
+            android:text="Wed"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -398,44 +410,48 @@
             />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:inputType="numberDecimal"
             android:textAlignment="center"
             android:textColor="#000000"
+            android:focusable="false"
             android:textSize="17sp"
             android:id="@+id/wes1"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="17sp"
             android:id="@+id/wee1"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:id="@+id/wes2"
             android:inputType="numberDecimal"
             android:textColor="#000000"
+            android:focusable="false"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
+            android:focusable="false"
             android:id="@+id/wee2"
             android:textSize="17sp"
             android:inputType="numberDecimal"
@@ -454,11 +470,11 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="Thrusday"
+            android:text="Thr"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -472,21 +488,23 @@
             />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:inputType="numberDecimal"
             android:textColor="#000000"
+            android:focusable="false"
             android:textSize="17sp"
             android:id="@+id/ths1"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:textColor="#000000"
             android:id="@+id/the1"
             android:inputType="numberDecimal"
@@ -494,23 +512,25 @@
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
+            android:focusable="false"
             android:id="@+id/ths2"
             android:textSize="17sp"
             android:inputType="numberDecimal"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:id="@+id/the2"
             android:textColor="#000000"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -527,11 +547,11 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="Friday"
+            android:text="Fri"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -545,32 +565,35 @@
             />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
             android:id="@+id/frs1"
             android:inputType="numberDecimal"
+            android:focusable="false"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:id="@+id/fre1"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:id="@+id/frs2"
             android:textColor="#000000"
             android:textSize="17sp"
@@ -578,11 +601,12 @@
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
+            android:focusable="false"
             android:inputType="numberDecimal"
             android:id="@+id/fre2"
             android:textSize="17sp"
@@ -602,11 +626,11 @@
         android:layout_margin="5dp"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:text="Saturday"
+            android:text="Sat"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
@@ -620,42 +644,46 @@
             />
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:inputType="numberDecimal"
             android:textAlignment="center"
+            android:focusable="false"
             android:id="@+id/sats1"
             android:textColor="#000000"
             android:textSize="17sp"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:inputType="numberDecimal"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
+            android:focusable="false"
             android:textColor="#000000"
             android:textSize="17sp"
             android:id="@+id/sate1"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="#000000"
+            android:focusable="false"
             android:id="@+id/sats2"
             android:textSize="17sp"
             android:inputType="numberDecimal"
             android:layout_margin="5dp"/>
 
         <EditText
-            android:layout_width="50dp"
+            android:layout_width="53dp"
             android:layout_height="wrap_content"
             android:id="@+id/sate2"
+            android:focusable="false"
             android:textStyle="bold"
             android:inputType="numberDecimal"
             android:textAlignment="center"

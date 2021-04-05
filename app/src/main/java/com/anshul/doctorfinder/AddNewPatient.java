@@ -84,7 +84,7 @@ public class AddNewPatient extends AppCompatActivity {
        contact=(EditText)findViewById(R.id.contact);
        whatsap=(EditText)findViewById(R.id.whatsapp);
        disease=(EditText)findViewById(R.id.disease);
-       cardview=(CardView)findViewById(R.id.cardview);
+   //    cardview=(CardView)findViewById(R.id.cardview);
        email=(EditText)findViewById(R.id.email);
        address=(EditText)findViewById(R.id.address);
        username=(EditText)findViewById(R.id.username);
@@ -96,7 +96,7 @@ public class AddNewPatient extends AppCompatActivity {
        female=(RadioButton)findViewById(R.id.female);
        others=(RadioButton)findViewById(R.id.others);
        register=(Button)findViewById(R.id.register);
-       cardview.setBackgroundResource(R.drawable.cardview_background_color);
+     //  cardview.setBackgroundResource(R.drawable.cardview_background_color);
         pass.setClickable(true);
         pass.setOnClickListener(new View.OnClickListener() {
             @Override

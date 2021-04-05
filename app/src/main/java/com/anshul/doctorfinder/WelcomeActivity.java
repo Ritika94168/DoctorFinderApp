@@ -97,10 +97,6 @@ public class WelcomeActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= 21) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
-
-        setContentView(R.layout.activity_welcome);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         ConnectivityManager connec = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTED ||
                 connec.getNetworkInfo(0).getState() == android.net.NetworkInfo.State.CONNECTING ||
@@ -161,37 +157,6 @@ public class WelcomeActivity extends AppCompatActivity {
             builder.setCancelable(false);
             builder.show();
         }
-        checkPermission(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                STORAGE_PERMISSION_CODE);
-        checkPermission(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                READ_PERMISSION_CODE);
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
-
-
-        // layouts of welcome sliders
-        layouts = new int[]{
-                R.layout.welcome_slide1,
-                R.layout.welcome_slide2};
-//
-//        StartAnimations();
-        // adding bottom dots
-        addBottomDots(0);
-
-        // making notification bar transparent
-        changeStatusBarColor();
-
-        myViewPagerAdapter = new MyViewPagerAdapter();
-        viewPager.setAdapter(myViewPagerAdapter);
-        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
-
-        //  sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
-
-
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         s1 = sharedpreferences.getString("LoginSession", "");
         s2 = sharedpreferences.getString("Username", "");
@@ -201,7 +166,67 @@ public class WelcomeActivity extends AppCompatActivity {
         ps2 = sharedpreferences.getString("Username1", "");
         ps3 = sharedpreferences.getString("Password1", "");
         ps4 = sharedpreferences.getString("pid", "");
-      //  Toast.makeText(getApplicationContext(),ps4,Toast.LENGTH_LONG).show();
+
+        try {
+            if (s1.equals("LoggedInDoctor")) {
+                // Toast.makeText(getApplicationContext(),"logged",Toast.LENGTH_LONG).show();
+                new AsyncLogin().execute(s2, s3);
+
+
+            }
+            if (ps1.equals("LoggedInPatient")) {
+                new AsyncLogin1().execute(ps2, ps3);
+
+            }
+//            if((!s1.equals("LoggedInDoctor")&&(!ps1.equals("LoggedInPatient"))))
+//            {
+//                launchHomeScreen();
+//                //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
+//            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if ((!s1.equals("LoggedInDoctor") && (!ps1.equals("LoggedInPatient")))) {
+            setContentView(R.layout.activity_welcome);
+
+
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                    WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+            checkPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    STORAGE_PERMISSION_CODE);
+            checkPermission(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    READ_PERMISSION_CODE);
+            viewPager = (ViewPager) findViewById(R.id.view_pager);
+            dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
+            btnSkip = (Button) findViewById(R.id.btn_skip);
+            btnNext = (Button) findViewById(R.id.btn_next);
+
+
+            // layouts of welcome sliders
+            layouts = new int[]{
+                    R.layout.welcome_slide1,
+                    R.layout.welcome_slide2};
+//
+//        StartAnimations();
+            // adding bottom dots
+            addBottomDots(0);
+
+            // making notification bar transparent
+            changeStatusBarColor();
+
+            myViewPagerAdapter = new MyViewPagerAdapter();
+            viewPager.setAdapter(myViewPagerAdapter);
+            viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+
+            //  sharedpreferences1 = getSharedPreferences(mypreference1, Context.MODE_PRIVATE);
+
+
+            //  Toast.makeText(getApplicationContext(),ps4,Toast.LENGTH_LONG).show();
 
 
 //
@@ -210,72 +235,54 @@ public class WelcomeActivity extends AppCompatActivity {
 //        ps2 = sharedpreferences.getString("Username", "");
 //        ps3 = sharedpreferences.getString("Password", "");
 //        new AsyncLogin().execute(ps2, ps3);
-        btnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    if (s1.equals("LoggedInDoctor")) {
-                       // Toast.makeText(getApplicationContext(),"logged",Toast.LENGTH_LONG).show();
-                        new AsyncLogin().execute(s2, s3);
-
-
-                    }
-                    if (ps1.equals("LoggedInPatient")) {
-                        new AsyncLogin1().execute(ps2, ps3);
-
-                    }
-                    if((!s1.equals("LoggedInDoctor")&&(!ps1.equals("LoggedInPatient"))))
-                    {
-                        launchHomeScreen();
-                        //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // checking for last page if true launch MainActivity
-
-                int current = getItem(+1);
-
-                if (current < layouts.length) {
-                    // move to next screen
-
-                    viewPager.setCurrentItem(current);
-                } else {
+            btnSkip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                     try {
-                        if (s1.equals("LoggedInDoctor"))
-                        {
-                            new AsyncLogin().execute(s2, s3);
-                        }
-                        if (ps1.equals("LoggedInPatient"))
-                        {
-                            new AsyncLogin1().execute(ps2, ps3);
 
-                        }
-                        if((!s1.equals("LoggedInDoctor")&&(!ps1.equals("LoggedInPatient"))))
-                        {
-                            launchHomeScreen();
-                            //   overridePendingTransition(R.anim.right_in, R.anim.left_out);
-                        }
+
+                        launchHomeScreen();
+
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                }
-            }
-        });
-    }
 
+                }
+            });
+
+            btnNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // checking for last page if true launch MainActivity
+
+                    int current = getItem(+1);
+
+                    if (current < layouts.length) {
+                        // move to next screen
+
+                        viewPager.setCurrentItem(current);
+                    } else {
+
+
+                        try {
+
+
+                            launchHomeScreen();
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }
+            });
+        }
+    }
     private void addBottomDots(int currentPage) {
         dots = new TextView[layouts.length];
 
@@ -614,12 +621,12 @@ public class WelcomeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String result) {
             if (!result.equals("")) {
-         //       Toast.makeText(getApplicationContext(),"true",Toast.LENGTH_LONG).show();
+                //       Toast.makeText(getApplicationContext(),"true",Toast.LENGTH_LONG).show();
 
                 resultSTR = true;
             }
-         //   Toast.makeText(getApplicationContext(),"postexecute",Toast.LENGTH_LONG).show();
-            if(resultSTR){
+            //   Toast.makeText(getApplicationContext(),"postexecute",Toast.LENGTH_LONG).show();
+            if (resultSTR) {
                 Intent intent = new Intent(WelcomeActivity.this, DoctorMainMenu.class);
                 intent.putExtra("doctorid", s4);
                 startActivity(intent);

@@ -44,15 +44,7 @@
         android:paddingBottom="40dp"
         android:layout_height="match_parent"
         >
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginBottom="10sp"
-            android:id="@+id/cardview"
-            android:layout_marginRight="4dp"
-            app:cardCornerRadius="10dp">
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -528,6 +520,7 @@
                     android:layout_marginRight="5sp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
+                    android:maxLines="5"
                     android:hint="Enter Your Description"
                     android:background="@drawable/front4"
                     android:textAlignment="center"
@@ -629,7 +622,7 @@
 
             </TableRow>
         </TableLayout>
-        </com.google.android.material.card.MaterialCardView>
+
 
     </androidx.core.widget.NestedScrollView>
     </RelativeLayout>

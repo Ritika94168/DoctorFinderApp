@@ -101,7 +101,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
         doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
         contact = (EditText) findViewById(R.id.contact);
         whatsap = (EditText) findViewById(R.id.whatsapp);
-        cardview = (CardView) findViewById(R.id.cardview);
+       // cardview = (CardView) findViewById(R.id.cardview);
         email = (EditText) findViewById(R.id.email);
         address = (EditText) findViewById(R.id.address);
         fees=(EditText)findViewById(R.id.doctorfees);
@@ -116,7 +116,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
         female = (RadioButton) findViewById(R.id.female);
         others = (RadioButton) findViewById(R.id.others);
         register = (Button) findViewById(R.id.register);
-        cardview.setBackgroundResource(R.drawable.cardview_background_color);
+     //   cardview.setBackgroundResource(R.drawable.cardview_background_color);
         pass.setClickable(true);
         pass.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -118,7 +118,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
         doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
         contact = (EditText) findViewById(R.id.contact);
         whatsap = (EditText) findViewById(R.id.whatsapp);
-        cardview = (CardView) findViewById(R.id.cardview);
+       // cardview = (CardView) findViewById(R.id.cardview);
         email = (EditText) findViewById(R.id.email);
         address = (EditText) findViewById(R.id.address);
         fees = (EditText) findViewById(R.id.doctorfees);
@@ -132,7 +132,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
         pass = (ImageView) findViewById(R.id.image);
         female = (RadioButton) findViewById(R.id.female);
         others = (RadioButton) findViewById(R.id.others);
-        cardview.setBackgroundResource(R.drawable.cardview_background_color);
+      //  cardview.setBackgroundResource(R.drawable.cardview_background_color);
         pass.setClickable(true);
         pass.setOnClickListener(new View.OnClickListener() {
             @Override

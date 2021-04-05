@@ -318,7 +318,7 @@ public class SearchDoctorList extends AppCompatActivity {
 //                        String Qrimage = jsonObject.getString("imagefieldname");
                         System.out.println(docImage);
 
-                        byte[] qrimage = Base64.decode(docImage.getBytes(), i);
+                        byte[] qrimage = Base64.decode(docImage.getBytes(),Base64.DEFAULT);
 
                         System.out.println(qrimage);
                         bmp = BitmapFactory.decodeByteArray(qrimage, 0, qrimage.length);

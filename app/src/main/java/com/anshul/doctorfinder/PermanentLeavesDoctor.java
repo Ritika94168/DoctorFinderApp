@@ -55,7 +55,7 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
 
         Intent intent = getIntent();
         doctorid = intent.getStringExtra("doctorid");
-        setTitle("Permanent Leaves");
+        setTitle("Leaves");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);

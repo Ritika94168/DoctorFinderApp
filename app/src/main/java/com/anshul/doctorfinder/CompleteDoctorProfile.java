@@ -37,6 +37,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,9 +67,10 @@ public class CompleteDoctorProfile extends AppCompatActivity {
     public static final String mypreference = "mypref";
     String ps1, ps2, ps3, ps4;
     Boolean resultSTR = false;
+    TextInputEditText docname;
     Boolean resultSTR1 = false;
     String docimageSTR;
-    TextView docname,specification,address,mobileno,whatsappnumber,email,rating,reviews,fees,description;
+    TextInputEditText specification,address,mobileno,whatsappnumber,email,fees,description;
     String docnameSTR,specificationSTR,addressSTR,mobilenoSTR,whatsappnumberSTR,emailSTR,ratingSTR,reviewsSTR,feesSTR,descriptionSTR;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,16 +118,24 @@ public class CompleteDoctorProfile extends AppCompatActivity {
             }
         });
 
-        docname=(TextView)findViewById(R.id.nameTextView);
-        specification=(TextView)findViewById(R.id.estimatedTimeTextView);
-        address=(TextView)findViewById(R.id.transactionIdTextView);
-        mobileno=(TextView)findViewById(R.id.opdChargesTextView);
-        whatsappnumber=(TextView)findViewById(R.id.doctorNameTextView);
-        email=(TextView)findViewById(R.id.email_id);
-        rating=(TextView)findViewById(R.id.doctorRoomTextView);
-        reviews=(TextView)findViewById(R.id.opdIdTextView);
-        fees=(TextView)findViewById(R.id.feesTv);
-        description=(TextView)findViewById(R.id.idTextView);
+        docname=(TextInputEditText) findViewById(R.id.nameTextView);
+        specification=(TextInputEditText)findViewById(R.id.estimatedTimeTextView);
+        address=(TextInputEditText)findViewById(R.id.transactionIdTextView);
+        mobileno=(TextInputEditText)findViewById(R.id.opdChargesTextView);
+        whatsappnumber=(TextInputEditText)findViewById(R.id.doctorNameTextView);
+        email=(TextInputEditText)findViewById(R.id.email_id);
+        fees=(TextInputEditText)findViewById(R.id.feesTv);
+        description=(TextInputEditText)findViewById(R.id.idTextView);
+
+        docname.setEnabled(false);
+        specification.setEnabled(false);
+        address.setEnabled(false);
+        mobileno.setEnabled(false);
+        whatsappnumber.setEnabled(false);
+        email.setEnabled(false);
+        fees.setEnabled(false);
+        description.setEnabled(false);
+
 
 
         docnameSTR=docname.getText().toString();
@@ -133,8 +144,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
         mobilenoSTR=mobileno.getText().toString();
         whatsappnumberSTR=whatsappnumber.getText().toString();
         emailSTR=email.getText().toString();
-        ratingSTR=rating.getText().toString();
-        reviewsSTR=reviews.getText().toString();
+
         feesSTR=fees.getText().toString();
         descriptionSTR=description.getText().toString();
 
@@ -341,8 +351,6 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                         mobileno.setText(mobilenoSTR);
                         whatsappnumber.setText(whatsappnumberSTR);
                         email.setText(emailSTR);
-                        rating.setText(ratingSTR);
-                        reviews.setText(reviewsSTR);
                         fees.setText(feesSTR);
                         description.setText(descriptionSTR);
 

@@ -57,7 +57,7 @@ public class PatientLoginScreen extends AppCompatActivity {
     String LoginPreferencepatient;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "mypref";
-    String docnameSTR,addressSTR,mobilenoSTR,whatsappnumberSTR,feesSTR;
+    String docnameSTR,addressSTR,mobilenoSTR,whatsappnumberSTR,feesSTR,patiendidSTR;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -240,7 +240,7 @@ public class PatientLoginScreen extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-
+            patiendidSTR=result;
             //this method will be running on UI thread
 //Toast.makeText(getApplicationContext(),result,Toast.LENGTH_LONG).show();
             if (dialog.isShowing()) {
@@ -276,6 +276,7 @@ public class PatientLoginScreen extends AppCompatActivity {
                 intent.putExtra("doccontact", mobilenoSTR);
                 intent.putExtra("docwhatsapp", whatsappnumberSTR);
                 intent.putExtra("docfees", feesSTR);
+
               //  intent.putExtra("pid",result);
                 startActivity(intent);
 //                Intent intent=new Intent();

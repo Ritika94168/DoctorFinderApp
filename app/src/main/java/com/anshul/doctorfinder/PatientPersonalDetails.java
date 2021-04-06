@@ -492,7 +492,7 @@ String pid;
             }
         }
     }
-    public void PatientRecordUpdate(final String pname,  final String contact, final String whatsapp,final String dob,  final String email,final String address, final String username, final String password,final String patientid) {
+    public void PatientRecordUpdate(final String pname,  final String contact, final String whatsapp  , final String dob ,  final String email,final String address, final String username, final String password,final String patientid) {
 
         class StudentRecordUpdateClass extends AsyncTask<String, Void, String> {
 

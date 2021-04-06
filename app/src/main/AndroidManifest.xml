@@ -53,15 +53,18 @@
 
     <application
         android:allowBackup="true"
+        android:excludeFromRecents="true"
         android:icon="@mipmap/hospital1"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/hospital1"
         android:supportsRtl="true"
-        android:excludeFromRecents="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PermanentLeavesDoctor"
+        <activity android:name=".PatientBookings"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".PermanentLeavesDoctor"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".WeekDaysAvailability"
             android:screenOrientation="portrait" />
@@ -94,13 +97,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DoctorMainMenu"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:launchMode = "singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PatientMainMenu"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:launchMode = "singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ClinicLoginScreen"

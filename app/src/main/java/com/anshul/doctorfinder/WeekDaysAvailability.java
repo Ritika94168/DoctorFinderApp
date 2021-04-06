@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,6 +41,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class WeekDaysAvailability extends AppCompatActivity {
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -48,6 +50,10 @@ public class WeekDaysAvailability extends AppCompatActivity {
     static final int TIME_DIALOG_ID = 1111;
     private int hour;
     private int minute;
+    HashMap<String, String> hashMap = new HashMap<>();
+    String HttpURL = "http://doc.gsinfotec.in/loginphpfile.php?action=weekdaysupdatedetails";
+    String finalResult;
+    HttpParse httpParse = new HttpParse();
     CheckBox su, mo, tu, we, th, fr, sat;
     EditText sus1, sus2, sue1, sue2, mos1, mos2, moe1, moe2, tus1, tus2, tue1, tue2, wes1, wes2, wee1, wee2, ths1, ths2, the1, the2, frs1, frs2, fre1, fre2, sats1, sats2, sate1, sate2;
     String doctorid;
@@ -108,6 +114,9 @@ public class WeekDaysAvailability extends AppCompatActivity {
         sats2 = (EditText) findViewById(R.id.sats2);
         sate1 = (EditText) findViewById(R.id.sate1);
         sate2 = (EditText) findViewById(R.id.sate2);
+
+
+
         setTitle("Leaves Menu");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -610,88 +619,64 @@ public class WeekDaysAvailability extends AppCompatActivity {
                    toast.show();
                }
                if(su.isChecked()){
-                   if(sus1.getText().toString().equals("")){
-                       sus1.setError("Please Enter Start Time");
-                       sus1.requestFocus();
+                   if(sus1.getText().toString().equals("")||(sue1.getText().toString().equals(""))){
+                      Toast.makeText(getApplicationContext(),"Please Enter Sunday Timings",Toast.LENGTH_LONG).show();
                        return;
                    }
-                   if(sue1.getText().toString().equals("")){
-                       sue1.setError("Please Enter End Time");
-                       sue1.requestFocus();
-                       return;
+                   if(sus2.getText().toString().equals("")){
+
                    }
+
+                   WeekDaysRecordUpdate(doctorid,sus1.getText().toString(),sue1.getText().toString(),sus2.getText().toString(),sue2.getText().toString(),"Sun");
+
                }
                 if(mo.isChecked()){
-                    if(mos1.getText().toString().equals("")){
-                        mos1.setError("Please Enter Start Time");
-                        mos1.requestFocus();
+                    if(mos1.getText().toString().equals("")||(moe1.getText().toString().equals(""))){
+                        Toast.makeText(getApplicationContext(),"Please Enter Monday Timings",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(moe1.getText().toString().equals("")){
-                        moe1.setError("Please Enter End Time");
-                        moe1.requestFocus();
-                        return;
-                    }
+                    WeekDaysRecordUpdate(doctorid,mos1.getText().toString(),moe1.getText().toString(),mos2.getText().toString(),moe2.getText().toString(),"Mon");
+
                 }
                 if(tu.isChecked()){
-                    if(tus1.getText().toString().equals("")){
-                        tus1.setError("Please Enter Start Time");
-                        tus1.requestFocus();
+                    if(tus1.getText().toString().equals("")||(tue1.getText().toString().equals(""))){
+                        Toast.makeText(getApplicationContext(),"Please Enter Tuesday Timings",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(tue1.getText().toString().equals("")){
-                        tue1.setError("Please Enter End Time");
-                      tue1.requestFocus();
-                        return;
-                    }
+                    WeekDaysRecordUpdate(doctorid,tus1.getText().toString(),tue1.getText().toString(),tus2.getText().toString(),tue2.getText().toString(),"Tue");
+
                 }
                 if(we.isChecked()){
-                    if(wes1.getText().toString().equals("")){
-                        wes1.setError("Please Enter Start Time");
-                        wes1.requestFocus();
+                    if(wes1.getText().toString().equals("")||(wee1.getText().toString().equals(""))){
+                        Toast.makeText(getApplicationContext(),"Please Enter Wednesday Timings",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(wee1.getText().toString().equals("")){
-                        wee1.setError("Please Enter End Time");
-                        wee1.requestFocus();
-                        return;
-                    }
+                    WeekDaysRecordUpdate(doctorid,wes1.getText().toString(),wee1.getText().toString(),wes2.getText().toString(),wee2.getText().toString(),"Sun");
+
                 }
                 if(th.isChecked()){
-                    if(ths1.getText().toString().equals("")){
-                        ths1.setError("Please Enter Start Time");
-                        ths1.requestFocus();
+                    if(ths1.getText().toString().equals("")||(the1.getText().toString().equals(""))){
+                        Toast.makeText(getApplicationContext(),"Please Enter Thursday Timings",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(the1.getText().toString().equals("")){
-                        the1.setError("Please Enter End Time");
-                        the1.requestFocus();
-                        return;
-                    }
+                    WeekDaysRecordUpdate(doctorid,ths1.getText().toString(),the1.getText().toString(),ths2.getText().toString(),the2.getText().toString(),"Thr");
+
                 }
                 if(fr.isChecked()){
-                    if(frs1.getText().toString().equals("")){
-                        frs1.setError("Please Enter Start Time");
-                        frs1.requestFocus();
+                    if(frs1.getText().toString().equals("")||(fre1.getText().toString().equals(""))){
+                        Toast.makeText(getApplicationContext(),"Please Enter Friday Timings",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(fre1.getText().toString().equals("")){
-                        fre1.setError("Please Enter End Time");
-                        fre1.requestFocus();
-                        return;
-                    }
+                    WeekDaysRecordUpdate(doctorid,frs1.getText().toString(),fre1.getText().toString(),frs2.getText().toString(),fre2.getText().toString(),"Fri");
+
                 }
                 if(sat.isChecked()){
-                    if(sats1.getText().toString().equals("")){
-                        sats1.setError("Please Enter Start Time");
-                        sats1.requestFocus();
+                    if(sats1.getText().toString().equals("")||(sate1.getText().toString().equals(""))){
+                        Toast.makeText(getApplicationContext(),"Please Enter Saturday Timings",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    if(sate1.getText().toString().equals("")){
-                        sate1.setError("Please Enter End Time");
-                        sate1.requestFocus();
-                        return;
-                    }
+                    WeekDaysRecordUpdate(doctorid,sats1.getText().toString(),sate1.getText().toString(),sats2.getText().toString(),sate2.getText().toString(),"Sat");
+
                 }
             }
         });
@@ -748,134 +733,54 @@ public class WeekDaysAvailability extends AppCompatActivity {
         overridePendingTransition(R.anim.enter, R.anim.leave);
     }
 
-    private class AsyncLogin extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(WeekDaysAvailability.this);
-        HttpURLConnection conn;
-        URL url = null;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    public void WeekDaysRecordUpdate(final String doctorid,  final String starttime1, final String endtime1,final String starttime2,  final String endtime2,final String dayname) {
 
-            //this method will be running on UI thread
-            pdLoading.setMessage("Loading...Please Wait");
-            pdLoading.setCancelable(false);
-            pdLoading.show();
-            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
-            pdLoading.setIndeterminate(false);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-                // Enter URL address where your php file resides
-                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=registerDoctor");
-
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return "exception";
-            }
-            try {
-                // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-
-                // setDoInput and setDoOutput method depict handling of both send and receive
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-//                Bitmap bitmap = params[0];
-                // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("docname", params[0])
-                        .appendQueryParameter("gendertype", params[1])
-                        .appendQueryParameter("contactnumber", params[2])
-                        .appendQueryParameter("whatsappnumber", params[3])
-                        .appendQueryParameter("specialization", params[4])
-                        .appendQueryParameter("email", params[5])
-                        .appendQueryParameter("address", params[6])
-                        .appendQueryParameter("qualification", params[7])
-                        .appendQueryParameter("fees", params[8])
-                        .appendQueryParameter("experience", params[9])
-                        .appendQueryParameter("description", params[10])
-                        .appendQueryParameter("username", params[11])
-                        .appendQueryParameter("password", params[12])
-                        .appendQueryParameter("docimage", params[13]);
-
-
-
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                return "exception";
+        class StudentRecordUpdateClass extends AsyncTask<String, Void, String> {
+            private ProgressDialog dialog = new ProgressDialog(WeekDaysAvailability.this);
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                this.dialog.setMessage("Loading Please wait");
+                this.dialog.show();
+                this.dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+                this.dialog.setCancelable(false);
             }
 
-            try {
+            @Override
+            protected String doInBackground(String... params) {
 
-                int response_code = conn.getResponseCode();
 
-                // Check if successful connection made
-                if (response_code == HttpURLConnection.HTTP_OK) {
+                hashMap.put("docid", params[0]);
+                hashMap.put("start1", params[1]);
+                hashMap.put("end1", params[2]);
+                hashMap.put("start2", params[3]);
+                hashMap.put("end2", params[4]);
+                hashMap.put("dayname", params[5]);
+                // hashMap.put("docimage", params[14]);
 
-                    // Read data sent from server
-                    InputStream input = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                    StringBuilder result = new StringBuilder();
-                    String line;
 
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
+                Log.d("update111", "" + hashMap);
+                finalResult = httpParse.postRequest(hashMap, HttpURL);
 
-                    // Pass data to onPostExecute method
-                    return (result.toString());
+                return finalResult;
+            }
 
-                } else {
-
-                    return ("unsuccessful");
+            @Override
+            protected void onPostExecute(String httpResponseMsg) {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
                 }
+                Log.d("ssddsddddd", "" + httpResponseMsg);
+                super.onPostExecute(httpResponseMsg);
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "exception";
-            } finally {
-                conn.disconnect();
+
             }
 
 
         }
 
-        @Override
-        protected void onPostExecute(String result) {
+        StudentRecordUpdateClass studentRecordUpdateClass = new StudentRecordUpdateClass();
 
-
-
-            pdLoading.dismiss();
-            Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG);
-            View view = toast.getView();
-
-            view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
-
-            TextView text = view.findViewById(android.R.id.message);
-            text.setTextColor(Color.WHITE);
-
-            toast.show();
-
-        }
-
+        studentRecordUpdateClass.execute(doctorid,  starttime1, endtime1,starttime2, endtime2,dayname);
     }
 }

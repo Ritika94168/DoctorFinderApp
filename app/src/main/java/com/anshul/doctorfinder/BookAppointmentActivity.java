@@ -3,10 +3,13 @@ package com.anshul.doctorfinder;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -42,6 +45,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
     String nameSTR, addressSTR, contactSTR, whatsappSTR, feesSTR;
     String currentdate,currentday;
     TableRow tablerow;
+    String patiendSTR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
         final String doccontactSTR = intent.getStringExtra("doccontact");
         final String docwhatsappSTR = intent.getStringExtra("docwhatsapp");
         final String docfeesSTR = intent.getStringExtra("docfees");
+
+
         setTitle("Dr" + " " + doctornameSTR + " " + "Appointment");
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -150,6 +156,42 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 Date d = new Date();
                 String dayOfTheWeek = sdf.format(d);
                 currentday=dayOfTheWeek;
+
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(BookAppointmentActivity.this, R.style.PositiveButtonStyle11);
+                alert.setCancelable(false);
+                alert.setTitle("Alert!!");
+                alert.setMessage("Sure To Confirm Booking ??");
+
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Toast toast = Toast.makeText(getApplicationContext(), "Congrats!!Your Appointment is Confirmed", Toast.LENGTH_LONG);
+                        View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                        view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                        TextView text = view.findViewById(android.R.id.message);
+                        text.setTextColor(Color.BLACK);
+                        toast.show();
+
+
+
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert1 = alert.create();
+                alert1.setCanceledOnTouchOutside(false);
+                alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+                alert1.show();
 
 
 

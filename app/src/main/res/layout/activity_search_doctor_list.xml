@@ -122,7 +122,8 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="5sp"
             android:layout_marginRight="5sp"
-            android:dividerHeight="3sp"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="7sp"
 
             />
     </ScrollView>

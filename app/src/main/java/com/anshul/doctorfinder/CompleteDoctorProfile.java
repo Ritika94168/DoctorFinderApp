@@ -144,7 +144,6 @@ public class CompleteDoctorProfile extends AppCompatActivity {
         mobilenoSTR=mobileno.getText().toString();
         whatsappnumberSTR=whatsappnumber.getText().toString();
         emailSTR=email.getText().toString();
-
         feesSTR=fees.getText().toString();
         descriptionSTR=description.getText().toString();
 
@@ -180,6 +179,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                     intent1.putExtra("doccontact", mobilenoSTR);
                     intent1.putExtra("docwhatsapp", whatsappnumberSTR);
                     intent1.putExtra("docfees", feesSTR);
+                    intent1.putExtra("pid", ps4);
                     startActivity(intent1);
                     overridePendingTransition(R.anim.right_in, R.anim.left_out);
                 }

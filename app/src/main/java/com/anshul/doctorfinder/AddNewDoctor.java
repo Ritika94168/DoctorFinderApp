@@ -31,6 +31,7 @@ import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.text.style.ForegroundColorSpan;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -662,6 +663,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
             try {
 
                 int response_code = conn.getResponseCode();
+                Log.d("ffgdhsjsss",""+response_code);
 
                 // Check if successful connection made
                 if (response_code == HttpURLConnection.HTTP_OK) {

@@ -20,38 +20,51 @@ import android.widget.ListView;
 public class PatientMainMenu extends AppCompatActivity {
     LinearLayout searchdoctor, editdetails, smsmodule, shareapp, patientbookings, logout;
     SharedPreferences sharedpreferences;
-    String pid;
+
     public static final String mypreference = "mypref";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_patient_main_menu);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        final Intent intent=getIntent();
-        pid=intent.getStringExtra("pid");
+        final Intent intent = getIntent();
+        final String pid = intent.getStringExtra("pid");
+
         searchdoctor = (LinearLayout) findViewById(R.id.searchdoctor);
         editdetails = (LinearLayout) findViewById(R.id.editDetails);
         smsmodule = (LinearLayout) findViewById(R.id.smsmodule);
-       shareapp = (LinearLayout) findViewById(R.id.shareapp);
+        shareapp = (LinearLayout) findViewById(R.id.shareapp);
         patientbookings = (LinearLayout) findViewById(R.id.mybookings);
         logout = (LinearLayout) findViewById(R.id.logout);
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        patientbookings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(PatientMainMenu.this, PatientBookings.class);
+                intent1.putExtra("pid", pid);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            }
+        });
         editdetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1=new Intent(PatientMainMenu.this,PatientPersonalDetails.class);
-                intent1.putExtra("pid",pid);
+                Intent intent1 = new Intent(PatientMainMenu.this, PatientPersonalDetails.class);
+                intent1.putExtra("pid", pid);
                 startActivity(intent1);
-                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
         searchdoctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(PatientMainMenu.this,MainActivity.class);
+                Intent intent = new Intent(PatientMainMenu.this, MainActivity.class);
                 startActivity(intent);
-                overridePendingTransition(R.anim.right_in,R.anim.left_out);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
             }
         });
         smsmodule.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +126,7 @@ public class PatientMainMenu extends AppCompatActivity {
                         editor.remove("Password1");
                         editor.remove("pid");
                         editor.apply();
-                        Intent intent1=new Intent(PatientMainMenu.this,FirstActivity.class);
+                        Intent intent1 = new Intent(PatientMainMenu.this, FirstActivity.class);
                         startActivity(intent1);
                         overridePendingTransition(R.anim.enter, R.anim.leave);
                     }
@@ -134,6 +147,7 @@ public class PatientMainMenu extends AppCompatActivity {
         });
 
     }
+
     @Override
     public void onBackPressed() {
         AlertDialog.Builder alert = new AlertDialog.Builder(PatientMainMenu.this, R.style.PositiveButtonStyle11);
@@ -152,7 +166,7 @@ public class PatientMainMenu extends AppCompatActivity {
                 editor.remove("Password1");
                 editor.remove("pid");
                 editor.apply();
-                Intent intent1=new Intent(PatientMainMenu.this,FirstActivity.class);
+                Intent intent1 = new Intent(PatientMainMenu.this, FirstActivity.class);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.enter, R.anim.leave);
             }

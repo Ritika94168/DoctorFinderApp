@@ -1,24 +1,37 @@
 package com.anshul.doctorfinder;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -26,26 +39,46 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class BookAppointmentActivity extends AppCompatActivity {
+public class BookAppointmentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     TextInputEditText bookappintment;
     TextInputEditText bookappointmenttime;
     public static final int DATE_PICKER_ID = 1;
     int day, month, year;
-    String dobSTR,timeSTR;
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
+    String dobSTR, timeSTR;
     Button confirmBooking;
     static final int TIME_DIALOG_ID = 1111;
+    private ArrayList<String> availabletimedata;
     private int hour;
     private int minute;
+    Spinner doctorSpinner;
+    ArrayAdapter<String> langAdapter;
     TextView name, doctoraddress, contact, whatsapp, fees;
     String nameSTR, addressSTR, contactSTR, whatsappSTR, feesSTR;
-    String currentdate,currentday;
+    String currentdate, currentday;
     TableRow tablerow;
-    String patiendSTR;
+    ArrayList<String> doctor_type = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +87,10 @@ public class BookAppointmentActivity extends AppCompatActivity {
         bookappintment = (TextInputEditText) findViewById(R.id.appointmentDate);
         bookappointmenttime = (TextInputEditText) findViewById(R.id.appointmentTime);
         name = (TextView) findViewById(R.id.docname);
-        tablerow=(TableRow)findViewById(R.id.availabletimetablerow);
+        tablerow = (TableRow) findViewById(R.id.availabletimetablerow);
         doctoraddress = (TextView) findViewById(R.id.address);
         contact = (TextView) findViewById(R.id.contact);
+        doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
         whatsapp = (TextView) findViewById(R.id.whatsapp);
         fees = (TextView) findViewById(R.id.fees);
         confirmBooking = (Button) findViewById(R.id.confirmBooking);
@@ -88,6 +122,11 @@ public class BookAppointmentActivity extends AppCompatActivity {
         whatsapp.setText(whatsappSTR);
         fees.setText(feesSTR);
 
+        doctorSpinner.setOnItemSelectedListener(this);
+        langAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text, doctor_type);
+        langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+        doctorSpinner.setAdapter(langAdapter);
+
         final Calendar c = Calendar.getInstance();
         // Current Hour
         hour = c.get(Calendar.HOUR_OF_DAY);
@@ -95,7 +134,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
         minute = c.get(Calendar.MINUTE);
 
         // set current time into output textview
-      //  updateTime(hour, minute);
+        //  updateTime(hour, minute);
 
 
         bookappintment.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +154,7 @@ public class BookAppointmentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dobSTR = bookappintment.getText().toString();
-                timeSTR=bookappointmenttime.getText().toString();
+                timeSTR = bookappointmenttime.getText().toString();
 
                 if (dobSTR.equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please Select Appointment Date", Toast.LENGTH_LONG);
@@ -130,32 +169,23 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
                     toast.show();
                 }
-//                if (timeSTR.equals("")) {
-//                    Toast toast = Toast.makeText(getApplicationContext(), "Please Select Appointment Time", Toast.LENGTH_LONG);
-//                    View view = toast.getView();
-//
-////Gets the actual oval background of the Toast then sets the colour filter
-//                    view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
-//
-////Gets the TextView from the Toast so it can be editted
-//                    TextView text = view.findViewById(android.R.id.message);
-//                    text.setTextColor(Color.BLACK);
-//
-//                    toast.show();
-//                }
+
 
                 // get current date in android
                 Date c = Calendar.getInstance().getTime();
                 SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                 String formattedDate = df.format(c);
-                currentdate=formattedDate;
+                currentdate = formattedDate;
 
 
                 //get currentDay in android
                 SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
                 Date d = new Date();
                 String dayOfTheWeek = sdf.format(d);
-                currentday=dayOfTheWeek;
+                currentday = dayOfTheWeek;
+
+                //  new AsyncLogin().execute(currentdate);
+                // new AsyncLogin1().execute(currentday);
 
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(BookAppointmentActivity.this, R.style.PositiveButtonStyle11);
@@ -178,7 +208,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
                         toast.show();
 
 
-
                     }
                 });
 
@@ -192,7 +221,6 @@ public class BookAppointmentActivity extends AppCompatActivity {
                 alert1.setCanceledOnTouchOutside(false);
                 alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                 alert1.show();
-
 
 
             }
@@ -300,7 +328,8 @@ public class BookAppointmentActivity extends AppCompatActivity {
 
         }
         return null;
-}
+    }
+
     private DatePickerDialog.OnDateSetListener pickerListener = new DatePickerDialog.OnDateSetListener() {
 
         // when dialog box is closed, below method will be called.
@@ -308,17 +337,241 @@ public class BookAppointmentActivity extends AppCompatActivity {
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
 
-            year  = selectedYear;
+            year = selectedYear;
             month = selectedMonth;
-            day   = selectedDay;
+            day = selectedDay;
 
             bookappintment.setText(new StringBuilder().append(day)
                     .append("-").append(month + 1).append("-").append(year)
                     .append(" "));
-          //  bookappointmenttime.setVisibility(View.VISIBLE);
+            //  bookappointmenttime.setVisibility(View.VISIBLE);
             tablerow.setVisibility(View.VISIBLE);
 
 
         }
     };
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    private class AsyncLogin extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(BookAppointmentActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+            pdLoading.setMessage("Loading Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchDateDetails");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("currentdate", params[0]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcds", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            pdLoading.dismiss();
+
+
+        }
+    }
+
+    private class AsyncLogin1 extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(BookAppointmentActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+            pdLoading.setMessage("Loading Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchTimeDetails");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("currenttime", params[0]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcds", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            pdLoading.dismiss();
+
+
+        }
+    }
 }

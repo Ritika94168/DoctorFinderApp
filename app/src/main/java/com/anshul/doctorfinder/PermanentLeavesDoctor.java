@@ -1,18 +1,27 @@
 package com.anshul.doctorfinder;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,6 +41,20 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 
 public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnClickListener {
@@ -39,11 +62,15 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
     public static final int DATE_PICKER_ID = 1;
     DatePickerDialog picker;
     String dobSTR;
-     EditText finalEdit;
+
+    EditText finalEdit;
     int day, month, year;
-     LinearLayout rowView;
+    LinearLayout rowView;
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
     LinearLayout parentLinearLayout;
-   EditText leavedate;
+    EditText leavedate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +87,14 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+        new AsyncLogin1().execute(doctorid);
 
     }
 
     public void addRow(View view) {
         addDynamicMOC("");
     }
+
     public void addDynamicMOC(String leavedate) {
 
         final LinearLayout linearLayoutForm = (LinearLayout) findViewById(R.id.calibration);
@@ -90,7 +118,7 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
             @Override
             public void onClick(View v) {
                 if (linearLayoutForm.getChildCount() > 1) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(PermanentLeavesDoctor.this,R.style.PositiveButtonStyle11);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(PermanentLeavesDoctor.this, R.style.PositiveButtonStyle11);
                     builder.setMessage("Do You Want To Delete??")
                             .setCancelable(false)
                             .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -164,6 +192,17 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
                 overridePendingTransition(R.anim.enter, R.anim.leave);
                 return true;
             case R.id.personalleavesmenu:
+                final LinearLayout linearLayoutForm = (LinearLayout) findViewById(R.id.calibration);
+                EditText edit;
+                for (int i = 0; i < linearLayoutForm.getChildCount(); i++) {
+                    LinearLayout innerLayout = (LinearLayout) linearLayoutForm.getChildAt(i);
+                    edit = (EditText) innerLayout.findViewById(R.id.appointmentTime);
+                    finalEdit = edit;
+                    if (!edit.getText().toString().equals("")) {
+                        new AsyncLogin().execute(edit.getText().toString(), doctorid);
+                    }
+
+                }
 
                 return true;
         }
@@ -180,17 +219,265 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         final Calendar cldr = Calendar.getInstance();
-                    int day = cldr.get(Calendar.DAY_OF_MONTH);
-                    int month = cldr.get(Calendar.MONTH);
-                    int year = cldr.get(Calendar.YEAR);
-                    // date picker dialog
-                    picker = new DatePickerDialog(PermanentLeavesDoctor.this,
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                    finalEdit.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                                }
-                            }, year, month, day);
-                    picker.show();
+        int day = cldr.get(Calendar.DAY_OF_MONTH);
+        int month = cldr.get(Calendar.MONTH);
+        int year = cldr.get(Calendar.YEAR);
+        // date picker dialog
+        picker = new DatePickerDialog(PermanentLeavesDoctor.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                        finalEdit.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                    }
+                }, year, month, day);
+        picker.show();
+    }
+
+
+    private class AsyncLogin extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(PermanentLeavesDoctor.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+            pdLoading.setMessage("Loading Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=addpermanentleaves");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("leaves", params[0])
+                        .appendQueryParameter("doctorid", params[1]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcds", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d("ssdgggfdddsd", result);
+
+            pdLoading.dismiss();
+
+
+        }
+    }
+
+
+    private class AsyncLogin1 extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(PermanentLeavesDoctor.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+            pdLoading.setMessage("Loading Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchpermanentleaves");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("doctorid", params[0]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcds", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            //  Log.d("ssdgggfdddsd", result);
+
+            pdLoading.dismiss();
+            if (result != null) {
+                //   Toast.makeText(getApplicationContext(), "Result:-" + result, Toast.LENGTH_LONG).show();
+                JSONArray jsonArray;
+
+                try {
+                    jsonArray = new JSONArray(result);
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String fixdate = jsonObject.getString("fixdate");
+
+                        final LinearLayout linearLayoutForm = (LinearLayout) findViewById(R.id.calibration);
+                        EditText edit;
+
+                        LinearLayout innerLayout = (LinearLayout) linearLayoutForm.getChildAt(i);
+                        edit = (EditText) innerLayout.findViewById(R.id.appointmentTime);
+                        edit.setText(fixdate);
+
+                    }
+
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+            }
+        }
     }
 }
+

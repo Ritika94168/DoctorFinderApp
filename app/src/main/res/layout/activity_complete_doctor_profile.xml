@@ -80,10 +80,10 @@
                         android:focusable="false"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"
-                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:textAlignment="center"
-                        android:textColor="#8B4513" />
+                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </TableRow>
@@ -111,11 +111,11 @@
                         android:layout_height="wrap_content"
                         android:focusable="false"
                         android:textSize="15dp"
-                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"
                         android:textAlignment="center"
-                        android:textColor="#8B4513" />
+                         />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </TableRow>
@@ -142,12 +142,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"
                         android:textAlignment="center"
-                        android:textColor="#8B4513" />
+                       />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -177,10 +177,10 @@
                         android:focusable="false"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"
-                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:textAlignment="center"
-                        android:textColor="#8B4513" />
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -210,10 +210,10 @@
                         android:focusable="false"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"
-                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:textAlignment="center"
-                        android:textColor="#8B4513" />
+               />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </TableRow>
@@ -241,11 +241,11 @@
                         android:layout_height="wrap_content"
                         android:focusable="false"
                         android:imeOptions="flagNoExtractUi"
-                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:inputType="text"
                         android:textAlignment="center"
-                        android:textColor="#8B4513" />
+                      />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </TableRow>
@@ -274,10 +274,10 @@
                         android:focusable="false"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="text"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="15dp"
                         android:textAlignment="center"
-                        android:textStyle="bold"
-                        android:textColor="#8B4513" />
+     />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </TableRow>
@@ -307,10 +307,10 @@
                         android:focusable="false"
                         android:textSize="15dp"
                         android:imeOptions="flagNoExtractUi"
-                        android:textStyle="bold"
+                         android:textColor="@color/colorPrimary"
                         android:inputType="text"
                         android:textAlignment="center"
-                        android:textColor="#8B4513" />
+                     />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -324,7 +324,7 @@
     <Button
         android:id="@+id/book_now"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
         android:layout_marginTop="2dp"

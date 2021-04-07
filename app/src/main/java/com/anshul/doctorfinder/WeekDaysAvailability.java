@@ -651,7 +651,7 @@ public class WeekDaysAvailability extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Please Enter Wednesday Timings",Toast.LENGTH_LONG).show();
                         return;
                     }
-                    WeekDaysRecordUpdate(doctorid,wes1.getText().toString(),wee1.getText().toString(),wes2.getText().toString(),wee2.getText().toString(),"Sun");
+                    WeekDaysRecordUpdate(doctorid,wes1.getText().toString(),wee1.getText().toString(),wes2.getText().toString(),wee2.getText().toString(),"Wed");
 
                 }
                 if(th.isChecked()){
@@ -772,7 +772,17 @@ public class WeekDaysAvailability extends AppCompatActivity {
                 }
                 Log.d("ssddsddddd", "" + httpResponseMsg);
                 super.onPostExecute(httpResponseMsg);
+                Toast toast = Toast.makeText(getApplicationContext(), httpResponseMsg, Toast.LENGTH_LONG);
+                View view = toast.getView();
 
+//Gets the actual oval background of the Toast then sets the colour filter
+                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                TextView text = view.findViewById(android.R.id.message);
+                text.setTextColor(Color.WHITE);
+
+                toast.show();
 
             }
 

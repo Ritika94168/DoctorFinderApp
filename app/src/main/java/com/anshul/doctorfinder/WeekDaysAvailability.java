@@ -1,5 +1,6 @@
 package com.anshul.doctorfinder;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -29,6 +31,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -65,7 +71,7 @@ public class WeekDaysAvailability extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Intent intent=getIntent();
         doctorid=intent.getStringExtra("doctorid");
-
+        new AsyncLogin1().execute(doctorid);
 
         Toast toast = Toast.makeText(getApplicationContext(), "S1:-Starttime1 ,E1:-Endtime1 ,S2:-Startime2 ,E2:-Endtime2", Toast.LENGTH_LONG);
         View view = toast.getView();
@@ -605,31 +611,31 @@ public class WeekDaysAvailability extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-               if(!su.isChecked()&& !mo.isChecked()&&!tu.isChecked()&&!we.isChecked()&&!th.isChecked()&&!fr.isChecked()&&!sat.isChecked()){
-                   Toast toast = Toast.makeText(getApplicationContext(), "Please Save Your Availability Days", Toast.LENGTH_LONG);
-                   View view = toast.getView();
+                if(!su.isChecked()&& !mo.isChecked()&&!tu.isChecked()&&!we.isChecked()&&!th.isChecked()&&!fr.isChecked()&&!sat.isChecked()){
+                    Toast toast = Toast.makeText(getApplicationContext(), "Please Save Your Availability Days", Toast.LENGTH_LONG);
+                    View view = toast.getView();
 
 //Gets the actual oval background of the Toast then sets the colour filter
-                   view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+                    view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
 
 //Gets the TextView from the Toast so it can be editted
-                   TextView text = view.findViewById(android.R.id.message);
-                   text.setTextColor(Color.WHITE);
+                    TextView text = view.findViewById(android.R.id.message);
+                    text.setTextColor(Color.WHITE);
 
-                   toast.show();
-               }
-               if(su.isChecked()){
-                   if(sus1.getText().toString().equals("")||(sue1.getText().toString().equals(""))){
-                      Toast.makeText(getApplicationContext(),"Please Enter Sunday Timings",Toast.LENGTH_LONG).show();
-                       return;
-                   }
-                   if(sus2.getText().toString().equals("")){
+                    toast.show();
+                }
+                if(su.isChecked()){
+                    if(sus1.getText().toString().equals("")||(sue1.getText().toString().equals(""))){
+                        Toast.makeText(getApplicationContext(),"Please Enter Sunday Timings",Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    if(sus2.getText().toString().equals("")){
 
-                   }
+                    }
 
-                   WeekDaysRecordUpdate(doctorid,sus1.getText().toString(),sue1.getText().toString(),sus2.getText().toString(),sue2.getText().toString(),"Sun");
+                    WeekDaysRecordUpdate(doctorid,sus1.getText().toString(),sue1.getText().toString(),sus2.getText().toString(),sue2.getText().toString(),"Sun");
 
-               }
+                }
                 if(mo.isChecked()){
                     if(mos1.getText().toString().equals("")||(moe1.getText().toString().equals(""))){
                         Toast.makeText(getApplicationContext(),"Please Enter Monday Timings",Toast.LENGTH_LONG).show();
@@ -678,6 +684,7 @@ public class WeekDaysAvailability extends AppCompatActivity {
                     WeekDaysRecordUpdate(doctorid,sats1.getText().toString(),sate1.getText().toString(),sats2.getText().toString(),sate2.getText().toString(),"Sat");
 
                 }
+
             }
         });
 
@@ -783,7 +790,8 @@ public class WeekDaysAvailability extends AppCompatActivity {
                 text.setTextColor(Color.WHITE);
 
                 toast.show();
-
+                finish();
+                overridePendingTransition(R.anim.enter,R.anim.leave);
             }
 
 
@@ -792,5 +800,195 @@ public class WeekDaysAvailability extends AppCompatActivity {
         StudentRecordUpdateClass studentRecordUpdateClass = new StudentRecordUpdateClass();
 
         studentRecordUpdateClass.execute(doctorid,  starttime1, endtime1,starttime2, endtime2,dayname);
+    }
+    private class AsyncLogin1 extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(WeekDaysAvailability.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+            pdLoading.setMessage("Loading Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchweekdays");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("doctorid", params[0]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcds", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            //  Log.d("ssdgggfdddsd", result);
+
+            pdLoading.dismiss();
+            if (result != null) {
+                Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG);
+                View view = toast.getView();
+
+//Gets the actual oval background of the Toast then sets the colour filter
+                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                TextView text = view.findViewById(android.R.id.message);
+                text.setTextColor(Color.WHITE);
+
+                toast.show();
+                JSONArray jsonArray;
+
+                try {
+                    jsonArray = new JSONArray(result);
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+//                        Toast.makeText(getApplicationContext(),jsonArray.length()+"",Toast.LENGTH_LONG).show();
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String weekdays = jsonObject.getString("weekdays");
+                        String status = jsonObject.getString("status");
+//                        Toast.makeText(getApplicationContext(),weekdays+"",Toast.LENGTH_LONG).show();
+//                        Log.d("weekdayshhhhhhhhhhhhh",weekdays);
+                        if(weekdays.equals("Sun") && status.equals("Active")){
+                            su.setChecked(true);
+                            sus1.setText(jsonObject.getString("start_time_1"));
+                            sue1.setText(jsonObject.getString("end_time_1"));
+                            sus2.setText(jsonObject.getString("start_time_2"));
+                            sue2.setText(jsonObject.getString("end_time_2"));
+                        }
+                        if(weekdays.equals("Mon")&& status.equals("Active")){
+                            mo.setChecked(true);
+                            mos1.setText(jsonObject.getString("start_time_1"));
+                            moe1.setText(jsonObject.getString("end_time_1"));
+                            mos2.setText(jsonObject.getString("start_time_2"));
+                            moe2.setText(jsonObject.getString("end_time_2"));
+                        }
+                        if(weekdays.equals("Tue")&& status.equals("Active")){
+                            tu.setChecked(true);
+                            tus1.setText(jsonObject.getString("start_time_1"));
+                            tue1.setText(jsonObject.getString("end_time_1"));
+                            tus2.setText(jsonObject.getString("start_time_2"));
+                            tue2.setText(jsonObject.getString("end_time_2"));
+                        }
+                        if(weekdays.equals("Wed")&& status.equals("Active")){
+                            we.setChecked(true);
+                            wes1.setText(jsonObject.getString("start_time_1"));
+                            wee1.setText(jsonObject.getString("end_time_1"));
+                            wes2.setText(jsonObject.getString("start_time_2"));
+                            wee2.setText(jsonObject.getString("end_time_2"));
+                        }
+                        if(weekdays.equals("Thu")&& status.equals("Active")){
+                            th.setChecked(true);
+                            ths1.setText(jsonObject.getString("start_time_1"));
+                            the1.setText(jsonObject.getString("end_time_1"));
+                            ths2.setText(jsonObject.getString("start_time_2"));
+                            the2.setText(jsonObject.getString("end_time_2"));
+                        }
+                        if(weekdays.equals("Fri")&& status.equals("Active")){
+                            fr.setChecked(true);
+                            frs1.setText(jsonObject.getString("start_time_1"));
+                            fre1.setText(jsonObject.getString("end_time_1"));
+                            frs2.setText(jsonObject.getString("start_time_2"));
+                            fre2.setText(jsonObject.getString("end_time_2"));
+                        }
+                        if(weekdays.equals("Sat")&& status.equals("Active")){
+                            sat.setChecked(true);
+                            sats1.setText(jsonObject.getString("start_time_1"));
+                            sate1.setText(jsonObject.getString("end_time_1"));
+                            sats2.setText(jsonObject.getString("start_time_2"));
+                            sate2.setText(jsonObject.getString("end_time_2"));
+                        }
+
+                    }
+
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+            }
+        }
     }
 }

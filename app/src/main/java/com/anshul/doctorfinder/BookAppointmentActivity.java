@@ -23,9 +23,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -77,7 +79,9 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
     TextView name, doctoraddress, contact, whatsapp, fees;
     String nameSTR, addressSTR, contactSTR, whatsappSTR, feesSTR;
     String currentdate, currentday;
+    Button buttonOk;
     TableRow tablerow;
+
     ArrayList<String> doctor_type = new ArrayList<String>();
 
     @Override
@@ -91,10 +95,13 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
         doctoraddress = (TextView) findViewById(R.id.address);
         contact = (TextView) findViewById(R.id.contact);
         doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
+        buttonOk=(Button)findViewById(R.id.buttonOk);
         whatsapp = (TextView) findViewById(R.id.whatsapp);
         fees = (TextView) findViewById(R.id.fees);
         confirmBooking = (Button) findViewById(R.id.confirmBooking);
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
+        final String doctoridSTR = intent.getStringExtra("doctorid");
+        final String patientidSTR = intent.getStringExtra("pid");
         final String doctornameSTR = intent.getStringExtra("docnamenext");
         final String docaddressSTR = intent.getStringExtra("docaddrress");
         final String doccontactSTR = intent.getStringExtra("doccontact");
@@ -168,6 +175,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                     text.setTextColor(Color.BLACK);
 
                     toast.show();
+                    return;
                 }
 
 
@@ -184,7 +192,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                 String dayOfTheWeek = sdf.format(d);
                 currentday = dayOfTheWeek;
 
-                //  new AsyncLogin().execute(currentdate);
+                 new AsyncLogin().execute(dobSTR);
                 // new AsyncLogin1().execute(currentday);
 
 
@@ -207,6 +215,37 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                         text.setTextColor(Color.BLACK);
                         toast.show();
 
+                        LayoutInflater factory = LayoutInflater.from(BookAppointmentActivity.this);
+
+//text_entry is an Layout XML file containing two text field to display in alert dialog
+                        View textEntryView = factory.inflate(R.layout.confirm_booking_layout, null);
+                        TextView doctname=textEntryView.findViewById(R.id.doctname);
+                        TextView appdate=textEntryView.findViewById(R.id.appointmentdate);
+                        TextView apptime=textEntryView.findViewById(R.id.appointmenttime);
+                        doctname.setText(nameSTR);
+                        appdate.setText(dobSTR);
+                        apptime.setText("2.00-4.00");
+
+                        final AlertDialog.Builder alert = new AlertDialog.Builder(BookAppointmentActivity.this, R.style.PositiveButtonStyle11);
+                        alert.setView(textEntryView).setPositiveButton("Ok",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int whichButton) {
+
+                                   Intent intent1=new Intent(BookAppointmentActivity.this,PatientMainMenu.class);
+                                   intent1.putExtra("doctorid",doctoridSTR);
+                                   intent1.putExtra("pid",patientidSTR);
+                                   startActivity(intent1);
+                                   overridePendingTransition(R.anim.enter,R.anim.leave);
+
+
+
+                                    }
+                                });
+                        AlertDialog alertDialog = alert.create();
+                        alertDialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.show();
 
                     }
                 });
@@ -404,7 +443,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("currentdate", params[0]);
+                        .appendQueryParameter("appointmentdate", params[0]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -468,110 +507,5 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
         }
     }
 
-    private class AsyncLogin1 extends AsyncTask<String, String, String> {
-        ProgressDialog pdLoading = new ProgressDialog(BookAppointmentActivity.this);
-        HttpURLConnection conn;
-        URL url = null;
 
-
-        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-
-            pdLoading.setMessage("Loading Please Wait");
-            pdLoading.setCancelable(false);
-            pdLoading.show();
-            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
-            pdLoading.setIndeterminate(false);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-
-//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
-                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchTimeDetails");
-            } catch (MalformedURLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return "exception";
-            }
-            try {
-                // Setup HttpURLConnection class to send and receive data from php and mysql
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(READ_TIMEOUT);
-                conn.setConnectTimeout(CONNECTION_TIMEOUT);
-                conn.setRequestMethod("POST");
-
-                // setDoInput and setDoOutput method depict handling of both send and receive
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-
-                // Append parameters to URL
-                Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("currenttime", params[0]);
-
-                String query = builder.build().getEncodedQuery();
-
-                // Open connection for sending data
-                OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(
-                        new OutputStreamWriter(os, "UTF-8"));
-                writer.write(query);
-                writer.flush();
-                writer.close();
-                os.close();
-                conn.connect();
-
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-                return "exception";
-            }
-
-
-            try {
-
-                int response_code = conn.getResponseCode();
-
-                // Check if successful connection made
-                Log.d("dfcds", "Response Code:-" + response_code);
-                if (response_code == HttpURLConnection.HTTP_OK) {
-                    // Read data sent from server
-                    InputStream input = conn.getInputStream();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                    StringBuilder result = new StringBuilder();
-                    String line;
-
-                    while ((line = reader.readLine()) != null) {
-                        result.append(line);
-                    }
-                    return (result.toString());
-
-                } else {
-
-                    return ("unsuccessful");
-                }
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "exception";
-            } finally {
-                conn.disconnect();
-            }
-
-
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-
-            pdLoading.dismiss();
-
-
-        }
-    }
 }

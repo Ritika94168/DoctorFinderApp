@@ -57,7 +57,7 @@ public class PatientLoginScreen extends AppCompatActivity {
     String LoginPreferencepatient;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "mypref";
-    String docnameSTR,addressSTR,mobilenoSTR,whatsappnumberSTR,feesSTR,patiendidSTR;
+    String docnameSTR,addressSTR,mobilenoSTR,whatsappnumberSTR,feesSTR,patiendidSTR,doctoridSTR;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +75,7 @@ public class PatientLoginScreen extends AppCompatActivity {
         l2 = (LinearLayout) findViewById(R.id.l2);
 
         Intent intent=getIntent();
+        doctoridSTR=intent.getStringExtra("doctorid");
         docnameSTR=intent.getStringExtra("docnamenext");
         addressSTR=intent.getStringExtra("docaddrress");
         mobilenoSTR=intent.getStringExtra("doccontact");
@@ -272,7 +273,9 @@ public class PatientLoginScreen extends AppCompatActivity {
                 toast.show();
                 Intent intent=new Intent(PatientLoginScreen.this,BookAppointmentActivity.class);
                 intent.putExtra("docnamenext", docnameSTR);
+                intent.putExtra("doctorid", doctoridSTR);
                 intent.putExtra("docaddrress", addressSTR);
+                intent.putExtra("pid", result);
                 intent.putExtra("doccontact", mobilenoSTR);
                 intent.putExtra("docwhatsapp", whatsappnumberSTR);
                 intent.putExtra("docfees", feesSTR);

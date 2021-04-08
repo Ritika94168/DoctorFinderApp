@@ -177,6 +177,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                     intent1.putExtra("docnamenext", docnameSTR);
                     intent1.putExtra("docaddrress", addressSTR);
                     intent1.putExtra("doccontact", mobilenoSTR);
+                    intent1.putExtra("doctorid", doctorid);
                     intent1.putExtra("docwhatsapp", whatsappnumberSTR);
                     intent1.putExtra("docfees", feesSTR);
                     intent1.putExtra("pid", ps4);
@@ -187,6 +188,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
                     Intent intent = new Intent(CompleteDoctorProfile.this, PatientLoginScreen.class);
                    // intent.putExtra("pid", ps4);
                     intent.putExtra("docnamenext", docnameSTR);
+                    intent.putExtra("doctorid", doctorid);
                     intent.putExtra("docaddrress", addressSTR);
                     intent.putExtra("doccontact", mobilenoSTR);
                     intent.putExtra("docwhatsapp", whatsappnumberSTR);

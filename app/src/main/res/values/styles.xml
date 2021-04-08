@@ -103,6 +103,9 @@
         <item name="android:textStyle">bold</item>
         <item name="android:windowCloseOnTouchOutside">false</item>
     </style>
+    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowBackground">@drawable/popup_background</item>
+    </style>
     <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
     </style>
     <style name="MineCustomTabText" parent="TextAppearance.Design.Tab">

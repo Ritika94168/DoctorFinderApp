@@ -57,13 +57,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 
-public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnClickListener {
+public class PermanentLeavesDoctor extends AppCompatActivity{
     String doctorid;
     public static final int DATE_PICKER_ID = 1;
     DatePickerDialog picker;
     String dobSTR;
 
-    EditText finalEdit;
+
     int day, month, year;
     LinearLayout rowView;
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -92,10 +92,10 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
     }
 
     public void addRow(View view) {
-        addDynamicMOC("");
+        addDynamicMOC("",0);
     }
 
-    public void addDynamicMOC(String leavedate) {
+    public void addDynamicMOC(String leavedate,int check) {
 
         final LinearLayout linearLayoutForm = (LinearLayout) findViewById(R.id.calibration);
         EditText edit;
@@ -103,16 +103,38 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
         for (int i = 0; i < linearLayoutForm.getChildCount(); i++) {
             LinearLayout innerLayout = (LinearLayout) linearLayoutForm.getChildAt(i);
             edit = (EditText) innerLayout.findViewById(R.id.appointmentTime);
-            finalEdit = edit;
-            edit.setOnClickListener(this);
+            edit.requestFocus();
+
+
+
+
 
         }
         final LinearLayout newView = (LinearLayout) PermanentLeavesDoctor.this
                 .getLayoutInflater().inflate(R.layout.add_new_permanent_leaves, null);
-        EditText digital = (EditText) newView.findViewById(R.id.appointmentTime);
+        final EditText digital = (EditText) newView.findViewById(R.id.appointmentTime);
         digital.setText(leavedate);
         digital.requestFocus();
-
+        if(check==0) {
+            digital.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final Calendar cldr = Calendar.getInstance();
+                    int day = cldr.get(Calendar.DAY_OF_MONTH);
+                    int month = cldr.get(Calendar.MONTH);
+                    int year = cldr.get(Calendar.YEAR);
+                    // date picker dialog
+                    picker = new DatePickerDialog(PermanentLeavesDoctor.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                                    digital.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+                                }
+                            }, year, month, day);
+                    picker.show();
+                }
+            });
+        }
         ImageView btnRemove = (ImageView) newView.findViewById(R.id.remove);
         btnRemove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,6 +167,7 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
                 }
             }
         });
+
         linearLayoutForm.addView(newView);
 
     }
@@ -192,17 +215,18 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
                 overridePendingTransition(R.anim.enter, R.anim.leave);
                 return true;
             case R.id.personalleavesmenu:
+                new AsyncLoginDelete().execute("", doctorid);
                 final LinearLayout linearLayoutForm = (LinearLayout) findViewById(R.id.calibration);
                 EditText edit;
                 for (int i = 0; i < linearLayoutForm.getChildCount(); i++) {
                     LinearLayout innerLayout = (LinearLayout) linearLayoutForm.getChildAt(i);
                     edit = (EditText) innerLayout.findViewById(R.id.appointmentTime);
-                    finalEdit = edit;
                     if (!edit.getText().toString().equals("")) {
                         new AsyncLogin().execute(edit.getText().toString(), doctorid);
                     }
 
                 }
+
 
                 return true;
         }
@@ -216,22 +240,7 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
         overridePendingTransition(R.anim.enter, R.anim.leave);
     }
 
-    @Override
-    public void onClick(View v) {
-        final Calendar cldr = Calendar.getInstance();
-        int day = cldr.get(Calendar.DAY_OF_MONTH);
-        int month = cldr.get(Calendar.MONTH);
-        int year = cldr.get(Calendar.YEAR);
-        // date picker dialog
-        picker = new DatePickerDialog(PermanentLeavesDoctor.this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        finalEdit.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
-                    }
-                }, year, month, day);
-        picker.show();
-    }
+
 
 
     private class AsyncLogin extends AsyncTask<String, String, String> {
@@ -338,12 +347,120 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
             Log.d("ssdgggfdddsd", result);
 
             pdLoading.dismiss();
-
+            finish();
+            overridePendingTransition(R.anim.enter,R.anim.leave);
 
         }
     }
 
+    private class AsyncLoginDelete extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(PermanentLeavesDoctor.this);
+        HttpURLConnection conn;
+        URL url = null;
 
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+            pdLoading.setMessage("Loading Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=deletepermanentleaves");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("leaves", params[0])
+                        .appendQueryParameter("doctorid", params[1]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcds", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d("ssdgggfdddsd", result);
+
+            pdLoading.dismiss();
+
+
+        }
+    }
     private class AsyncLogin1 extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(PermanentLeavesDoctor.this);
         HttpURLConnection conn;
@@ -459,13 +576,12 @@ public class PermanentLeavesDoctor extends AppCompatActivity implements View.OnC
 
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String fixdate = jsonObject.getString("fixdate");
-
-                        final LinearLayout linearLayoutForm = (LinearLayout) findViewById(R.id.calibration);
-                        EditText edit;
-
-                        LinearLayout innerLayout = (LinearLayout) linearLayoutForm.getChildAt(i);
-                        edit = (EditText) innerLayout.findViewById(R.id.appointmentTime);
-                        edit.setText(fixdate);
+                        addDynamicMOC(fixdate,1);
+//                        final LinearLayout newView = (LinearLayout) PermanentLeavesDoctor.this
+//                                .getLayoutInflater().inflate(R.layout.add_new_permanent_leaves, null);
+//                        EditText digital = (EditText) newView.findViewById(R.id.appointmentTime);
+//                        digital.setText(fixdate);
+//                        digital.requestFocus();
 
                     }
 

@@ -22,6 +22,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WRITE_SMS" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -60,8 +61,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PatientBookings"
-            android:screenOrientation="portrait"></activity>
+        <activity android:name=".DoctorManagePatients"
+            android:screenOrientation="portrait" ></activity>
+        <activity
+            android:name=".PatientBookings"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PermanentLeavesDoctor"
             android:screenOrientation="portrait" />

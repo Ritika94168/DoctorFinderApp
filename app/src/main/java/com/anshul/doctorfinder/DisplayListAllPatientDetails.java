@@ -1,7 +1,5 @@
 package com.anshul.doctorfinder;
 
-import android.graphics.Bitmap;
-
 public class DisplayListAllPatientDetails {
 
 

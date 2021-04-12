@@ -1,29 +1,20 @@
 package com.anshul.doctorfinder;
 
-import android.graphics.Bitmap;
 
 public class DisplayListBookingDetails {
 
-    private  Bitmap DoctorImage;
+
     private  String DoctorName;
     private  String DoctorSpecification;
-    private  String DoctorDescription;
-    private  String DoctorAddress;
+    private  String BookingDate;
+    private  String BookingTime;
 
-    public Bitmap getDoctorImage() {
-        return DoctorImage;
-    }
 
-    public void setDoctorImage(Bitmap doctorImage) {
-        DoctorImage = doctorImage;
-    }
-
-    public DisplayListBookingDetails(Bitmap DoctorImage, String DoctorName, String DoctorSpecification, String DoctorDescription, String DoctorAddress){
-        this.DoctorImage=DoctorImage;
+    public DisplayListBookingDetails( String DoctorName, String DoctorSpecification, String BookingDate, String BookingTime){
         this.DoctorName=DoctorName;
         this.DoctorSpecification=DoctorSpecification;
-        this.DoctorDescription=DoctorDescription;
-        this.DoctorAddress=DoctorAddress;
+        this.BookingDate=BookingDate;
+        this.BookingTime=BookingTime;
 
     }
 
@@ -45,19 +36,19 @@ public class DisplayListBookingDetails {
     public void setDoctorSpecification(String doctorSpecification) {
         DoctorSpecification = doctorSpecification;
     }
-    public String getDoctorDescription() {
-        return DoctorDescription;
+    public String getBookingDate() {
+        return BookingDate;
     }
 
-    public void setDoctorDescription(String doctorDescription) {
-        DoctorDescription = DoctorDescription;
+    public void setBookingDate(String bookingdate) {
+        BookingDate = bookingdate;
     }
-    public String getDoctorAddress() {
-        return DoctorAddress;
+    public String getBookingTime() {
+        return BookingTime;
     }
 
-    public void setDoctorAddress(String doctorAddress) {
-        DoctorAddress = doctorAddress;
+    public void setBookingTime(String bookingtime) {
+        BookingTime = bookingtime;
     }
 
 

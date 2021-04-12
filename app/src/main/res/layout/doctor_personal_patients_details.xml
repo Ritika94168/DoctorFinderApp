@@ -37,7 +37,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/doctorName"
+                android:id="@+id/patientName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -70,7 +70,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/doctorSpecialization"
+                android:id="@+id/pmobileno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -120,7 +120,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/bookingdate"
+                android:id="@+id/pbookingdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -153,7 +153,7 @@
                 android:textSize="12dp"
                 android:textStyle="bold" />
             <TextView
-                android:id="@+id/bookingtime"
+                android:id="@+id/pbookingtime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

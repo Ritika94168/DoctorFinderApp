@@ -12,6 +12,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -47,6 +50,9 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -55,10 +61,13 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class BookAppointmentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -81,8 +90,9 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
     String currentdate, currentday;
     Button buttonOk;
     TableRow tablerow;
-
+    String doctoridSTR, patientidSTR;
     ArrayList<String> doctor_type = new ArrayList<String>();
+    String doctornameSTR, docaddressSTR, doccontactSTR, docwhatsappSTR, docfeesSTR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,19 +105,18 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
         doctoraddress = (TextView) findViewById(R.id.address);
         contact = (TextView) findViewById(R.id.contact);
         doctorSpinner = (Spinner) findViewById(R.id.doctorSpinner);
-        buttonOk=(Button)findViewById(R.id.buttonOk);
+        buttonOk = (Button) findViewById(R.id.buttonOk);
         whatsapp = (TextView) findViewById(R.id.whatsapp);
         fees = (TextView) findViewById(R.id.fees);
         confirmBooking = (Button) findViewById(R.id.confirmBooking);
         final Intent intent = getIntent();
-        final String doctoridSTR = intent.getStringExtra("doctorid");
-        final String patientidSTR = intent.getStringExtra("pid");
-        final String doctornameSTR = intent.getStringExtra("docnamenext");
-        final String docaddressSTR = intent.getStringExtra("docaddrress");
-        final String doccontactSTR = intent.getStringExtra("doccontact");
-        final String docwhatsappSTR = intent.getStringExtra("docwhatsapp");
-        final String docfeesSTR = intent.getStringExtra("docfees");
-
+        doctoridSTR = intent.getStringExtra("doctorid");
+        patientidSTR = intent.getStringExtra("pid");
+        doctornameSTR = intent.getStringExtra("docnamenext");
+        docaddressSTR = intent.getStringExtra("docaddrress");
+        doccontactSTR = intent.getStringExtra("doccontact");
+        docwhatsappSTR = intent.getStringExtra("docwhatsapp");
+        docfeesSTR = intent.getStringExtra("docfees");
 
         setTitle("Dr" + " " + doctornameSTR + " " + "Appointment");
         ActionBar actionBar = getSupportActionBar();
@@ -157,12 +166,14 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
 
             }
         });
+
         confirmBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                dobSTR = bookappintment.getText().toString();
+//               timeSTR = doctorSpinner.getSelectedItem().toString();
                 dobSTR = bookappintment.getText().toString();
-                timeSTR = bookappointmenttime.getText().toString();
-
+                timeSTR = doctorSpinner.getSelectedItem().toString();
                 if (dobSTR.equals("")) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please Select Appointment Date", Toast.LENGTH_LONG);
                     View view = toast.getView();
@@ -178,24 +189,6 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                     return;
                 }
 
-
-                // get current date in android
-                Date c = Calendar.getInstance().getTime();
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
-                String formattedDate = df.format(c);
-                currentdate = formattedDate;
-
-
-                //get currentDay in android
-                SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
-                Date d = new Date();
-                String dayOfTheWeek = sdf.format(d);
-                currentday = dayOfTheWeek;
-
-                 new AsyncLogin().execute(dobSTR);
-                // new AsyncLogin1().execute(currentday);
-
-
                 AlertDialog.Builder alert = new AlertDialog.Builder(BookAppointmentActivity.this, R.style.PositiveButtonStyle11);
                 alert.setCancelable(false);
                 alert.setTitle("Alert!!");
@@ -204,27 +197,19 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                 alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Congrats!!Your Appointment is Confirmed", Toast.LENGTH_LONG);
-                        View view = toast.getView();
 
-//Gets the actual oval background of the Toast then sets the colour filter
-                        view.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
 
-//Gets the TextView from the Toast so it can be editted
-                        TextView text = view.findViewById(android.R.id.message);
-                        text.setTextColor(Color.BLACK);
-                        toast.show();
-
+                        new AsyncLoginBooking().execute(dobSTR, doctorSpinner.getSelectedItem().toString(), doctoridSTR, patientidSTR);
                         LayoutInflater factory = LayoutInflater.from(BookAppointmentActivity.this);
 
 //text_entry is an Layout XML file containing two text field to display in alert dialog
                         View textEntryView = factory.inflate(R.layout.confirm_booking_layout, null);
-                        TextView doctname=textEntryView.findViewById(R.id.doctname);
-                        TextView appdate=textEntryView.findViewById(R.id.appointmentdate);
-                        TextView apptime=textEntryView.findViewById(R.id.appointmenttime);
+                        TextView doctname = textEntryView.findViewById(R.id.doctname);
+                        final TextView appdate = textEntryView.findViewById(R.id.appointmentdate);
+                        final TextView apptime = textEntryView.findViewById(R.id.appointmenttime);
                         doctname.setText(nameSTR);
                         appdate.setText(dobSTR);
-                        apptime.setText("2.00-4.00");
+                        apptime.setText(doctorSpinner.getSelectedItem().toString());
 
                         final AlertDialog.Builder alert = new AlertDialog.Builder(BookAppointmentActivity.this, R.style.PositiveButtonStyle11);
                         alert.setView(textEntryView).setPositiveButton("Ok",
@@ -232,13 +217,15 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                                     public void onClick(DialogInterface dialog,
                                                         int whichButton) {
 
-                                   Intent intent1=new Intent(BookAppointmentActivity.this,PatientMainMenu.class);
-                                   intent1.putExtra("doctorid",doctoridSTR);
-                                   intent1.putExtra("pid",patientidSTR);
-                                   startActivity(intent1);
-                                   overridePendingTransition(R.anim.enter,R.anim.leave);
 
 
+                                        //  screenshot(getWindow().getDecorView().getRootView(), "result");
+                                        Intent intent1 = new Intent(BookAppointmentActivity.this, PatientMainMenu.class);
+                                        intent1.putExtra("doctorid", doctoridSTR);
+                                        intent1.putExtra("pid", patientidSTR);
+                                        startActivity(intent1);
+                                        overridePendingTransition(R.anim.enter, R.anim.leave);
+                                        openWhatsApp();
 
                                     }
                                 });
@@ -260,6 +247,21 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                 alert1.setCanceledOnTouchOutside(false);
                 alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
                 alert1.show();
+                // get current date in android
+                Date c = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(c);
+                currentdate = formattedDate;
+
+
+                //get currentDay in android
+                SimpleDateFormat sdf = new SimpleDateFormat("EEEE");
+                Date d = new Date();
+                String dayOfTheWeek = sdf.format(d);
+                currentday = dayOfTheWeek;
+
+
+                // Here you can retrieve time values into spinner and after select time,you get alert message for booking confirmation
 
 
             }
@@ -268,7 +270,18 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
 
     }
 
-
+    public void openWhatsApp() {
+        String toNumber = "+91"+" "+whatsappSTR; // contains spaces.
+        toNumber = toNumber.replace("+", "").replace(" ", "");
+        Uri uri = Uri.parse("smsto:" + toNumber);
+        Intent sendIntent = new Intent("android.intent.action.MAIN");
+        sendIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Your Appointment with Patient-ID:-"+" "+patientidSTR+" "+"is confirmed on"+" "+dobSTR+" "+"at"+" "+doctorSpinner.getSelectedItem().toString());
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.setPackage("com.whatsapp");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
     private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 
 
@@ -383,8 +396,11 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
             bookappintment.setText(new StringBuilder().append(day)
                     .append("-").append(month + 1).append("-").append(year)
                     .append(" "));
+            dobSTR = bookappintment.getText().toString();
+            tablerow.setVisibility(View.INVISIBLE);
+            confirmBooking.setVisibility(View.INVISIBLE);
             //  bookappointmenttime.setVisibility(View.VISIBLE);
-            tablerow.setVisibility(View.VISIBLE);
+            new AsyncLogin().execute(dobSTR, doctoridSTR);
 
 
         }
@@ -443,7 +459,8 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("appointmentdate", params[0]);
+                        .appendQueryParameter("appointmentdate", params[0])
+                        .appendQueryParameter("doctorid", params[1]);
 
                 String query = builder.build().getEncodedQuery();
 
@@ -502,7 +519,164 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
         protected void onPostExecute(String result) {
 
             pdLoading.dismiss();
+            doctor_type.clear();
+            if (result != null) {
+                Toast toast = Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG);
+                View view = toast.getView();
 
+//Gets the actual oval background of the Toast then sets the colour filter
+                view.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.SRC_IN);
+
+//Gets the TextView from the Toast so it can be editted
+                TextView text = view.findViewById(android.R.id.message);
+                text.setTextColor(Color.WHITE);
+
+                toast.show();
+                JSONArray jsonArray;
+
+                try {
+                    jsonArray = new JSONArray(result);
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String st1 = jsonObject.getString("start_time_1");
+                        String et1 = jsonObject.getString("end_time_1");
+                        String st2 = jsonObject.getString("start_time_2");
+                        String et2 = jsonObject.getString("end_time_2");
+                        if ((!st1.equals("") && !et1.equals(""))) {
+                            doctor_type.add(st1 + "-" + et1);
+                        }
+                        if ((!st2.equals("") && !et2.equals(""))) {
+                            doctor_type.add(st2 + "-" + et2);
+                        }
+                        tablerow.setVisibility(View.VISIBLE);
+                        langAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text, doctor_type);
+                        langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
+                        doctorSpinner.setAdapter(langAdapter);
+
+                        confirmBooking.setVisibility(View.VISIBLE);
+
+
+                    }
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+            }
+
+        }
+    }
+
+    private class AsyncLoginBooking extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(BookAppointmentActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+            pdLoading.setMessage("Loading Please Wait");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=addappointmentDetails");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("appointmentdate", params[0])
+                        .appendQueryParameter("appointmenttime", params[1])
+                        .appendQueryParameter("doctorid", params[2])
+                        .appendQueryParameter("patientid", params[3]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcdsddsdffd", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            pdLoading.dismiss();
 
         }
     }

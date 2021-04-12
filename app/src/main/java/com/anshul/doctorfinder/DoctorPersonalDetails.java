@@ -724,9 +724,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                         descriptionSTR = jsonObject.getString("description");
                         usernameSTR = jsonObject.getString("username");
                         passwordSTR = jsonObject.getString("password");
-                        byte[] decodeString = Base64.decode(jsonObject.getString("password"), Base64.DEFAULT);
-                        Bitmap decodebitmap = BitmapFactory.decodeByteArray(decodeString,
-                                0, decodeString.length);
+
 //                        img.setImageBitmap(decodebitmap);
 //                        image = BitmapFactory.decodeStream(jsonObject.getString("docimage"));
 

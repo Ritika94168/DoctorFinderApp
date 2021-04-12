@@ -34,16 +34,21 @@ public class SmsModule extends AppCompatActivity {
     String mobileSTR, textmessageSTR;
     private static final int SMS_PERMISSION_CONSTANT = 100;
     private static final int REQUEST_PERMISSION_SETTING = 101;
-
+    String mobilenumber;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms_module);
 
         permissionStatus = getSharedPreferences("permissionStatus", MODE_PRIVATE);
+        Intent intent=getIntent();
+        mobilenumber=intent.getStringExtra("mobilenumber");
+
         number = (EditText) findViewById(R.id.mobilenumber);
         textmessage = (EditText) findViewById(R.id.message);
         sendsms = (Button) findViewById(R.id.sendsms);
+
+
         l2 = (LinearLayout) findViewById(R.id.l2);
         l2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +120,10 @@ public class SmsModule extends AppCompatActivity {
             editor.commit();
 
         }
-
+        if(!mobilenumber.equals("")){
+            number.setText(mobilenumber);
+            number.setEnabled(false);
+        }
         sendsms.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,17 +131,17 @@ public class SmsModule extends AppCompatActivity {
                 textmessageSTR = textmessage.getText().toString();
 
                 if (mobileSTR.equals("")) {
-                    number.setError("Please Enter Mobile Number");
+                    number.setError("Enter Mobile No");
                     number.requestFocus();
                     return;
                 }
                 if(mobileSTR.length()>10 || mobileSTR.length()<10){
-                    number.setError("Please Enter Valid Mobile Number");
+                    number.setError("Enter Valid Mobile No");
                     number.requestFocus();
                     return;
                 }
                 if(textmessageSTR.equals("")){
-                    textmessage.setError("Please Enter Some Message Here");
+                    textmessage.setError("Enter Message Here");
                     textmessage.requestFocus();
                     return;
                 }

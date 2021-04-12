@@ -43,6 +43,17 @@ public class DoctorMainMenu extends AppCompatActivity {
         payment = (LinearLayout) findViewById(R.id.recentPayments);
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
+
+        patients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(DoctorMainMenu.this, DoctorManagePatients.class);
+                intent1.putExtra("doctorid", doctorid);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            }
+        });
+
         todayavaliability.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,6 +120,7 @@ public class DoctorMainMenu extends AppCompatActivity {
                         switch (item) {
                             case 0: // Add New Faculty
                                Intent intent1=new Intent(DoctorMainMenu.this,SmsModule.class);
+                                intent1.putExtra("mobilenumber","");
                                startActivity(intent1);
                                overridePendingTransition(R.anim.right_in,R.anim.left_out);
                                 break;

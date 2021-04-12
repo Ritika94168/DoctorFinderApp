@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
@@ -16,6 +17,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.google.android.gms.common.api.OptionalPendingResult;
 
 public class PatientMainMenu extends AppCompatActivity {
     LinearLayout searchdoctor, editdetails, smsmodule, shareapp, patientbookings, logout;
@@ -40,6 +43,13 @@ public class PatientMainMenu extends AppCompatActivity {
         patientbookings = (LinearLayout) findViewById(R.id.mybookings);
         logout = (LinearLayout) findViewById(R.id.logout);
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
+
+        shareapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         patientbookings.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +89,7 @@ public class PatientMainMenu extends AppCompatActivity {
                         switch (item) {
                             case 0:
                                 Intent intent = new Intent(PatientMainMenu.this, SmsModule.class);
+                                intent.putExtra("mobilenumber","");
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.right_in, R.anim.left_out);
                                 break;

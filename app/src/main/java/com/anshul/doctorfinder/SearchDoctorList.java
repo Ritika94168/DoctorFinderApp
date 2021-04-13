@@ -137,7 +137,7 @@ public class SearchDoctorList extends AppCompatActivity {
 
             adapter = new MyListAdapter(SearchDoctorList.this, displayList);
             listview.setAdapter(adapter);
-            new AsyncLogin().execute(docSTR);
+            new AsyncLogin().execute(docSTR,locationManualSTR,locationSTR);
             // Add List Manually For Testing,,,because list is loaded from mysql database after Database Creation
             displayList.add(new DisplayList(bmp , doctor_name, docSTR, description, address));
 //            displayList.add(new DisplayList("" + R.drawable.hospital, "Ritika Gaba", docSTR, "I have 4 Year Experience At Rotary Hospital Ambala Cantt", "20/21 Industrial Area,Ambala Cantt", "Rating:-5"));
@@ -236,7 +236,9 @@ public class SearchDoctorList extends AppCompatActivity {
 
                 // Append parameters to URL
                 Uri.Builder builder = new Uri.Builder()
-                        .appendQueryParameter("DoctorType", params[0]);
+                        .appendQueryParameter("DoctorType", params[0])
+                        .appendQueryParameter("Location", params[1])
+                        .appendQueryParameter("LocationManual", params[2]);
                 String query = builder.build().getEncodedQuery();
 
                 // Open connection for sending data

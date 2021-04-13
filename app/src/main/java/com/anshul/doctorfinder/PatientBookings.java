@@ -73,12 +73,7 @@ public class PatientBookings extends AppCompatActivity {
         adapter = new MyListAdapterAllBookings(PatientBookings.this, displayList);
         listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, final int position, final long id) {
 
-            }
-        });
 
     }
 

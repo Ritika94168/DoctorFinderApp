@@ -17,7 +17,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="10sp"
         android:fillViewport="true"
-        android:paddingBottom="35dp">
+        android:paddingBottom="45dp">
 
         <ListView
             android:id="@+id/list"
@@ -26,7 +26,7 @@
             android:layout_marginLeft="5sp"
             android:layout_marginRight="5sp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="10sp"
+            android:dividerHeight="20sp"
 
             />
     </ScrollView>
@@ -35,6 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="40sp"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:layout_marginTop="10sp"
         android:background="#00ADC1"
         android:orientation="vertical">

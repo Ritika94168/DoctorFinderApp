@@ -81,7 +81,7 @@ public class CompleteDoctorProfile extends AppCompatActivity {
         bookAppointment=(Button)findViewById(R.id.book_now);
         Intent intent=getIntent();
         doctorid=intent.getStringExtra("doctorid");
-         finallocationSTR=intent.getStringExtra("finallocationSTR");
+        finallocationSTR=intent.getStringExtra("finallocationSTR");
 
         //Toast.makeText(getApplicationContext(),"username"+ps2+""+"pid:-"+ps4,Toast.LENGTH_LONG).show();
 

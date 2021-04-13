@@ -293,6 +293,8 @@ public class AddNewPatient extends AppCompatActivity {
         @Override
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
+            Calendar calendar = Calendar.getInstance();//get the current day
+            view.setMaxDate(calendar.getTimeInMillis());
 
             year  = selectedYear;
             month = selectedMonth;

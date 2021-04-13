@@ -3,7 +3,10 @@ package com.anshul.doctorfinder;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -23,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.telephony.SmsManager;
 import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -91,9 +95,11 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
     Button buttonOk;
     TableRow tablerow;
     String doctoridSTR, patientidSTR;
+    final long today = System.currentTimeMillis() - 1000;
     ArrayList<String> doctor_type = new ArrayList<String>();
-    String doctornameSTR, docaddressSTR, doccontactSTR, docwhatsappSTR, docfeesSTR;
-
+    String doctornameSTR, docaddressSTR, doccontactSTR, docwhatsappSTR, docfeesSTR,pnameSTR;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
+    public static final int REQUEST_CODE_ASK_PERMISSIONS = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +123,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
         doccontactSTR = intent.getStringExtra("doccontact");
         docwhatsappSTR = intent.getStringExtra("docwhatsapp");
         docfeesSTR = intent.getStringExtra("docfees");
+        new AsyncPatientname().execute(patientidSTR);
 
         setTitle("Dr" + " " + doctornameSTR + " " + "Appointment");
         ActionBar actionBar = getSupportActionBar();
@@ -125,7 +132,18 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
         }
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if (ContextCompat.checkSelfPermission(BookAppointmentActivity.this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(BookAppointmentActivity.this,
+                    Manifest.permission.SEND_SMS)) {
 
+            } else {
+                ActivityCompat.requestPermissions(BookAppointmentActivity.this,
+                        new String[]{Manifest.permission.SEND_SMS},
+                        MY_PERMISSIONS_REQUEST_SEND_SMS);
+            }
+        }
         nameSTR = doctornameSTR;
         addressSTR = docaddressSTR;
         contactSTR = doccontactSTR;
@@ -218,14 +236,20 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
                                                         int whichButton) {
 
 
+                                        try{
+                                            SmsManager smgr = SmsManager.getDefault();
+                                            smgr.sendTextMessage(contactSTR,null,"Hi, Dr."+" "+doctornameSTR+" "+ "Your Appointment with :-"+" "+pnameSTR+" "+"is confirmed on"+" "+dobSTR+" "+"between"+" "+doctorSpinner.getSelectedItem().toString(),null,null);
+                                        }
+                                        catch (Exception e){
 
+                                        }
                                         //  screenshot(getWindow().getDecorView().getRootView(), "result");
                                         Intent intent1 = new Intent(BookAppointmentActivity.this, PatientMainMenu.class);
                                         intent1.putExtra("doctorid", doctoridSTR);
                                         intent1.putExtra("pid", patientidSTR);
                                         startActivity(intent1);
                                         overridePendingTransition(R.anim.enter, R.anim.leave);
-                                        openWhatsApp();
+
 
                                     }
                                 });
@@ -269,18 +293,34 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
 
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "MESSAGE RECIEVED SUCCESSFULLY", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+        }
+
+    }
     public void openWhatsApp() {
-        String toNumber = "+91"+" "+whatsappSTR; // contains spaces.
-        toNumber = toNumber.replace("+", "").replace(" ", "");
-        Uri uri = Uri.parse("smsto:" + toNumber);
-        Intent sendIntent = new Intent("android.intent.action.MAIN");
-        sendIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "Your Appointment with Patient-ID:-"+" "+patientidSTR+" "+"is confirmed on"+" "+dobSTR+" "+"at"+" "+doctorSpinner.getSelectedItem().toString());
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.setPackage("com.whatsapp");
-        sendIntent.setType("text/plain");
-        startActivity(sendIntent);
+//        String toNumber = "+91"+" "+whatsappSTR; // contains spaces.
+//        toNumber = toNumber.replace("+", "").replace(" ", "");
+//        Uri uri = Uri.parse("smsto:" + toNumber);
+//        Intent sendIntent = new Intent("android.intent.action.MAIN");
+//        sendIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
+//        sendIntent.putExtra(Intent.EXTRA_TEXT, "Your Appointment with Patient-ID:-"+" "+patientidSTR+" "+"is confirmed on"+" "+dobSTR+" "+"at"+" "+doctorSpinner.getSelectedItem().toString());
+//        sendIntent.setAction(Intent.ACTION_SEND);
+//        sendIntent.setPackage("com.whatsapp");
+//        sendIntent.setType("text/plain");
+//        startActivity(sendIntent);
+
     }
     private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 
@@ -386,8 +426,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
 
         // when dialog box is closed, below method will be called.
         @Override
-        public void onDateSet(DatePicker view, int selectedYear,
-                              int selectedMonth, int selectedDay) {
+        public void onDateSet(DatePicker view, int selectedYear, int selectedMonth, int selectedDay) {
 
             year = selectedYear;
             month = selectedMonth;
@@ -396,6 +435,7 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
             bookappintment.setText(new StringBuilder().append(day)
                     .append("-").append(month + 1).append("-").append(year)
                     .append(" "));
+
             dobSTR = bookappintment.getText().toString();
             tablerow.setVisibility(View.INVISIBLE);
             confirmBooking.setVisibility(View.INVISIBLE);
@@ -681,5 +721,133 @@ public class BookAppointmentActivity extends AppCompatActivity implements Adapte
         }
     }
 
+    private class AsyncPatientname extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(BookAppointmentActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+
+//            pdLoading.setMessage("Loading Please Wait");
+//            pdLoading.setCancelable(false);
+//            pdLoading.show();
+//            pdLoading.getWindow().setBackgroundDrawable(new ColorDrawable(Color.YELLOW));
+//            pdLoading.setIndeterminate(false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+//                url = new URL("http://rotaryapp.mdimembrane.com/HMS_API/hospital_activity_status_api.php?action=showAll");
+                url = new URL("http://doc.gsinfotec.in/loginphpfile.php?action=fetchCompletePatientPersonaldetails");
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return "exception";
+            }
+            try {
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("POST");
+
+                // setDoInput and setDoOutput method depict handling of both send and receive
+                conn.setDoInput(true);
+                conn.setDoOutput(true);
+
+                // Append parameters to URL
+                Uri.Builder builder = new Uri.Builder()
+                        .appendQueryParameter("pid", params[0]);
+
+                String query = builder.build().getEncodedQuery();
+
+                // Open connection for sending data
+                OutputStream os = conn.getOutputStream();
+                BufferedWriter writer = new BufferedWriter(
+                        new OutputStreamWriter(os, "UTF-8"));
+                writer.write(query);
+                writer.flush();
+                writer.close();
+                os.close();
+                conn.connect();
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return "exception";
+            }
+
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                Log.d("dfcdsddsdffd", "Response Code:-" + response_code);
+                if (response_code == HttpURLConnection.HTTP_OK) {
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return "exception";
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            pdLoading.dismiss();
+
+            if (result != null) {
+                //  Toast.makeText(getApplicationContext(), "Result:-" + result, Toast.LENGTH_LONG).show();
+                JSONArray jsonArray;
+
+                try {
+                    jsonArray = new JSONArray(result);
+
+
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        pnameSTR = jsonObject.getString("pname");
+
+                    }
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+
+            }
+
+        }
+    }
 
 }

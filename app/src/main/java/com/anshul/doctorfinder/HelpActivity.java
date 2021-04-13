@@ -18,7 +18,6 @@ public class HelpActivity extends AppCompatActivity {
     String numberSTR1 = "";
     Button back;
     Button whatsapp;
-    TextView directOption;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

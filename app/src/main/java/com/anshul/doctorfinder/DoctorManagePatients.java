@@ -283,40 +283,32 @@ public class DoctorManagePatients extends AppCompatActivity {
             if (result != null) {
 
                 JSONArray jsonArray;
-                JSONObject jobj;
 
                 try {
-//
-                    jobj = new JSONObject(result);
+                    jsonArray = new JSONArray(result);
 
 
-                    try {
-//                        Toast.makeText(getApplicationContext(),"hhhhhhhhhhhhhh"+doctorname,Toast.LENGTH_LONG).show();
-                        doctorname = jobj.getString("pname");
-                        doctorspecification = jobj.getString("contactnumber");
-//                        Toast.makeText(getApplicationContext(),"hhhhhhhhhhhhhh"+doctorname,Toast.LENGTH_LONG).show();
-                        bookingdate = jobj.getString("bookingdate");
-                        bookingtime = jobj.getString("bookingtime");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        doctorname = jsonObject.getString("pname");
+                        doctorspecification = jsonObject.getString("contactnumber");
+                        bookingdate = jsonObject.getString("booking_date");
+                        bookingtime = jsonObject.getString("booking_time");
+
+                        displayList.add(new DisplayListAllPatientDetails(doctorname, doctorspecification, bookingdate, bookingtime));
+                        bookinglist.add(doctorid1);
                     }
-
-
-                    displayList.add(new DisplayListAllPatientDetails(doctorname, doctorspecification, bookingdate, bookingtime));
-                    bookinglist.add(doctorid1);
-
-
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
 
 
+                adapter = new MyListAdapterAllPatients(DoctorManagePatients.this, displayList);
+                listview.setAdapter(adapter);
             }
-            adapter = new MyListAdapterAllPatients(DoctorManagePatients.this, displayList);
-            listview.setAdapter(adapter);
+
         }
-
-
     }
 }

@@ -26,7 +26,7 @@
             android:layout_marginLeft="5sp"
             android:layout_marginRight="5sp"
             android:divider="@android:color/transparent"
-            android:dividerHeight="7sp"
+            android:dividerHeight="10sp"
 
             />
     </ScrollView>

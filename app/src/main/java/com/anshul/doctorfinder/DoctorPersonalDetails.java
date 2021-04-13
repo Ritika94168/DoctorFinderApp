@@ -74,12 +74,12 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
     Button choose;
     String encodedImage;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    EditText dname, contact, whatsap, email, address, fees, qualification, experience, description, username, password;
+    EditText dname, contact, whatsap, email, address, fees,city, qualification, experience, description, username, password;
     RadioGroup group;
     ArrayList<String> doctor_type = new ArrayList<String>();
     Spinner doctorSpinner;
     RadioButton male, female, others;
-    String dnameSTR, specializationSTR, contactSTR, whatsapSTR, feesSTR, emailSTR, addressSTR, qualificationSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR;
+    String dnameSTR, specializationSTR, contactSTR, whatsapSTR,citySTR, feesSTR, emailSTR, addressSTR, qualificationSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR;
     String genderSTR;
     String doctorImageSTR = "";
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -121,6 +121,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
        // cardview = (CardView) findViewById(R.id.cardview);
         email = (EditText) findViewById(R.id.email);
         address = (EditText) findViewById(R.id.address);
+        city = (EditText) findViewById(R.id.city);
         fees = (EditText) findViewById(R.id.doctorfees);
         description = (EditText) findViewById(R.id.description);
         experience = (EditText) findViewById(R.id.experience);
@@ -162,6 +163,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
         specializationSTR = doctorSpinner.getSelectedItem().toString();
         contactSTR = contact.getText().toString();
         whatsapSTR = whatsap.getText().toString();
+        citySTR = city.getText().toString();
         qualificationSTR = qualification.getText().toString();
         experienceSTR = experience.getText().toString();
         emailSTR = email.getText().toString().trim();
@@ -184,6 +186,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
         doctorSpinner.setEnabled(false);
         contact.setEnabled(false);
         whatsap.setEnabled(false);
+        city.setEnabled(false);
         email.setEnabled(false);
         address.setEnabled(false);
         fees.setEnabled(false);
@@ -225,6 +228,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 whatsapSTR = whatsap.getText().toString();
                 qualificationSTR = qualification.getText().toString();
                 experienceSTR = experience.getText().toString();
+                citySTR = city.getText().toString();
                 emailSTR = email.getText().toString().trim();
                 addressSTR = address.getText().toString();
                 descriptionSTR = description.getText().toString();
@@ -331,12 +335,17 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                     fees.requestFocus();
                     return;
                 }
+
                 if (addressSTR.equals("")) {
                     address.setError("Please Enter Address");
                     address.requestFocus();
                     return;
                 }
-
+                if (citySTR.equals("")) {
+                    city.setError("Please Enter Correct City Name");
+                    city.requestFocus();
+                    return;
+                }
                 if (descriptionSTR.equals("")) {
                     description.setError("Please Enter Your Description");
                     description.requestFocus();
@@ -352,6 +361,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                     username.requestFocus();
                     return;
                 }
+
                 if (doctorImage.getDrawable().getConstantState().equals(getResources().getDrawable(R.drawable.whhh).getConstantState())) {
                     Toast toast = Toast.makeText(getApplicationContext(), "Please Upload Your Image", Toast.LENGTH_LONG);
                     View view = toast.getView();
@@ -361,9 +371,11 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                     toast.show();
                     return;
                 }
+                Toast.makeText(getApplicationContext(),"Please Enter Correct City Name Only",Toast.LENGTH_LONG).show();
+
                 Bitmap bitmap =imageBitmap;
                 String uploadImage = getStringImage(bitmap);
-                StudentRecordUpdate( dnameSTR, genderSTR, contactSTR, whatsapSTR,specializationSTR,  emailSTR, addressSTR, qualificationSTR, feesSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR,doctorid,uploadImage);
+                StudentRecordUpdate( dnameSTR, genderSTR, contactSTR, whatsapSTR,specializationSTR,  emailSTR, addressSTR, qualificationSTR, feesSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR,doctorid,uploadImage,citySTR);
                 finish();
                 overridePendingTransition(R.anim.enter,R.anim.leave);
             }
@@ -395,6 +407,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 contact.setEnabled(true);
                 whatsap.setEnabled(true);
                 email.setEnabled(true);
+                city.setEnabled(true);
                 address.setEnabled(true);
                 fees.setEnabled(true);
                 description.setEnabled(true);
@@ -413,6 +426,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 contact.setFocusableInTouchMode(true);
                 whatsap.setFocusableInTouchMode(true);
                 email.setFocusableInTouchMode(true);
+                city.setFocusableInTouchMode(true);
                 address.setFocusableInTouchMode(true);
                 fees.setFocusableInTouchMode(true);
                 description.setFocusableInTouchMode(true);
@@ -435,6 +449,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 address.setFocusable(true);
                 fees.setFocusable(true);
                 description.setFocusable(true);
+                city.setFocusable(true);
                 experience.setFocusable(true);
                 qualification.setFocusable(true);
                 username.setFocusable(true);
@@ -450,6 +465,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 email.setTypeface(email.getTypeface(), Typeface.BOLD);
                 address.setTypeface(address.getTypeface(), Typeface.BOLD);
                 fees.setTypeface(fees.getTypeface(), Typeface.BOLD);
+                city.setTypeface(city.getTypeface(), Typeface.BOLD);
                 description.setTypeface(description.getTypeface(), Typeface.BOLD);
                 experience.setTypeface(experience.getTypeface(), Typeface.BOLD);
                 qualification.setTypeface(qualification.getTypeface(), Typeface.BOLD);
@@ -718,6 +734,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                         contactSTR = jsonObject.getString("contactnumber");
                         whatsapSTR = jsonObject.getString("whatsappnumber");
                         emailSTR = jsonObject.getString("email");
+                        citySTR = jsonObject.getString("city");
                         qualificationSTR = jsonObject.getString("qualification");
                         experienceSTR = jsonObject.getString("experience");
                         feesSTR = jsonObject.getString("fees");
@@ -758,6 +775,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                         qualification.setText(qualificationSTR);
                         experience.setText(experienceSTR);
                         fees.setText(feesSTR);
+                        city.setText(citySTR);
                         description.setText(descriptionSTR);
                         username.setText(usernameSTR);
                         password.setText(passwordSTR);
@@ -814,7 +832,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
 //    GetImage gi = new GetImage();
 //        gi.execute(id);
 
-    public void StudentRecordUpdate(final String docname, final String gender, final String contact, final String whatsapp,final String specialization,  final String email,final String address, final String qualification, final String fees,final String experience,  final String description, final String username, final String password,final String doctorid,final String uploadImage) {
+    public void StudentRecordUpdate(final String docname, final String gender, final String contact, final String whatsapp,final String specialization,  final String email,final String address, final String qualification, final String fees,final String experience,  final String description, final String username, final String password,final String doctorid,final String uploadImage,String city) {
 
         class StudentRecordUpdateClass extends AsyncTask<String, Void, String> {
 
@@ -842,6 +860,7 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
                 hashMap.put("password", params[12]);
                 hashMap.put("docid", params[13]);
                 hashMap.put("docimage", params[14]);
+                hashMap.put("city", params[15]);
 
 
                 Log.d("update111", "" + hashMap);
@@ -863,6 +882,6 @@ public class DoctorPersonalDetails extends AppCompatActivity implements AdapterV
 
         StudentRecordUpdateClass studentRecordUpdateClass = new StudentRecordUpdateClass();
 
-        studentRecordUpdateClass.execute(docname, gender,  contact, whatsapp,specialization, email,address, qualification,fees, experience,  description, username, password,doctorid,uploadImage);
+        studentRecordUpdateClass.execute(docname, gender,  contact, whatsapp,specialization, email,address, qualification,fees, experience,  description, username, password,doctorid,uploadImage,city);
     }
 }

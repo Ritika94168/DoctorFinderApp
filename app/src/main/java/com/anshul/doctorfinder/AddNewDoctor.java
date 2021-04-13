@@ -71,12 +71,12 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
     Button choose;
     String encodedImage;
     private static final int MY_CAMERA_REQUEST_CODE = 100;
-    EditText dname, contact, whatsap, email, address,fees, qualification, experience, description, username, password;
+    EditText dname, contact, whatsap, email,city, address,fees, qualification, experience, description, username, password;
     RadioGroup group;
     Spinner doctortype;
     RadioButton male, female, others;
     Button register;
-    String dnameSTR, specializationSTR, contactSTR, whatsapSTR,feesSTR, emailSTR, addressSTR, qualificationSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR;
+    String dnameSTR, specializationSTR, contactSTR, citySTR,whatsapSTR,feesSTR, emailSTR, addressSTR, qualificationSTR, experienceSTR, descriptionSTR, usernameSTR, passwordSTR;
     String genderSTR;
     String doctorImageSTR = "";
     public static final int CONNECTION_TIMEOUT = 10000;
@@ -105,6 +105,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
        // cardview = (CardView) findViewById(R.id.cardview);
         email = (EditText) findViewById(R.id.email);
         address = (EditText) findViewById(R.id.address);
+        city = (EditText) findViewById(R.id.city);
         fees=(EditText)findViewById(R.id.doctorfees);
         description = (EditText) findViewById(R.id.description);
         experience = (EditText) findViewById(R.id.experience);
@@ -163,6 +164,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
         langAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_text, doctor_type);
         langAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown);
         doctorSpinner.setAdapter(langAdapter);
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -174,6 +176,7 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
                 qualificationSTR = qualification.getText().toString();
                 experienceSTR = experience.getText().toString();
                 emailSTR = email.getText().toString().trim();
+                citySTR = city.getText().toString();
                 addressSTR = address.getText().toString();
                 descriptionSTR = description.getText().toString();
                 usernameSTR = username.getText().toString();
@@ -279,12 +282,17 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
                     fees.requestFocus();
                     return;
                 }
+
                 if (addressSTR.equals("")) {
                     address.setError("Please Enter Address");
                     address.requestFocus();
                     return;
                 }
-
+                if (citySTR.equals("")) {
+                    city.setError("Please Enter Correct City Name");
+                    city.requestFocus();
+                    return;
+                }
                 if (descriptionSTR.equals("")) {
                     description.setError("Please Enter Your Description");
                     description.requestFocus();
@@ -309,111 +317,11 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
                     toast.show();
                     return;
                 }
+                Toast.makeText(getApplicationContext(),"Please Enter Correct City Name Only",Toast.LENGTH_LONG).show();
+
                 Bitmap bitmap =imageBitmap;
                 String uploadImage = getStringImage(bitmap);
                 new AsyncLogin().execute(dnameSTR,genderSTR,contactSTR,whatsapSTR,specializationSTR,emailSTR,addressSTR,qualificationSTR,feesSTR,experienceSTR,descriptionSTR,usernameSTR,passwordSTR,uploadImage);
-
-//                new AsyncLoginImage().execute(doctorImage);//                AlertDialog.Builder alert = new AlertDialog.Builder(AddNewDoctor.this, R.style.PositiveButtonStyle111);
-//                alert.setCancelable(false);
-//                String titleText = "Alert!!";
-//                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.GREEN);
-//                SpannableStringBuilder ssBuilder = new SpannableStringBuilder(titleText);
-//                ssBuilder.setSpan(
-//                        foregroundColorSpan,
-//                        0,
-//                        titleText.length(),
-//                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-//                );
-//                alert.setTitle(ssBuilder);
-//                String titleText1 = "Are You Want To Choose Subscription ??";
-//                ForegroundColorSpan foregroundColorSpan1 = new ForegroundColorSpan(Color.WHITE);
-//                SpannableStringBuilder ssBuilder1 = new SpannableStringBuilder(titleText1);
-//                ssBuilder1.setSpan(
-//                        foregroundColorSpan1,
-//                        0,
-//                        titleText1.length(),
-//                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-//                );
-//                alert.setMessage(ssBuilder1);
-//
-//                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int whichButton) {
-//                        Intent intent = new Intent(AddNewDoctor.this, ChooseSubscription.class);
-//                        startActivity(intent);
-//                        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-//                    }
-//                });
-//
-//                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int whichButton) {
-//                        AlertDialog.Builder alert = new AlertDialog.Builder(AddNewDoctor.this, R.style.PositiveButtonStyle11);
-//                        alert.setCancelable(false);
-//                        alert.setTitle("Subscription Benefits !!!");
-//                        alert.setMessage("Subscription feature is very useful thing for becoming popular through this App.It is especially designed for Doctor's ,through this feature your profile can be seen to more and more patients ,according to the subscription pack.Here are some packs defined through which profile of various doctors can be saw to patients.So I suggest every doctor to choose some subscription pack,so that you get more patients and you earn more money.Every Subscription Pack is valid for only 1 year,after that you can renew your subscription pack.Don't worry,you will get notification 2 days ago,when your plan expires. ");
-//
-//                        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int whichButton) {
-//                                AlertDialog.Builder alert = new AlertDialog.Builder(AddNewDoctor.this, R.style.PositiveButtonStyle111);
-//                                alert.setCancelable(false);
-//                                String titleText = "Alert!!";
-//                                ForegroundColorSpan foregroundColorSpan = new ForegroundColorSpan(Color.GREEN);
-//                                SpannableStringBuilder ssBuilder = new SpannableStringBuilder(titleText);
-//                                ssBuilder.setSpan(
-//                                        foregroundColorSpan,
-//                                        0,
-//                                        titleText.length(),
-//                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-//                                );
-//                                alert.setTitle(ssBuilder);
-//                                String titleText1 = "Are You Want To Choose Subscription ??";
-//                                ForegroundColorSpan foregroundColorSpan1 = new ForegroundColorSpan(Color.WHITE);
-//                                SpannableStringBuilder ssBuilder1 = new SpannableStringBuilder(titleText1);
-//                                ssBuilder1.setSpan(
-//                                        foregroundColorSpan1,
-//                                        0,
-//                                        titleText1.length(),
-//                                        Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-//                                );
-//                                alert.setMessage(ssBuilder1);
-//
-//                                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int whichButton) {
-//                                        Intent intent = new Intent(AddNewDoctor.this, ChooseSubscription.class);
-//                                        startActivity(intent);
-//                                        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-//                                    }
-//                                });
-//
-//                                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int whichButton) {
-//                                        finish();
-//                                        overridePendingTransition(R.anim.enter, R.anim.leave);
-//                                    }
-//                                });
-//                                AlertDialog alert1 = alert.create();
-//                                alert1.setCanceledOnTouchOutside(false);
-//                                alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-//                                alert1.show();
-//
-//                            }
-//                        });
-//
-//                        AlertDialog alert1 = alert.create();
-//                        alert1.setCanceledOnTouchOutside(false);
-//                        alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-//                        alert1.show();
-//
-//                    }
-//                });
-//                AlertDialog alert1 = alert.create();
-//                alert1.setCanceledOnTouchOutside(false);
-//                alert1.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
-//                alert1.show();
 
 
             }
@@ -638,7 +546,8 @@ public class AddNewDoctor extends AppCompatActivity implements  AdapterView.OnIt
                         .appendQueryParameter("description", params[10])
                         .appendQueryParameter("username", params[11])
                         .appendQueryParameter("password", params[12])
-                        .appendQueryParameter("docimage", params[13]);
+                        .appendQueryParameter("docimage", params[13])
+                        .appendQueryParameter("city", params[14]);
 
 
 

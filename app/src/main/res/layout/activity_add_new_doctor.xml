@@ -373,10 +373,49 @@
                     android:textSize="13sp" />
             </TableRow>
             <View
+
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#000000" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="12sp">
+
+                <TextView
+                    android:id="@+id/textView839"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5sp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:text="Your City"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10sp"
+                    android:layout_marginRight="5sp"
+                    android:layout_weight="1"
+                    android:hint="Enter City Name"
+                    android:singleLine="true"
+                    android:imeOptions="actionNext"
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="13sp" />
+            </TableRow>
+            <View
                 android:id="@+id/view64"
                 android:layout_width="match_parent"
                 android:layout_height="2dp"
                 android:background="#000000" />
+
+
 
             <TableRow
                 android:layout_width="match_parent"

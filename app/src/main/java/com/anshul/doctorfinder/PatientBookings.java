@@ -48,7 +48,8 @@ public class PatientBookings extends AppCompatActivity {
     ListView listview;
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
-    String doctorname,doctorspecification,bookingdate,bookingtime,doctorid1;
+    String doctorname, doctorspecification, bookingdate, bookingtime, doctorid1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +63,13 @@ public class PatientBookings extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        Intent intent=getIntent();
-        final String pid=intent.getStringExtra("pid");
+        Intent intent = getIntent();
+        final String pid = intent.getStringExtra("pid");
 
         adapter = new MyListAdapterAllBookings(PatientBookings.this, displayList);
         listview.setAdapter(adapter);
         new AsyncLogin().execute(pid);
-        displayList.add(new DisplayListBookingDetails(doctorname,doctorspecification,bookingdate,bookingtime));
+        displayList.add(new DisplayListBookingDetails(doctorname, doctorspecification, bookingdate, bookingtime));
         adapter = new MyListAdapterAllBookings(PatientBookings.this, displayList);
         listview.setAdapter(adapter);
 
@@ -210,28 +211,30 @@ public class PatientBookings extends AppCompatActivity {
             if (result != null) {
 
                 JSONArray jsonArray;
-                JSONObject jobj;
+                // JSONObject jobj;
+
+
+//
+//jobj=new JSONObject(result);
+
 
                 try {
-//
-jobj=new JSONObject(result);
+                    jsonArray = new JSONArray(result);
 
 
-                    try {
+                    for (int i = 0; i < jsonArray.length(); i++) {
+
+
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
 //                        Toast.makeText(getApplicationContext(),"hhhhhhhhhhhhhh"+doctorname,Toast.LENGTH_LONG).show();
-                        doctorname = jobj.getString("docname");
-                        doctorspecification = jobj.getString("specialization");
-//                        Toast.makeText(getApplicationContext(),"hhhhhhhhhhhhhh"+doctorname,Toast.LENGTH_LONG).show();
-                        bookingdate = jobj.getString("bookingdate");
-                        bookingtime = jobj.getString("bookingtime");
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-
+                        doctorname = jsonObject.getString("docname");
+                        doctorspecification = jsonObject.getString("specialization");
+                        //  Toast.makeText(getApplicationContext(),"hhhhhhhhhhhhhh"+doctorname,Toast.LENGTH_LONG).show();
+                        bookingdate = jsonObject.getString("booking_date");
+                        bookingtime = jsonObject.getString("booking_time");
                         displayList.add(new DisplayListBookingDetails(doctorname, doctorspecification, bookingdate, bookingtime));
                         bookinglist.add(doctorid1);
-
+                    }
 
 
                 } catch (JSONException e) {
@@ -240,8 +243,9 @@ jobj=new JSONObject(result);
                 }
                 adapter = new MyListAdapterAllBookings(PatientBookings.this, displayList);
                 listview.setAdapter(adapter);
-            }
 
+
+            }
         }
     }
 }

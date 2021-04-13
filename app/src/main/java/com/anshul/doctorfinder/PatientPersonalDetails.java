@@ -338,7 +338,7 @@ String pid;
         @Override
         public void onDateSet(DatePicker view, int selectedYear,
                               int selectedMonth, int selectedDay) {
-
+            view.setMaxDate(System.currentTimeMillis());
             year  = selectedYear;
             month = selectedMonth;
             day   = selectedDay;

@@ -1,19 +1,25 @@
 package com.anshul.doctorfinder;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,11 +28,28 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class DoctorMainMenu extends AppCompatActivity {
-    LinearLayout todayavaliability, patients, editdetails, sms, payment, logout;
+    LinearLayout todayavaliability, patients, editdetails, sms, payment, logout,subsription;
     SharedPreferences sharedpreferences;
     public static final String mypreference = "mypref";
-    String doctorid;
+    String doctorid,doctornameSTR, doccontactSTR,docspecializationpnameSTR;
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +62,26 @@ public class DoctorMainMenu extends AppCompatActivity {
         todayavaliability = (LinearLayout) findViewById(R.id.todayavailability);
         patients = (LinearLayout) findViewById(R.id.managepatients);
         editdetails = (LinearLayout) findViewById(R.id.editDetails);
+        subsription=(LinearLayout)findViewById(R.id.subscription);
         sms = (LinearLayout) findViewById(R.id.smsmodule);
         payment = (LinearLayout) findViewById(R.id.recentPayments);
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
 
+     //   new AsyncDoctorname().execute(doctorid);
 
         patients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent1 = new Intent(DoctorMainMenu.this, DoctorManagePatients.class);
+                intent1.putExtra("doctorid", doctorid);
+                startActivity(intent1);
+                overridePendingTransition(R.anim.right_in, R.anim.left_out);
+            }
+        });
+        subsription.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(DoctorMainMenu.this, ChooseSubscription.class);
                 intent1.putExtra("doctorid", doctorid);
                 startActivity(intent1);
                 overridePendingTransition(R.anim.right_in, R.anim.left_out);

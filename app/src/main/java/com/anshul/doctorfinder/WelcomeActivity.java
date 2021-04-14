@@ -154,8 +154,10 @@ public class WelcomeActivity extends AppCompatActivity {
 
                         }
                     });
-            builder.setCancelable(false);
-            builder.show();
+            AlertDialog ala=builder.create();
+            ala.setCanceledOnTouchOutside(false);
+            ala.show();
+            return;
         }
         sharedpreferences = getSharedPreferences(mypreference, Context.MODE_PRIVATE);
         s1 = sharedpreferences.getString("LoginSession", "");

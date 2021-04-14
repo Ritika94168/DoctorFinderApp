@@ -5,7 +5,7 @@
     <!-- use this for a background colour -->
 
     <solid android:color="@android:color/transparent" />
-    <stroke android:width="2sp" android:color="#0000ff" />
+    <stroke android:width="2sp" android:color="#aaa" />
 
     <corners android:radius="10sp" />
 

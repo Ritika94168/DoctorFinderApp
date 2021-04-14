@@ -4,9 +4,9 @@
     <!-- <solid android:color="#00000000" /> -->
     <!-- use this for a background colour -->
 
-    <solid android:color="@android:color/transparent" />
-    <stroke android:width="2sp" android:color="#0000ff" />
+    <solid android:color="#00ADC1" />
+    <stroke android:width="2sp" android:color="#00ADC1" />
 
-    <corners android:radius="10sp" />
+    <corners android:radius="6sp" />
 
 </shape>

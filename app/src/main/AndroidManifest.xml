@@ -61,8 +61,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".DoctorManagePatients"
-            android:screenOrientation="portrait" ></activity>
+        <activity android:name=".PackagePayment"></activity>
+        <activity
+            android:name=".DoctorManagePatients"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".PatientBookings"
             android:screenOrientation="portrait" />
@@ -176,6 +178,9 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+        <meta-data
+            android:name="com.razorpay.ApiKey"
+            android:value="rzp_test_4KxIjLlk6a66DF"/>
     </application>
 
 </manifest>
